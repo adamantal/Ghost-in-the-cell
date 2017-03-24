@@ -10,24 +10,76 @@ using namespace std;
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
  **/
- 
-enum Action{MOVE, BOMB, WAIT, MSG};
+enum Player{Us, Neutral, Enemy};
+
+//enum Action{MOVE, BOMB, WAIT, MSG};
+
+enum EntityType{FACTORY, TROOP, BOMB};
  
 struct Command{
-    Action type;
+    string type;
+    vector<int> parameters;
+};
+
+class Entity {
+	protected:
+		EntityType type;
+		int id;
+		int arg1;
+		int arg2;
+		int arg3;
+		int arg4;
+		int arg5;
+	public:
+		Entity(){}
+		Entity(int i, int a1, int a2, int a3, int a4, int a5):
+			id(i),arg1(a1),arg2(a2),arg3(a3),arg4(a4),arg5(a5) {}
+		EntityType getType(){
+			return type;
+		}
+		bool isFactory(){
+			return type == 0?true:false;
+		}
+};
+
+class Factory: public Entity{
+	private:
+
+	public:
+		Factory();
+		Factory(int i, int a1, int a2, int a3, int a4, int a5):Entity(i,a1,a2,a3,a4,a5){}
+		Player getOwner(){
+			return Player(arg1);
+		}
+		int getNumberOfCyborgs(){
+			return arg2;
+		}
+		int getProduction(){
+			return arg3;
+		}
+		int getNetProduction(){
+			if (arg4 == 0){
+				return 0;
+			} else {
+				return arg3;
+			}
+		}
+		bool isnormal() {
+			return arg4 == 0 ? true : false;
+		}
+		int turnsToNormal(){
+			return arg4;
+		}
+};
+class Troop: public Entity{
+};
+class Bomb: public Entity{
 };
  
 class Table{
     private:
         //main things:
-        int entityCount;
-        vector<int> entityIds;
-        vector<string> entityTypes;
-        vector<int> arg1s;
-        vector<int> arg2s;
-        vector<int> arg3s;
-        vector<int> arg4s;
-        vector<int> arg5s;
+        vector<Entity> data;
     
         //distances:
         int factoryCount;  
@@ -40,9 +92,32 @@ class Table{
     public:
         int isBombAGoodIdea();
         int getResolvedNumberOfCyborg(int turn);
-        int isAlwaysOwnedByMe();
+		int isAlwaysOwnedByMe();
         set<int> iterateOverAttackableTargets();
-        void writeCommands();
+        set<int> iterateOverAttackableTargets(int id);
+        void writeCommands(){
+			for (int i = 0; i < commands.size(); i++){
+				cout << commands[i].type << " ";
+				for (int j = 0; j < commands[i].parameters.size() - 1; j++){
+					cout << commands[i].parameters[j] << " ";
+				}
+				cout << commands[i].parameters[commands[i].parameters.size()-1];
+				if (i != commands.size() - 1) {
+					cout << ";";
+				}
+			}
+			cout << endl;
+		}
+		vector<Factory*> getNeighbors(int id){
+			vector<Factory*> neighbors;
+			for (int i = 0; i < data.size(); i++){
+				if (data[i].isFactory()) {
+					Factory* tmp = data[i];
+					neighbors.push_back(tmp);
+				}
+			}
+			return neighbors;
+		}
 };
  
  
