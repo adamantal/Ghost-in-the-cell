@@ -11,11 +11,11 @@ using namespace std;
  * the standard input according to the problem statement.
  **/
  
-enum Action{MOVE, BOMB, WAIT, MSG}
+enum Action{MOVE, BOMB, WAIT, MSG};
  
 struct Command{
-    Action 
-}
+    Action type;
+};
  
 class Table{
     private:
@@ -43,7 +43,7 @@ class Table{
         int isAlwaysOwnedByMe();
         set<int> iterateOverAttackableTargets();
         void writeCommands();
-}
+};
  
  
 int main()
