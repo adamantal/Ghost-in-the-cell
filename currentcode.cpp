@@ -68,6 +68,12 @@ class Troop{
 		Troop(){}
 		Troop(int i, int a1, int a2, int a3, int a4, int a5):
 			id(i),owner(Player(a1)),from(a2),target(a3),number(a4),remainingTurns(a5){}
+		int getTarget(){
+			return target;
+		}
+		Player getOwner(){
+			return owner;
+		}
 };
 class Bomb{
 	private:
@@ -80,6 +86,9 @@ class Bomb{
 		Bomb(){}
 		Bomb(int i, int a1, int a2, int a3, int a4):
 			id(i), owner(Player(a1)), from(a2), target(a3), remainingTurns(a4){}
+		int time(){
+			return remainingTurns;
+		}
 };
 
 struct Link{
@@ -159,6 +168,9 @@ class Table{
 			}
 			cout << endl;
 		}
+		bool hostileBombExist(){
+			return (bombs.size() > 0);
+		}
 		vector<Factory*> getEveryFactory(){
 			vector<Factory*> neighbors;
 			for (map<int,Factory>::iterator it = factories.begin(); it != factories.end(); it++){ //instead of this, we should use iterator
@@ -168,6 +180,31 @@ class Table{
 			/*for (auto it = begin(factories); it != end(factories);it++) {
 			}*/
 			return neighbors;
+		}
+		Bomb getBomb() {
+			return bombs[bombs.size()-1];
+		}
+		Factory* getFactoryFromId(int id) {
+			return &factories[id];
+		}
+		vector<int> getEstimatedCyborgs(int id) {
+			int prod = factories[id].getProduction();
+			int amount = factories[id].getNumberOfCyborgs();
+			
+			vector<int> timeline;
+			timeline.push_back(amount);
+			for (int i = 1; i < 20; i++) timeline.push_back(0);
+			
+			for (auto it = begin(troops); it < end(troops); it++) {
+				if (it->getTarget() == id) {
+					if (factories[id].getOwner() == it->getOwner()) {
+						timeline[it->getTime()] += it->getAmount();
+					} else{
+						timeline[it->getTime()] -= it->getAmount();
+					}
+				}
+				//TODOOOO: complete this
+			}
 		}
 };
  
@@ -188,6 +225,9 @@ int main()
         Link tmp(factory1, factory2,distance);
         links.push_back(tmp);
     }
+    
+    bool bombPredictionExist = false;
+    int bombPredictionId = true;
     
     // game loop
     while (1) {
@@ -220,8 +260,40 @@ int main()
         // To debug: cerr << "Debug messages..." << endl;
         cout << "WAIT";
         
+        //set up bomb processor
+        if (!table.hostileBombExist() && bombPredictionExist) {
+			bombPredictionExist = false;
+			bombPredictionId = 0;
+		}
+        if (table.hostileBombExist() && !bombPredictionExist) {
+			//set bomb to the most 
+			map<int, int> m; //num of cyborgs - id map
+			Bomb b = table.getBomb();
+			for (auto itl = begin(links); itl != end(links); itl++) {
+				if (itl->dist == b.time() + 1) {
+					Factory* f1 = table.getFactoryFromId(itl->fac1);
+					Factory* f2 = table.getFactoryFromId(itl->fac2);
+					if (f1->getOwner() == 1){
+						if (f2->getOwner() != 1) {
+							m[f1->getNumberOfCyborgs()] = itl->fac1;
+						}
+					} else {
+						if (f2-> getOwner() == 1) {
+							m[f2->getNumberOfCyborgs()] = itl->fac2;
+						}
+					}
+				}
+			}
+			
+			//choose max, and set
+			auto maxit = max_element(m.begin(), m.end());
+			bombPredictionExist = true;
+			bombPredictionId = m[maxit->second];
+			
+		}
+        
         set<int> priortargets;
-        int targetslevel = 0;
+        int targetslevel = 0;        
         
         //Target prioritizations:
         vector<Factory*> fac = table.getEveryFactory();
