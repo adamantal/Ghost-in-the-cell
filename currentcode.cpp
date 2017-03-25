@@ -11,7 +11,7 @@ using namespace std;
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
  **/
-enum Player{Us, Neutral, Enemy};
+enum Player{Us=1, Neutral=0, Enemy=-1};
 
 //enum Action{MOVE, BOMB, WAIT, MSG};
 
@@ -24,40 +24,79 @@ struct Command{
 
 class Factory{
 	private:
+		int id;
 		Player owner;
 		int cyborgs;
 		int production;
 		int badturns;
 	public:
-		Factory();
-		Factory(int a1, int a2, int a3, int a4):
-			owner(Player(a1)),cyborgs(a2),production(a3),badturns(a4){}
-		Player getOwner() {
+		Factory(){}
+		Factory(int i, int a1, int a2, int a3, int a4):
+			id(i),owner(Player(a1)),cyborgs(a2),production(a3),badturns(a4){}
+		Player getOwner()const {
 			return owner;
 		}
-		int getNumberOfCyborgs(){
+		int getNumberOfCyborgs()const{
 			return cyborgs;
 		}
-		int getProduction(){
+		int getProduction()const{
 			return production;
 		}
-		int getNetProduction(){
+		int getNetProduction()const{
 			if (badturns == 0){
 				return 0;
 			} else {
 				return production;
 			}
 		}
-		bool isnormal() {
+		bool isnormal() const{
 			return badturns == 0 ? true : false;
 		}
-		int turnsToNormal(){
+		int turnsToNormal()const{
 			return badturns;
 		}
 };
 class Troop{
+	private:
+		int id;
+		Player owner;
+		int from;
+		int target;
+		int number;
+		int remainingTurns;
+	public:
+		Troop(){}
+		Troop(int i, int a1, int a2, int a3, int a4, int a5):
+			id(i),owner(Player(a1)),from(a2),target(a3),number(a4),remainingTurns(a5){}
 };
 class Bomb{
+	private:
+		int id;
+		Player owner;
+		int from;
+		int target; //note that it is known, if it is hostile
+		int remainingTurns;
+	public:
+		Bomb(){}
+		Bomb(int i, int a1, int a2, int a3, int a4):
+			id(i), owner(Player(a1)), from(a2), target(a3), remainingTurns(a4){}
+};
+
+struct Link{
+	public:
+	int dist;
+	int fac1;
+	int fac2;
+	Link(int d, int a1, int a2):dist(d),fac1(a1),fac2(a2){}
+	int whichIs(int k){
+		if (fac1 == k) {
+			return 1;
+		} else if (fac2 == k){
+			return 2;
+		} else {
+			return 0;
+		}
+	}
 };
  
 class Table{
@@ -68,22 +107,45 @@ class Table{
         vector<Bomb> bombs;
     
         //distances:
-        int factoryCount;  
-        int linkCount;
-        vector<int> distances;
-        vector<int> factory2s;
-        vector<int> factory1s;
+        vector<Link> links;
         
         vector<Command> commands;
     public:
+		Table(){}
+		Table(vector<Link> *l):links(*l){}
 		void addFactory(int i, int a1, int a2, int a3, int a4) {
-			Factory tmp = Factory(a1, a2, a3, a4);
+			Factory tmp(i,a1, a2, a3, a4);
 			factories[i] = tmp;
+		}
+		void addTroop(int i, int a1, int a2, int a3, int a4, int a5) {
+			Troop tmp(i,a1, a2, a3, a4, a5);
+			troops.push_back(tmp);
+		}
+		void addBomb(int i, int a1, int a2, int a3, int a4) {
+			Bomb tmp(i,a1, a2, a3, a4);
+			bombs.push_back(tmp);
 		}
         int isBombAGoodIdea();
         int getResolvedNumberOfCyborg(int turn);
 		int isAlwaysOwnedByMe();
-        vector<Factory*> iterateOverAttackableTargets();
+        map<int,Factory*> attackableTargets(){
+			map<int,Factory*> returnable;
+			for (auto itl = begin(links); itl != end(links); itl++) {
+				Link k = *itl;
+				Factory* f1 = &factories[itl->fac1];
+				Factory* f2 = &factories[itl->fac2];
+				if (f1->getOwner() == 1){
+					if (f2->getOwner() != 1) {
+						returnable[itl->fac2] = f2;
+					}
+				} else {
+					if (f2-> getOwner() == 1) {
+						returnable[itl->fac1] = f1;
+					}
+				}
+			}
+			return returnable;
+		}
         void writeCommands(){
 			for (int i = 0; i < commands.size(); i++){
 				cout << commands[i].type << " ";
@@ -97,14 +159,14 @@ class Table{
 			}
 			cout << endl;
 		}
-		vector<Factory*> getNeighbors(int id){
+		vector<Factory*> getEveryFactory(){
 			vector<Factory*> neighbors;
 			for (map<int,Factory>::iterator it = factories.begin(); it != factories.end(); it++){ //instead of this, we should use iterator
 				Factory* tmp = &it->second;
 				neighbors.push_back(tmp);
 			}
-			for (auto it = begin(factories); it != end(factories);it++) {
-			}
+			/*for (auto it = begin(factories); it != end(factories);it++) {
+			}*/
 			return neighbors;
 		}
 };
@@ -116,32 +178,24 @@ int main()
     cin >> factoryCount; cin.ignore();
     int linkCount; // the number of links between factories
     cin >> linkCount; cin.ignore();
-    vector<int> distances;
-    vector<int> factory2s;
-    vector<int> factory1s;
+    
+    vector<Link> links;
     for (int i = 0; i < linkCount; i++) {
         int factory1;
         int factory2;
         int distance;
         cin >> factory1 >> factory2 >> distance; cin.ignore();
-        factory1s.push_back(factory1);
-        factory2s.push_back(factory2);
-        distances.push_back(distance);
+        Link tmp(factory1, factory2,distance);
+        links.push_back(tmp);
     }
     
     // game loop
     while (1) {
+		Table table(&links);
         int entityCount; // the number of entities (e.g. factories and troops)
         cin >> entityCount; cin.ignore();
         
-        vector<int> entityIds;
-        vector<string> entityTypes;
-        vector<int> arg1s;
-        vector<int> arg2s;
-        vector<int> arg3s;
-        vector<int> arg4s;
-        vector<int> arg5s;
-        
+        //initializing table:
         for (int i = 0; i < entityCount; i++) {
             int entityId;
             string entityType;
@@ -151,14 +205,15 @@ int main()
             int arg4;
             int arg5;
             cin >> entityId >> entityType >> arg1 >> arg2 >> arg3 >> arg4 >> arg5; cin.ignore();
-            
-            entityIds.push_back(entityId);
-            entityTypes.push_back(entityType);
-            arg1s.push_back(arg1);
-            arg2s.push_back(arg2);
-            arg3s.push_back(arg3);
-            arg4s.push_back(arg4);
-            arg5s.push_back(arg5);
+            if (entityType == "FACTORY") {
+				table.addFactory(entityId, arg1, arg2, arg3, arg4);
+			} else if (entityType == "TROOP") {
+				table.addTroop(entityId, arg1, arg2, arg3, arg4, arg5);
+			} else if (entityType == "BOMB") {
+				table.addBomb(entityId, arg1, arg2, arg3, arg4);
+			} else {
+				cout << "ERROR: UNKNOWN ENTITY TYPE";
+			}
         }
 
         // Write an action using cout. DON'T FORGET THE "<< endl"
@@ -167,9 +222,10 @@ int main()
         
         set<int> priortargets;
         int targetslevel = 0;
+        
         //Target prioritizations:
-        for (int i = 3; i > 0; i--) {
-            for (int i = 0; i < entityCount; i++) {
+        vector<Factory*> fac = table.getEveryFactory();
+            for (int i = 0; i < fac.size(); i++) {
                 if (entityTypes[i] == "FACTORY" && arg1s[i] != +1 && arg3s[i] >= targetslevel) {
                     for (int j = 0; j < linkCount; j++) {
                         if (factory1s[j] == entityIds[i]) {
@@ -199,7 +255,6 @@ int main()
                     }
                 }
             }
-        }
         cout << "MSG " << priortargets.size() << ";";
         
         //For each node we have, lets move our troops towards: if node has no enemy neigh -> move away, if it has, then store it to the
