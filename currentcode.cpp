@@ -3,6 +3,7 @@
 #include <vector>
 #include <algorithm>
 #include <set>
+#include <map>
 
 using namespace std;
 
@@ -21,65 +22,50 @@ struct Command{
     vector<int> parameters;
 };
 
-class Entity {
-	protected:
-		EntityType type;
-		int id;
-		int arg1;
-		int arg2;
-		int arg3;
-		int arg4;
-		int arg5;
-	public:
-		Entity(){}
-		Entity(int i, int a1, int a2, int a3, int a4, int a5):
-			id(i),arg1(a1),arg2(a2),arg3(a3),arg4(a4),arg5(a5) {}
-		EntityType getType(){
-			return type;
-		}
-		bool isFactory(){
-			return type == 0?true:false;
-		}
-};
-
-class Factory: public Entity{
+class Factory{
 	private:
-
+		Player owner;
+		int cyborgs;
+		int production;
+		int badturns;
 	public:
 		Factory();
-		Factory(int i, int a1, int a2, int a3, int a4, int a5):Entity(i,a1,a2,a3,a4,a5){}
-		Player getOwner(){
-			return Player(arg1);
+		Factory(int a1, int a2, int a3, int a4):
+			owner(Player(a1)),cyborgs(a2),production(a3),badturns(a4){}
+		Player getOwner() {
+			return owner;
 		}
 		int getNumberOfCyborgs(){
-			return arg2;
+			return cyborgs;
 		}
 		int getProduction(){
-			return arg3;
+			return production;
 		}
 		int getNetProduction(){
-			if (arg4 == 0){
+			if (badturns == 0){
 				return 0;
 			} else {
-				return arg3;
+				return production;
 			}
 		}
 		bool isnormal() {
-			return arg4 == 0 ? true : false;
+			return badturns == 0 ? true : false;
 		}
 		int turnsToNormal(){
-			return arg4;
+			return badturns;
 		}
 };
-class Troop: public Entity{
+class Troop{
 };
-class Bomb: public Entity{
+class Bomb{
 };
  
 class Table{
     private:
         //main things:
-        vector<Entity> data;
+        map<int,Factory> factories; //id-Factory mapping
+        vector<Troop> troops;
+        vector<Bomb> bombs;
     
         //distances:
         int factoryCount;  
@@ -90,11 +76,14 @@ class Table{
         
         vector<Command> commands;
     public:
+		void addFactory(int i, int a1, int a2, int a3, int a4) {
+			Factory tmp = Factory(a1, a2, a3, a4);
+			factories[i] = tmp;
+		}
         int isBombAGoodIdea();
         int getResolvedNumberOfCyborg(int turn);
 		int isAlwaysOwnedByMe();
-        set<int> iterateOverAttackableTargets();
-        set<int> iterateOverAttackableTargets(int id);
+        vector<Factory*> iterateOverAttackableTargets();
         void writeCommands(){
 			for (int i = 0; i < commands.size(); i++){
 				cout << commands[i].type << " ";
@@ -110,11 +99,11 @@ class Table{
 		}
 		vector<Factory*> getNeighbors(int id){
 			vector<Factory*> neighbors;
-			for (int i = 0; i < data.size(); i++){
-				if (data[i].isFactory()) {
-					Factory* tmp = data[i];
-					neighbors.push_back(tmp);
-				}
+			for (map<int,Factory>::iterator it = factories.begin(); it != factories.end(); it++){ //instead of this, we should use iterator
+				Factory* tmp = &it->second;
+				neighbors.push_back(tmp);
+			}
+			for (auto it = begin(factories); it != end(factories);it++) {
 			}
 			return neighbors;
 		}
@@ -216,9 +205,9 @@ int main()
         //For each node we have, lets move our troops towards: if node has no enemy neigh -> move away, if it has, then store it to the
         
         
-        for (int i = 0; i < entityCount; i++) {
+        for (int i = 0; i < entityCount; i++) { //iterare over our factories
             if (entityTypes[i] == "FACTORY" && arg1s[i] == 1) {
-                for (int j = 0; j < linkCount; j++){
+                for (int j = 0; j < linkCount; j++){  //iterate over its neighbors
                     if (factory1s[j] == entityIds[i] && entityTypes[i] == "FACTORY") {
                         for (int k = 0; k < entityCount; k++) {
                             if (entityIds[k] == factory2s[j]){
