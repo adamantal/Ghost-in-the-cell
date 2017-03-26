@@ -11,8 +11,7 @@ using namespace std;
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
  **/
- 
- //some irrelevant change here
+
 enum Player{Us=1, Neutral=0, Enemy=-1};
 
 //enum Action{MOVE, BOMB, WAIT, MSG};
@@ -57,6 +56,12 @@ class Factory{
 		int turnsToNormal()const{
 			return badturns;
 		}
+		void decreaseNumberOfCyborgs(int n){
+			cyborgs -= n;
+		}
+		int getId(){
+			return id;
+		}
 };
 class Troop{
 	private:
@@ -76,6 +81,12 @@ class Troop{
 		Player getOwner(){
 			return owner;
 		}
+		int getTime(){
+			return remainingTurns;
+		}
+		int getAmount(){
+			return number;
+		}
 };
 class Bomb{
 	private:
@@ -89,6 +100,12 @@ class Bomb{
 		Bomb(int i, int a1, int a2, int a3, int a4):
 			id(i), owner(Player(a1)), from(a2), target(a3), remainingTurns(a4){}
 		int time(){
+			return remainingTurns;
+		}
+		int getFrom(){
+			return from;
+		}
+		int getTime(){
 			return remainingTurns;
 		}
 };
@@ -139,6 +156,15 @@ class Table{
         int isBombAGoodIdea();
         int getResolvedNumberOfCyborg(int turn);
 		int isAlwaysOwnedByMe();
+		vector<Factory*> ourFactories(){
+			vector<Factory*> returnable;
+			for (auto it = begin(factories); it != end(factories); it++) {
+				if ((&it -> second) ->getOwner() == 1) {
+					returnable.push_back(&it -> second);
+				}
+			}
+			return returnable;
+		}
         map<int,Factory*> attackableTargets(){
 			map<int,Factory*> returnable;
 			for (auto itl = begin(links); itl != end(links); itl++) {
@@ -205,8 +231,27 @@ class Table{
 						timeline[it->getTime()] -= it->getAmount();
 					}
 				}
-				//TODOOOO: complete this
 			}
+			for (int i = 1; i < 20; i++){
+				if (timeline[i-1] >= 0) {
+					timeline[i] += factories[i].getProduction();
+				} else {
+					timeline[i] -= factories[i].getProduction();
+				}
+				timeline[i] += timeline[i-1];
+			}
+			return timeline;
+		}
+		bool isSecured(int id){
+			if (firstBadRound(id) == -1) return true;
+			return false;
+		}
+		int firstBadRound(int id) {
+			vector<int> timeline = getEstimatedCyborgs(id);
+			for (int i = 0; i < timeline.size(); i++){
+				if (timeline[i] < 0) return i;
+			}
+			return -1;
 		}
 };
  
@@ -291,14 +336,44 @@ int main()
 			auto maxit = max_element(m.begin(), m.end());
 			bombPredictionExist = true;
 			bombPredictionId = m[maxit->second];
-			
+		}
+		if (bombPredictionExist){
+			Bomb b = table.getBomb();
+			table.addTroop(65536,-1,b.getFrom(),bombPredictionId,max((table.getFactoryFromId(bombPredictionId)->getNumberOfCyborgs())/2,10),b.time());
+			for (int i = 1; i < 6; i++){
+				table.addTroop(65536 + i,-1,b.getFrom(),bombPredictionId,table.getFactoryFromId(bombPredictionId)->getProduction(),b.time() + i);
+			}
 		}
         
         set<int> priortargets;
-        int targetslevel = 0;        
+        int targetslevel = 0;
+        
+        //defending our troops, if they're safe, proceed
+        
+        bool patriot = false;
+        vector<int> help;
+        vector<Factory*> ours = table.ourFactories();
+        for (auto it = begin(ours); it != end(ours); it++){
+			if (!table.isSecured((*it)->getId())){
+				patriot = true;
+				help.push_back((*it)->getId());
+			}
+		}
+		
+		if (patriot) {
+			
+		} 
+		else {
+			map<int,Factory*> attackables = table.attackableTargets();
+			for () {
+				
+			}
+		}
+        
+        //conquer new ones
         
         //Target prioritizations:
-        vector<Factory*> fac = table.getEveryFactory();
+        /*vector<Factory*> fac = table.getEveryFactory();
             for (int i = 0; i < fac.size(); i++) {
                 if (entityTypes[i] == "FACTORY" && arg1s[i] != +1 && arg3s[i] >= targetslevel) {
                     for (int j = 0; j < linkCount; j++) {
@@ -393,7 +468,7 @@ int main()
                     }
                 }
         }
-        }
+        }*/
         // Any valid action, such as "WAIT" or "MOVE source destination cyborgs"
         cout << endl;
     }
