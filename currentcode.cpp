@@ -11,6 +11,8 @@ using namespace std;
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
  **/
+ 
+ //some irrelevant change here
 enum Player{Us=1, Neutral=0, Enemy=-1};
 
 //enum Action{MOVE, BOMB, WAIT, MSG};
