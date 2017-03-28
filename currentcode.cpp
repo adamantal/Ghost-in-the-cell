@@ -21,6 +21,7 @@ enum EntityType{FACTORY, TROOP, BOMB};
 struct Command{
     string type;
     vector<int> parameters;
+    Command(string t, vector<int> p):type(t),parameters(p){}
 };
 
 class Factory{
@@ -125,6 +126,18 @@ struct Link{
 			return 0;
 		}
 	}
+	bool either(int k){
+		return (fac1 == k) || (fac2 == k);
+	}
+	int other(int k){
+		if (k == fac1) {
+			return fac2;
+		} else if (k == fac2){
+			return fac1;
+		} else {
+			throw "";
+		}
+	}
 };
  
 class Table{
@@ -154,7 +167,6 @@ class Table{
 			bombs.push_back(tmp);
 		}
         int isBombAGoodIdea();
-        int getResolvedNumberOfCyborg(int turn);
 		int isAlwaysOwnedByMe();
 		vector<Factory*> ourFactories(){
 			vector<Factory*> returnable;
@@ -183,6 +195,33 @@ class Table{
 			}
 			return returnable;
 		}
+		vector<Factory*> getNeighbors(int id){
+			vector<Factory*> ret;
+			for (auto it = begin(links); it != end(links); it++){
+				if (it->either(id)) {
+					ret.push_back(&factories[it->other(id)]);
+				}
+			}
+			return ret;
+		}
+		int getDistance(int id1, int id2){
+			if (id1 == id2) throw "";
+			for (auto it = begin(links); it != end(links); it++) {
+				if (it->either(id1) && it-> either(id2)) {
+					return it->dist;
+				}
+			}
+			throw "";
+		}
+		void sendTroop(int from, int target, int amount, int distance){
+			addTroop(999,1,from,target,amount,distance);
+			vector<int> v = {from, target, amount};
+			command("MOVE",v);
+		}
+		void command(string t, vector<int> params){
+			Command tmp(t,params);
+			commands.push_back(tmp);
+		}
         void writeCommands(){
 			for (int i = 0; i < commands.size(); i++){
 				cout << commands[i].type << " ";
@@ -197,7 +236,7 @@ class Table{
 			cout << endl;
 		}
 		bool hostileBombExist(){
-			return (bombs.size() > 0);
+			return (bombs.size() > 0); //this has to be repaired
 		}
 		vector<Factory*> getEveryFactory(){
 			vector<Factory*> neighbors;
@@ -253,6 +292,15 @@ class Table{
 			}
 			return -1;
 		}
+		int minRequired(int id){
+			return -getEstimatedCyborgs(id)[firstBadRound(id)];
+		}
+		void clearContent(){
+			factories.clear();
+			bombs.clear();
+			troops.clear();
+			commands.clear();
+		}
 };
  
  
@@ -277,8 +325,9 @@ int main()
     int bombPredictionId = true;
     
     // game loop
+    Table table(&links);
+    
     while (1) {
-		Table table(&links);
         int entityCount; // the number of entities (e.g. factories and troops)
         cin >> entityCount; cin.ignore();
         
@@ -348,128 +397,29 @@ int main()
         set<int> priortargets;
         int targetslevel = 0;
         
-        //defending our troops, if they're safe, proceed
+        //First we want to defend our troops:
         
-        bool patriot = false;
-        vector<int> help;
         vector<Factory*> ours = table.ourFactories();
+        map<int,vector<Factory*> > priorhelp; //Prioritized map of our endangered factories
         for (auto it = begin(ours); it != end(ours); it++){
 			if (!table.isSecured((*it)->getId())){
-				patriot = true;
-				help.push_back((*it)->getId());
+				priorhelp[(*it)->getProduction()].push_back(*it);
 			}
 		}
-		
-		if (patriot) {
-			
-		} 
-		else {
-			map<int,Factory*> attackables = table.attackableTargets();
-			for () {
-				
+		for (int i = 3; i >= 0; i--){
+			for (auto it = begin(priorhelp[i]); it != end(priorhelp[i]); it++) {
+				vector<Factory*> c = *it->getNeighbors();
+				for (auto itc = begin(c); it != end(c); it++){
+					if () { //almost done it!
+						sendTroop(,itc->,min(table.minRequired(it->getId());[*itc]));
+					}
+				}
 			}
 		}
         
         //conquer new ones
         
-        //Target prioritizations:
-        /*vector<Factory*> fac = table.getEveryFactory();
-            for (int i = 0; i < fac.size(); i++) {
-                if (entityTypes[i] == "FACTORY" && arg1s[i] != +1 && arg3s[i] >= targetslevel) {
-                    for (int j = 0; j < linkCount; j++) {
-                        if (factory1s[j] == entityIds[i]) {
-                            for (int ii = 0; ii < entityCount; ii++){
-                                if (entityIds[ii] == factory2s[j]) {
-                                    if (arg1s[ii] == 1) {
-                                        if (arg3s[i] > targetslevel) priortargets.clear();
-                                        targetslevel = arg3s[i];
-                                        priortargets.insert(entityIds[i]);
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                        if (factory2s[j] == entityIds[i]) {
-                            for (int ii = 0; ii < entityCount; ii++){
-                                if (entityIds[ii] == factory1s[j]) {
-                                    if (arg1s[ii] == 1) {
-                                        if (arg3s[i] > targetslevel) priortargets.clear();
-                                        targetslevel = arg3s[i];
-                                        priortargets.insert(entityIds[i]);
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        cout << "MSG " << priortargets.size() << ";";
-        
-        //For each node we have, lets move our troops towards: if node has no enemy neigh -> move away, if it has, then store it to the
-        
-        
-        for (int i = 0; i < entityCount; i++) { //iterare over our factories
-            if (entityTypes[i] == "FACTORY" && arg1s[i] == 1) {
-                for (int j = 0; j < linkCount; j++){  //iterate over its neighbors
-                    if (factory1s[j] == entityIds[i] && entityTypes[i] == "FACTORY") {
-                        for (int k = 0; k < entityCount; k++) {
-                            if (entityIds[k] == factory2s[j]){
-                                if (arg1s[k] == 0 && arg2s[i] > 3) {
-                                    cout << ";MOVE " << entityIds[i] << " " << entityIds[k] << " " << max(3,arg2s[i]/2);
-                                    arg2s[i]-=max(arg2s[i]-3,arg2s[i]/2);
-                                    j = linkCount;
-                                    k = entityCount;
-                                }
-                            }
-                        }
-                    }
-                    if (factory2s[j] == entityIds[i]  && entityTypes[i] == "FACTORY") {
-                        for (int k = 0; k < entityCount; k++) {
-                            if (entityIds[k] == factory1s[j]){
-                                if (arg1s[k] == 0 && arg2s[i] > 3) {
-                                    cout << ";MOVE " << entityIds[i] << " " << entityIds[k] << " " << max(3,arg2s[i]/2);
-                                    arg2s[i]-=max(arg2s[i]-3,arg2s[i]/2);
-                                    j = linkCount;
-                                    k = entityCount;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-            for (int i = 0; i < entityCount; i++) {
-            if (entityTypes[i] == "FACTORY" && arg1s[i] == 1) {
-                for (int j = 0; j < linkCount; j++){
-                    if (factory1s[j] == entityIds[i] && entityTypes[i] == "FACTORY") {
-                        for (int k = 0; k < entityCount; k++) {
-                            if (entityIds[k] == factory2s[j]){
-                                if (arg1s[k] == -1 && arg2s[i] > 3) {
-                                    cout << ";MOVE " << entityIds[i] << " " << entityIds[k] << " " << max(3,arg2s[i]/2);
-                                    arg2s[i]-=max(arg2s[i]-3,arg2s[i]/2);
-                                    j = linkCount;
-                                    k = entityCount;
-                                }
-                            }
-                        }
-                    }
-                    if (factory2s[j] == entityIds[i]  && entityTypes[i] == "FACTORY") {
-                        for (int k = 0; k < entityCount; k++) {
-                            if (entityIds[k] == factory1s[j]){
-                                if (arg1s[k] == -1 && arg2s[i] > 3) {
-                                    cout << ";MOVE " << entityIds[i] << " " << entityIds[k] << " " << max(3,arg2s[i]/2);
-                                    arg2s[i]-=max(arg2s[i]-3,arg2s[i]/2);
-                                    j = linkCount;
-                                    k = entityCount;
-                                }
-                            }
-                        }
-                    }
-                }
-        }
-        }*/
-        // Any valid action, such as "WAIT" or "MOVE source destination cyborgs"
-        cout << endl;
+        table.writeCommands();
+        table.clearContent();
     }
 }
