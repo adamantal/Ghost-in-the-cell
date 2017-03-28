@@ -215,6 +215,7 @@ class Table{
 		}
 		void sendTroop(int from, int target, int amount, int distance){
 			addTroop(999,1,from,target,amount,distance);
+			factories[from].decreaseNumberOfCyborgs(amount);
 			vector<int> v = {from, target, amount};
 			command("MOVE",v);
 		}
@@ -408,12 +409,12 @@ int main()
 		}
 		for (int i = 3; i >= 0; i--){
 			for (auto it = begin(priorhelp[i]); it != end(priorhelp[i]); it++) {
-				vector<Factory*> c = *it->getNeighbors();
-				for (auto itc = begin(c); it != end(c); it++){
-					if () { //almost done it!
-						sendTroop(,itc->,min(table.minRequired(it->getId());[*itc]));
+				vector<Factory*> c = table.getNeighbors((*it)->getId());
+				for (auto itc = begin(c); itc != end(c); itc++) {
+					if ((*itc)->getOwner() == 1) { //almost done it!
+						table.sendTroop((*itc)->getId(),(*it)->getId(),min(table.minRequired((*it)->getId()),&(*itc)->getNumberOfCyborgs()));
 					}
-				}
+				}				
 			}
 		}
         
