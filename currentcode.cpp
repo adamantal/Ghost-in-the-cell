@@ -60,6 +60,9 @@ class Factory{
 		void decreaseNumberOfCyborgs(int n){
 			cyborgs -= n;
 		}
+		void increaseNumberOfCyborgs(int n){
+			cyborgs += n;
+		}
 		int getId(){
 			return id;
 		}
@@ -109,6 +112,9 @@ class Bomb{
 		int getTime(){
 			return remainingTurns;
 		}
+		Player getOwner(){
+			return owner;
+		}
 };
 
 struct Link{
@@ -137,6 +143,9 @@ struct Link{
 		} else {
 			throw "";
 		}
+	}
+	bool operator<(const Link& rhs)const{
+		return dist < rhs.dist;
 	}
 };
  
@@ -177,23 +186,27 @@ class Table{
 			}
 			return returnable;
 		}
-        map<int,Factory*> attackableTargets(){
-			map<int,Factory*> returnable;
+        map<int, map<Link,Factory*> > attackableTargets(){ //target -> link x targetedEnemy structure
+			map<int, map<Link,Factory*> > ret;
+			for (int i = 0; i < 4; i++){
+				map<Link,Factory*> tmp;
+				ret[i] = tmp;
+			}
 			for (auto itl = begin(links); itl != end(links); itl++) {
 				Link k = *itl;
 				Factory* f1 = &factories[itl->fac1];
 				Factory* f2 = &factories[itl->fac2];
 				if (f1->getOwner() == 1){
 					if (f2->getOwner() != 1) {
-						returnable[itl->fac2] = f2;
+						ret[f2->getProduction()][k] = f1;
 					}
 				} else {
 					if (f2-> getOwner() == 1) {
-						returnable[itl->fac1] = f1;
+						ret[f1->getProduction()][k] = f2;
 					}
 				}
 			}
-			return returnable;
+			return ret;
 		}
 		vector<Factory*> getNeighbors(int id){
 			vector<Factory*> ret;
@@ -213,10 +226,10 @@ class Table{
 			}
 			throw "";
 		}
-		void sendTroop(int from, int target, int amount, int distance){
-			addTroop(999,1,from,target,amount,distance);
-			factories[from].decreaseNumberOfCyborgs(amount);
-			vector<int> v = {from, target, amount};
+		void sendTroop(Factory* from, int target, int amount, const int distance){
+			addTroop(999,1,from->getId(),target,amount,distance);
+			from->decreaseNumberOfCyborgs(amount);
+			vector<int> v = {from->getId(), target, amount};
 			command("MOVE",v);
 		}
 		void command(string t, vector<int> params){
@@ -237,7 +250,11 @@ class Table{
 			cout << endl;
 		}
 		bool hostileBombExist(){
-			return (bombs.size() > 0); //this has to be repaired
+			if (bombs.size() == 0) return false;
+			for (auto it = begin(bombs); it != end(bombs);it++){
+				if (it->getOwner() == -1) return true;
+			}
+			return false;
 		}
 		vector<Factory*> getEveryFactory(){
 			vector<Factory*> neighbors;
@@ -402,6 +419,7 @@ int main()
         
         vector<Factory*> ours = table.ourFactories();
         map<int,vector<Factory*> > priorhelp; //Prioritized map of our endangered factories
+        
         for (auto it = begin(ours); it != end(ours); it++){
 			if (!table.isSecured((*it)->getId())){
 				priorhelp[(*it)->getProduction()].push_back(*it);
@@ -411,14 +429,19 @@ int main()
 			for (auto it = begin(priorhelp[i]); it != end(priorhelp[i]); it++) {
 				vector<Factory*> c = table.getNeighbors((*it)->getId());
 				for (auto itc = begin(c); itc != end(c); itc++) {
-					if ((*itc)->getOwner() == 1) { //almost done it!
-						table.sendTroop((*itc)->getId(),(*it)->getId(),min(table.minRequired((*it)->getId()),&(*itc)->getNumberOfCyborgs()));
+					if ((*itc)->getOwner() == 1) {
+						table.sendTroop(*itc,(*it)->getId(),min(table.minRequired((*it)->getId()),(*itc)->getNumberOfCyborgs()),table.getDistance((*itc)->getId(),(*it)->getId()));
 					}
 				}				
 			}
 		}
-        
         //conquer new ones
+        map<int, map<Link,Factory*> > att = table.attackableTargets();
+        for (int i = 3; i >= 0; i++){
+			for (int it = begin(att[i]); it != end(att[i]); it++){
+				
+			}
+		}
         
         table.writeCommands();
         table.clearContent();
