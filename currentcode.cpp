@@ -32,7 +32,7 @@ class Factory{
 		int production;
 		int badturns;
 	public:
-		Factory(){}
+		Factory():id(0),owner(Player(0)),cyborgs(0),production(0),badturns(0){}
 		Factory(int i, int a1, int a2, int a3, int a4):
 			id(i),owner(Player(a1)),cyborgs(a2),production(a3),badturns(a4){}
 		Player getOwner()const {
@@ -63,7 +63,7 @@ class Factory{
 		void increaseNumberOfCyborgs(int n){
 			cyborgs += n;
 		}
-		int getId(){
+		int getId()const{
 			return id;
 		}
 };
@@ -135,7 +135,7 @@ struct Link{
 	bool either(int k){
 		return (fac1 == k) || (fac2 == k);
 	}
-	int other(int k){
+	int other(int k)const{
 		if (k == fac1) {
 			return fac2;
 		} else if (k == fac2){
@@ -146,6 +146,9 @@ struct Link{
 	}
 	bool operator<(const Link& rhs)const{
 		return dist < rhs.dist;
+	}
+	bool operator==(const Link& rhs)const{
+		return (dist == rhs.dist && fac1 == rhs.fac1 && fac2 == rhs.fac2);
 	}
 };
  
@@ -226,7 +229,7 @@ class Table{
 			}
 			throw "";
 		}
-		void sendTroop(Factory* from, int target, int amount, const int distance){
+		void sendTroop(Factory* from, int target, int amount, int distance){
 			addTroop(999,1,from->getId(),target,amount,distance);
 			from->decreaseNumberOfCyborgs(amount);
 			vector<int> v = {from->getId(), target, amount};
@@ -237,17 +240,20 @@ class Table{
 			commands.push_back(tmp);
 		}
         void writeCommands(){
-			for (int i = 0; i < commands.size(); i++){
-				cout << commands[i].type << " ";
-				for (int j = 0; j < commands[i].parameters.size() - 1; j++){
-					cout << commands[i].parameters[j] << " ";
+			if (commands.size() == 0) std::cout << "WAIT" << std::endl;
+			else {
+				for (int i = 0; i < commands.size(); i++){
+					cout << commands[i].type << " ";
+					for (int j = 0; j < commands[i].parameters.size() - 1; j++){
+						cout << commands[i].parameters[j] << " ";
+					}
+					cout << commands[i].parameters[commands[i].parameters.size()-1];
+					if (i != commands.size() - 1) {
+						cout << ";";
+					}
 				}
-				cout << commands[i].parameters[commands[i].parameters.size()-1];
-				if (i != commands.size() - 1) {
-					cout << ";";
-				}
+				cout << endl;
 			}
-			cout << endl;
 		}
 		bool hostileBombExist(){
 			if (bombs.size() == 0) return false;
@@ -319,6 +325,9 @@ class Table{
 			troops.clear();
 			commands.clear();
 		}
+		Factory* getFactory(int id){
+			return &factories[id];
+		}
 };
  
  
@@ -372,7 +381,6 @@ int main()
 
         // Write an action using cout. DON'T FORGET THE "<< endl"
         // To debug: cerr << "Debug messages..." << endl;
-        cout << "WAIT";
         
         //set up bomb processor
         if (!table.hostileBombExist() && bombPredictionExist) {
@@ -438,8 +446,22 @@ int main()
         //conquer new ones
         map<int, map<Link,Factory*> > att = table.attackableTargets();
         for (int i = 3; i >= 0; i++){
-			for (int it = begin(att[i]); it != end(att[i]); it++){
-				
+			for (auto it = begin(att[i]); it != end(att[i]); it++){
+				//std::cout << "(" << std::distance(begin(att[i]),it) << ")";
+				if (table.isSecured(it->second->getId())) {
+					int j = 0;
+					for (; j < it->second->getNumberOfCyborgs();j++){
+						it->second->decreaseNumberOfCyborgs(i);
+						if(!table.isSecured(it->second->getId())){
+							break;
+						}
+						it->second->increaseNumberOfCyborgs(i);
+					}
+					i -= 1;
+					if (i != 0 && i != -1) {
+						table.sendTroop(table.getFactory(it->first.other(it->second->getId())),it->second->getId(),i,it->first.dist); //Factory* from, int target, int amount, const int distance
+					}
+				}
 			}
 		}
         
