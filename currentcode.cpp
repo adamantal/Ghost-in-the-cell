@@ -63,7 +63,8 @@ class Factory{
 		void increaseNumberOfCyborgs(int n){
 			cyborgs += n;
 		}
-		int getId()const{
+		int getId(){
+			//cout << "MSG " << id << " " << owner << " " << cyborgs << " " << production << " " << badturns << ";";
 			return id;
 		}
 };
@@ -141,7 +142,7 @@ struct Link{
 		} else if (k == fac2){
 			return fac1;
 		} else {
-			throw "";
+			throw "Others have bad pointer";
 		}
 	}
 	bool operator<(const Link& rhs)const{
@@ -149,6 +150,15 @@ struct Link{
 	}
 	bool operator==(const Link& rhs)const{
 		return (dist == rhs.dist && fac1 == rhs.fac1 && fac2 == rhs.fac2);
+	}
+	int get1()const{
+		return fac1;
+	}
+	int get2()const{
+		return fac2;
+	}
+	int getDist() const{
+		return dist;
 	}
 };
  
@@ -165,7 +175,6 @@ class Table{
         vector<Command> commands;
     public:
 		Table(){}
-		Table(vector<Link> *l):links(*l){}
 		void addFactory(int i, int a1, int a2, int a3, int a4) {
 			Factory tmp(i,a1, a2, a3, a4);
 			factories[i] = tmp;
@@ -178,8 +187,17 @@ class Table{
 			Bomb tmp(i,a1, a2, a3, a4);
 			bombs.push_back(tmp);
 		}
+		void addLink(int i1, int i2, int i3) {
+			Link tmp(i1, i2,i3);
+			links.push_back(tmp);
+		}
         int isBombAGoodIdea();
 		int isAlwaysOwnedByMe();
+		void writeAllTheLinks(){
+			for (auto it = begin(links); it != end(links); it++){
+				cerr << "[" << it->get1() << " " << it->get2() << " " << it->getDist() << "]" << endl;
+			}
+		}
 		vector<Factory*> ourFactories(){
 			vector<Factory*> returnable;
 			for (auto it = begin(factories); it != end(factories); it++) {
@@ -189,7 +207,7 @@ class Table{
 			}
 			return returnable;
 		}
-        map<int, map<Link,Factory*> > attackableTargets(){ //target -> link x targetedEnemy structure
+        map<int, map<Link,Factory*> > attackableTargets(){ //target -> link x fromOurFactory structure
 			map<int, map<Link,Factory*> > ret;
 			for (int i = 0; i < 4; i++){
 				map<Link,Factory*> tmp;
@@ -221,7 +239,7 @@ class Table{
 			return ret;
 		}
 		int getDistance(int id1, int id2){
-			if (id1 == id2) throw "";
+			if (id1 == id2) throw "ids are the same, it is very bad";
 			for (auto it = begin(links); it != end(links); it++) {
 				if (it->either(id1) && it-> either(id2)) {
 					return it->dist;
@@ -240,7 +258,7 @@ class Table{
 			commands.push_back(tmp);
 		}
         void writeCommands(){
-			if (commands.size() == 0) std::cout << "WAIT" << std::endl;
+			if (commands.size() == 0) std::cout << "WAIT";
 			else {
 				for (int i = 0; i < commands.size(); i++){
 					cout << commands[i].type << " ";
@@ -252,8 +270,10 @@ class Table{
 						cout << ";";
 					}
 				}
-				cout << endl;
 			}
+		}
+		void endTurn(){
+			cout << endl;
 		}
 		bool hostileBombExist(){
 			if (bombs.size() == 0) return false;
@@ -319,14 +339,30 @@ class Table{
 		int minRequired(int id){
 			return -getEstimatedCyborgs(id)[firstBadRound(id)];
 		}
-		void clearContent(){
-			factories.clear();
+		void clearContent(int i){
+			if (i <= 0) {
+			bombs.clear();
 			bombs.clear();
 			troops.clear();
 			commands.clear();
+			factories.clear();
+			} else {
+				bombs.clear();
+				cout << "1";
+				bombs.clear();
+				cout << "2";
+				troops.clear();
+				cout << "3";
+				commands.clear();
+				cout << "4";
+				factories.clear();
+			}
 		}
 		Factory* getFactory(int id){
 			return &factories[id];
+		}
+		vector<Link> getAllLinks(){
+			return links;
 		}
 };
  
@@ -338,26 +374,25 @@ int main()
     int linkCount; // the number of links between factories
     cin >> linkCount; cin.ignore();
     
-    vector<Link> links;
+    Table table;
     for (int i = 0; i < linkCount; i++) {
         int factory1;
         int factory2;
         int distance;
-        cin >> factory1 >> factory2 >> distance; cin.ignore();
-        Link tmp(factory1, factory2,distance);
-        links.push_back(tmp);
+        cin >> factory2 >> distance >> factory1; cin.ignore();
+        table.addLink(factory1, factory2, distance);
+        //cerr << "[" << factory1 << " " << factory2 << " " << distance << "]"<<endl;
     }
-    
+    table.writeAllTheLinks();
     bool bombPredictionExist = false;
     int bombPredictionId = true;
     
-    // game loop
-    Table table(&links);
+    // game loop    
+    int track = 0;
     
     while (1) {
         int entityCount; // the number of entities (e.g. factories and troops)
         cin >> entityCount; cin.ignore();
-        
         //initializing table:
         for (int i = 0; i < entityCount; i++) {
             int entityId;
@@ -378,10 +413,9 @@ int main()
 				cout << "ERROR: UNKNOWN ENTITY TYPE";
 			}
         }
-
         // Write an action using cout. DON'T FORGET THE "<< endl"
         // To debug: cerr << "Debug messages..." << endl;
-        
+        //cerr << "something";
         //set up bomb processor
         if (!table.hostileBombExist() && bombPredictionExist) {
 			bombPredictionExist = false;
@@ -391,6 +425,7 @@ int main()
 			//set bomb to the most 
 			map<int, int> m; //num of cyborgs - id map
 			Bomb b = table.getBomb();
+			vector<Link> links = table.getAllLinks();
 			for (auto itl = begin(links); itl != end(links); itl++) {
 				if (itl->dist == b.time() + 1) {
 					Factory* f1 = table.getFactoryFromId(itl->fac1);
@@ -419,7 +454,6 @@ int main()
 				table.addTroop(65536 + i,-1,b.getFrom(),bombPredictionId,table.getFactoryFromId(bombPredictionId)->getProduction(),b.time() + i);
 			}
 		}
-        
         set<int> priortargets;
         int targetslevel = 0;
         
@@ -427,7 +461,12 @@ int main()
         
         vector<Factory*> ours = table.ourFactories();
         map<int,vector<Factory*> > priorhelp; //Prioritized map of our endangered factories
-        
+        for (int i = 0; i < 4; i ++){
+			vector<Factory*> t;
+			priorhelp[i] = t;
+		}
+		
+        cout << "MSG OK;";
         for (auto it = begin(ours); it != end(ours); it++){
 			if (!table.isSecured((*it)->getId())){
 				priorhelp[(*it)->getProduction()].push_back(*it);
@@ -438,34 +477,47 @@ int main()
 				vector<Factory*> c = table.getNeighbors((*it)->getId());
 				for (auto itc = begin(c); itc != end(c); itc++) {
 					if ((*itc)->getOwner() == 1) {
+						try {
 						table.sendTroop(*itc,(*it)->getId(),min(table.minRequired((*it)->getId()),(*itc)->getNumberOfCyborgs()),table.getDistance((*itc)->getId(),(*it)->getId()));
+						} catch (char const * k) {
+							std:cerr << k;
+						}
 					}
 				}				
 			}
 		}
         //conquer new ones
         map<int, map<Link,Factory*> > att = table.attackableTargets();
-        for (int i = 3; i >= 0; i++){
+        for (int i = 3; i >= 0; i--){
 			for (auto it = begin(att[i]); it != end(att[i]); it++){
 				//std::cout << "(" << std::distance(begin(att[i]),it) << ")";
+				//cout << it->second->getId() << " ";
 				if (table.isSecured(it->second->getId())) {
 					int j = 0;
 					for (; j < it->second->getNumberOfCyborgs();j++){
-						it->second->decreaseNumberOfCyborgs(i);
+						it->second->decreaseNumberOfCyborgs(j);
 						if(!table.isSecured(it->second->getId())){
 							break;
 						}
-						it->second->increaseNumberOfCyborgs(i);
+						it->second->increaseNumberOfCyborgs(j);
 					}
-					i -= 1;
-					if (i != 0 && i != -1) {
-						table.sendTroop(table.getFactory(it->first.other(it->second->getId())),it->second->getId(),i,it->first.dist); //Factory* from, int target, int amount, const int distance
+					j -= 1;
+					if (j != 0 && j != -1) {
+						try {
+						table.sendTroop(it->second,(it->first).other(it->second->getId()),j,it->first.dist); //Factory* from, int target, int amount, const int distance
+						} catch (char const * k){
+							std::cerr << k;
+						}
 					}
 				}
 			}
+			//cout << "i" << i;
 		}
-        
+		//cout << "!";
         table.writeCommands();
-        table.clearContent();
+        //table.writeAllTheLinks();
+        table.clearContent(0);
+        track++;
+        table.endTurn();
     }
 }
