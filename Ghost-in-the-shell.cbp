@@ -31,6 +31,23 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="src/CurrentFile.cpp" />
+		<Unit filename="src/MyProgram/MyProgram.cpp" />
+		<Unit filename="src/Objects/Action.hpp" />
+		<Unit filename="src/Objects/Bomb.hpp" />
+		<Unit filename="src/Objects/Command.hpp" />
+		<Unit filename="src/Objects/Entity.cpp" />
+		<Unit filename="src/Objects/Entity.hpp" />
+		<Unit filename="src/Objects/Factory.hpp" />
+		<Unit filename="src/Objects/Link.hpp" />
+		<Unit filename="src/Objects/MovingEntity.hpp" />
+		<Unit filename="src/Objects/Player.hpp" />
+		<Unit filename="src/Objects/Table.hpp" />
+		<Unit filename="src/Objects/Troop.hpp" />
+		<Unit filename="src/Teacher.cpp" />
+		<Unit filename="src/codingame_template.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Extensions>
 			<code_completion />
 			<envvars />
