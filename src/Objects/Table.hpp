@@ -1,6 +1,17 @@
 #ifndef TABLE_HPP_INCLUDED
 #define TABLE_HPP_INCLUDED
 
+#include<map>
+#include<vector>
+
+#include "Factory.hpp"
+#include "Troop.hpp"
+#include "Bomb.hpp"
+#include "Link.hpp"
+#include "Command.hpp"
+
+using namespace std;
+
 class Table {
     private:
       //main things:

@@ -9,6 +9,7 @@ class Entity {
     Player owner;
 
   public:
+    Entity(){}
     Entity(int a1, int a2);
 
     Player getOwner() const;

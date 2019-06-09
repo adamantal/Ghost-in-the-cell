@@ -3,6 +3,8 @@
 
 #include "Entity.hpp"
 
+using namespace std;
+
 class Factory : public Entity {
 	private:
 		unsigned int cyborgs;
@@ -10,6 +12,7 @@ class Factory : public Entity {
 		unsigned short badturns;
 
 	public:
+	    Factory(){};
 		Factory(int i, int a1, int a2, int a3, int a4):
 			Entity(i,a1),cyborgs(a2),production(a3),badturns(a4){}
 		int getNumberOfCyborgs() const {

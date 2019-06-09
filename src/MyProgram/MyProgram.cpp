@@ -1,3 +1,5 @@
+#ifdef DONT_COMPILE
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -805,3 +807,5 @@ int main()
     table.endTurn();
   }
 }
+
+#endif // DONT_COMPILE

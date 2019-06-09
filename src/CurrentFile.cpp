@@ -5,7 +5,11 @@
 #include <set>
 #include <map>
 
-int main()
+#include "Objects/Table.hpp"
+
+using namespace std;
+
+int _main()
 {
     int factoryCount; // the number of factories
     cin >> factoryCount; cin.ignore();
