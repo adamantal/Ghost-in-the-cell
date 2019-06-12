@@ -1,4 +1,6 @@
+.idea/
 bin/
+cmake-build-debug/
 obj/
 Ghost-in-the-shell.layout
 Ghost-in-the-shell.depend

@@ -1,13 +1,18 @@
 #include "Entity.hpp"
 
-Entity::Entity(int a1, int a2):
-    id(a1),
-    owner(Player(a2)) {}
-
-Player Entity::getOwner() const {
-  return owner;
+Entity::Entity(Id id, Owner owner) :
+        id(id),
+        owner(owner) {
 }
 
-int Entity::getId() const {
-  return id;
+Owner Entity::getOwner() const {
+    return owner;
+}
+
+Id Entity::getId() const {
+    return id;
+}
+
+void Entity::setOwner(Owner newOwner) {
+    owner = newOwner;
 }

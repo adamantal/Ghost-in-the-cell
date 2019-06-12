@@ -1,19 +1,26 @@
 #ifndef ENTITY_HPP_INCLUDED
 #define ENTITY_HPP_INCLUDED
 
-#include "Player.hpp"
+#include <memory>
+
+#include "Owner.hpp"
+#include "Id.hpp"
+
+class Entity;
+
+typedef std::shared_ptr<Entity> EntityPtr;
 
 class Entity {
-  protected:
-    int id;
-    Player owner;
+private:
+    Id id;
+    Owner owner;
 
-  public:
-    Entity(){}
-    Entity(int a1, int a2);
+public:
+    Entity(Id, Owner);
 
-    Player getOwner() const;
-    int getId() const ;
+    Owner getOwner() const;
+    void setOwner(Owner);
+    Id getId() const;
 };
 
 #endif // ENTITY_HPP_INCLUDED

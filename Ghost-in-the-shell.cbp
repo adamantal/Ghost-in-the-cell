@@ -12,6 +12,9 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 				</Compiler>
 			</Target>
@@ -22,6 +25,9 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-std=c++11" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -31,9 +37,12 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename=".gitignore" />
+		<Unit filename="README.md" />
 		<Unit filename="src/CurrentFile.cpp" />
 		<Unit filename="src/MyProgram/MyProgram.cpp" />
 		<Unit filename="src/Objects/Action.hpp" />
+		<Unit filename="src/Objects/Board.hpp" />
 		<Unit filename="src/Objects/Bomb.hpp" />
 		<Unit filename="src/Objects/Command.hpp" />
 		<Unit filename="src/Objects/Entity.cpp" />
@@ -41,13 +50,16 @@
 		<Unit filename="src/Objects/Factory.hpp" />
 		<Unit filename="src/Objects/Link.hpp" />
 		<Unit filename="src/Objects/MovingEntity.hpp" />
-		<Unit filename="src/Objects/Player.hpp" />
+		<Unit filename="src/Objects/Table.cpp" />
 		<Unit filename="src/Objects/Table.hpp" />
 		<Unit filename="src/Objects/Troop.hpp" />
-		<Unit filename="src/Teacher.cpp" />
-		<Unit filename="src/codingame_template.cpp">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
+		<Unit filename="src/Program/DummyPlayer.hpp" />
+		<Unit filename="src/Program/Game.cpp" />
+		<Unit filename="src/Program/Game.hpp" />
+		<Unit filename="src/Program/Player.hpp" />
+		<Unit filename="src/Program/Simulator.hpp" />
+		<Unit filename="src/codingame_template.cpp" />
+		<Unit filename="src/main.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

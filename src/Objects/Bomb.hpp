@@ -1,23 +1,18 @@
 #ifndef BOMB_HPP_INCLUDED
 #define BOMB_HPP_INCLUDED
 
-class Bomb : public MovingEntity {
-	private:
-     //note that the target is not known, if it is hostile
-		unsigned int remainingTurns;
+#include <memory>
 
-	public:
-		Bomb(int i, int a1, int a2, int a3, int a4):
-			MovingEntity(i,a1,a2,a3), remainingTurns(a4){}
-    int getTarget(){
-      if (getOwner() == Player::Enemy){
-        throw "Error: you want to get a not known target!\n";
-      } else {
-        return target;
-      }
-    }
-    int getTime(){
-      return remainingTurns;
+#include "MovingEntity.hpp"
+
+class Bomb;
+typedef std::shared_ptr<Bomb> BombPtr;
+typedef std::shared_ptr<const Bomb> BombConstPtr;
+
+class Bomb : public MovingEntity {
+public:
+    Bomb(Id id, Owner owner, FactoryPtr origin, FactoryPtr target, Distance turns):
+        MovingEntity(id, owner, origin, target, turns) {
     }
 };
 

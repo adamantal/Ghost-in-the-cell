@@ -5,10 +5,10 @@
 
 class DummyPlayer : public Player {
     virtual bool setup(std::string setup) {
-        return "";
+        return true;
     }
     virtual std::string getResponse(std::string input) {
-        return "";
+        return "WAIT\n";
     }
 };
 
