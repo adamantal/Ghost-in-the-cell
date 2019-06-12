@@ -20,6 +20,9 @@ public:
     bool either(FactoryPtr f) const;
     unsigned int getDistance() const;
     FactoryPtr other(FactoryPtr) const;
+
+    FactoryPtr getOne() const;
+    FactoryPtr getTwo() const;
 };
 
 #endif // LINK_HPP_INCLUDED

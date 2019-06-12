@@ -37,4 +37,5 @@ add_executable(Ghost_in_the_cell
         src/Program/Game.hpp
         src/Program/Player.hpp
         src/MyProgram/MyProgram.cpp
-        src/main.cpp src/MyProgram/MyProgram.hpp)
+        src/MyProgram/MyProgram.hpp
+        src/main.cpp src/Objects/Stream/InitStringBuilder.cpp src/Objects/Stream/InitStringBuilder.hpp)

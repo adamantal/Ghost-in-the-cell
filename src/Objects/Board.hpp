@@ -28,7 +28,7 @@ private:
     std::list<BombPtr> bombs;
 
 public:
-    static Board createDefault();
+    static BoardPtr createDefault();
 
     std::string getInitializationInput() const;
     std::string getInputForOwner(Owner owner) const;

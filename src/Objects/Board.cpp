@@ -5,11 +5,15 @@
 #include <numeric>
 #include <sstream>
 
-#include <src/Objects/Stream/EntityWriter.hpp>
+#include "src/Objects/Stream/EntityWriter.hpp"
+#include "src/Objects/Stream/InitStringBuilder.hpp"
 
 std::string Board::getInitializationInput() const {
-    std::string initString;
-    return initString;
+    InitStringBuilder builder(factories.size(), links.size());
+    for (const LinkPtr& link : links) {
+        builder.addLink(link);
+    }
+    return builder.build();
 }
 
 void Board::moveEntities() {
@@ -146,10 +150,11 @@ bool Board::checkWinningCondition() const {
     return false;
 }
 
-Board Board::createDefault() {
-    return Board();
+BoardPtr Board::createDefault() {
+    // TODO implement this
+    return std::make_shared<Board>();
 }
 
 void Board::digestOwnerOutput(std::string output, Owner owner) {
-
+    // TODO implement this
 }

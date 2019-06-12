@@ -12,7 +12,14 @@ BoardPtr Engine::getBoard() const {
     return board;
 }
 
+void Engine::setTable(BoardPtr b) {
+    board = b;
+}
+
 bool Engine::takeTurn() {
+    if (board == nullptr) {
+        throw "Board is not initialized.";
+    }
     if (turns++ >= MAX_TURNS)
         return true;
 

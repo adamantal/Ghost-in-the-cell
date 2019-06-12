@@ -23,3 +23,11 @@ FactoryPtr Link::other(FactoryPtr f) const {
         return nullptr;
     }
 }
+
+FactoryPtr Link::getOne() const {
+    return f1;
+}
+
+FactoryPtr Link::getTwo() const {
+    return f2;
+}
