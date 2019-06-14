@@ -1,6 +1,18 @@
-.idea/
+
 bin/
-cmake-build-debug/
+
+# General cmake in ubuntu
+CMakeFiles/
 obj/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+Ghost_in_the_cell
+
+# CLion integration
+.idea/
+cmake-build-debug/
+
+# Code::Blocks integration
 Ghost-in-the-shell.layout
 Ghost-in-the-shell.depend

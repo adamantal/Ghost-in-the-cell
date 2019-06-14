@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.1)
 project(Ghost_in_the_cell)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -21,6 +21,7 @@ add_executable(Ghost_in_the_cell
         src/Objects/Factory.hpp
         src/Objects/Helper/Position.cpp
         src/Objects/Helper/Position.hpp
+        src/Objects/Id.cpp
         src/Objects/Id.hpp
         src/Objects/Link.cpp
         src/Objects/Link.hpp

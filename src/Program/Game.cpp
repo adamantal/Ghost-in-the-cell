@@ -1,9 +1,12 @@
 #include "Game.hpp"
 
+#include <iostream>
+
 Game::Game(PlayerPtr player1, PlayerPtr player2) :
         player1(player1),
         player2(player2),
         engine(player1, player2) {
+    std::cout << "Game is being created." << std::endl;
     BoardPtr board = Board::createDefault();
     engine.setTable(board);
     player1->setup(board->getInitializationInput());
@@ -23,7 +26,8 @@ std::string Game::getResults() const {
 }
 
 void Game::run() {
-    while (!engine.takeTurn());
+    unsigned int i = 0;
+    while (!engine.takeTurn()) {
+        std::cout << i << std::endl;
+    }
 }
-
-

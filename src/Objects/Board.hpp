@@ -17,6 +17,7 @@ static const unsigned int WIDTH = 16000;
 static const unsigned int HEIGHT = 6500;
 static const unsigned int MIN_PRODUCTION_RATE = 0;
 static const unsigned int MAX_PRODUCTION_RATE = 3;
+static const unsigned int MIN_TOTAL_PRODUCTION_RATE = 4;
 static const unsigned int PLAYER_INIT_UNITS_MIN = 15;
 static const unsigned int PLAYER_INIT_UNITS_MAX = 30;
 
