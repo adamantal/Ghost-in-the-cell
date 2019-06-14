@@ -10,25 +10,31 @@
 #include "Link.hpp"
 #include "Bomb.hpp"
 
-const short MIN_NUMBER_OF_FACTORIES = 7;
-const short MAX_NUMBER_OF_FACTORIES = 15;
-const short MIN_NUMBER_OF_LINKS = 21;
-const short MAX_NUMBER_OF_LINKS = 105;
-const short MAX_NUMBER_OF_DISTANCE = 20;
+static const unsigned short MIN_FACTORY_COUNT = 7;
+static const unsigned short MAX_FACTORY_COUNT = 15;
+static const unsigned int EXTRA_SPACE_BETWEEN_FACTORIES = 300;
+static const unsigned int WIDTH = 16000;
+static const unsigned int HEIGHT = 6500;
+static const unsigned int MIN_PRODUCTION_RATE = 0;
+static const unsigned int MAX_PRODUCTION_RATE = 3;
+static const unsigned int PLAYER_INIT_UNITS_MIN = 15;
+static const unsigned int PLAYER_INIT_UNITS_MAX = 30;
 
 class Board;
 typedef std::shared_ptr<Board> BoardPtr;
 
 class Board {
 private:
-    const std::list<FactoryPtr> factories;
-    const std::list<LinkPtr> links;
+    std::list<FactoryPtr> factories;
+    std::list<LinkPtr> links;
 
     std::list<TroopPtr> troops;
     std::list<BombPtr> bombs;
 
 public:
     static BoardPtr createDefault();
+    static BoardPtr createRandom();
+    static BoardPtr createRandom(int seed);
 
     std::string getInitializationInput() const;
     std::string getInputForOwner(Owner owner) const;

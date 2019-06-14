@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "Entity.hpp"
+#include "src/Objects/Helper/Position.hpp"
 
 class Factory;
 typedef std::shared_ptr<Factory> FactoryPtr;
@@ -13,14 +14,17 @@ class Factory : public Entity {
 private:
     unsigned int cyborgs;
     unsigned short production;
-    unsigned short badTurns;
+    unsigned short badTurns = 0;
+
+    Position position;
 
 public:
-    Factory(Id, Owner, unsigned int, unsigned short, unsigned short);
+    Factory(Id, Owner, Position, unsigned int, unsigned short);
 
     unsigned int getCyborgs() const;
     unsigned short getProduction() const;
     unsigned short getBadTurns() const;
+    Position getPosition() const;
 
     void produceNewCyborgs();
 

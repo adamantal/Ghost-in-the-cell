@@ -3,13 +3,13 @@
 Factory::Factory(
         Id id,
         Owner owner,
+        Position position,
         unsigned int cyborgs,
-        unsigned short production,
-        unsigned short badTurns):
+        unsigned short production):
     Entity(id, owner),
+    position(position),
     cyborgs(cyborgs),
-    production(production),
-    badTurns(badTurns){
+    production(production) {
 }
 
 unsigned int Factory::getCyborgs() const {
@@ -22,6 +22,10 @@ unsigned short Factory::getProduction() const {
 
 unsigned short Factory::getBadTurns() const {
     return badTurns;
+}
+
+Position Factory::getPosition() const {
+    return position;
 }
 
 void Factory::produceNewCyborgs() {
