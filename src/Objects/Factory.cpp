@@ -57,3 +57,7 @@ void Factory::takeOver(unsigned int troops, Owner newOwner) {
 void Factory::bombExploded() {
     decreaseCyborgs((cyborgs < 10) ? cyborgs : std::max((cyborgs + 1) / 2, (unsigned int) 10));
 }
+
+void Factory::increaseProductionDuringSetup() {
+    production++;
+}

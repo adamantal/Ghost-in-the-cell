@@ -26,6 +26,8 @@ public:
     unsigned short getBadTurns() const;
     Position getPosition() const;
 
+    void increaseProductionDuringSetup();
+
     void produceNewCyborgs();
 
     void troopsArrived(unsigned int);

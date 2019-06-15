@@ -1,5 +1,7 @@
 #include "MyProgram.hpp"
 
+#include <iostream>
+
 using namespace std;
 
 /**
@@ -42,13 +44,13 @@ std::vector<int> Heuristic::Table::getEstimatedCyborgsFromZeroTime(int id, int z
             if (troopline[i] > 0) {
                 timeline[i] += troopline[i];
                 if (timeline[i] > 0) {
-                    currentowner == Heuristic::Player::Us;
+                    currentowner = Heuristic::Player::Us;
                 }
             } else if (troopline[i] < 0) {
                 timeline[i] -= troopline[i];
                 if (timeline[i] > 0) {
                     timeline[i] *= -1;
-                    currentowner == Heuristic::Player::Enemy;
+                    currentowner = Heuristic::Player::Enemy;
                 }
             }
         } else if (currentowner == Heuristic::Player::Us) {
@@ -178,13 +180,10 @@ std::string MyProgram::getResponse(std::string input) {
         } else if (entityType == "BOMB") {
             table.addBomb(entityId, arg1, arg2, arg3, arg4);
         } else {
-            throw "ERROR: UNKNOWN ENTITY TYPE";
+            throw "ERROR: UNKNOWN ENTITY TYPE: " + entityType;
         }
     }
-
-    /*vector<int> v = table.getEstimatedCyborgs(1);
-    for (int i = 0; i < 20; i++) cerr << v[i] << " ";
-    cerr << ";";*/
+    std::cout << "MyProgram parsed input" << std::endl;
 
     //set up bomb processor
     if (!table.hostileBombExist() && bombPredictionExist) {
@@ -226,6 +225,7 @@ std::string MyProgram::getResponse(std::string input) {
             bombPredictionTurns--;
         }
     }
+    std::cout << 1 << std::endl;
 
     //First we want to defend our troops:
     vector<Heuristic::Factory *> ours = table.ourFactories();
@@ -241,6 +241,8 @@ std::string MyProgram::getResponse(std::string input) {
     /*int summ = 0;
     for (auto it = begin(priorhelp); it != end(priorhelp); it++) summ += it->second.size();
     cerr << "Must defend " << summ << " of our troops." << endl;*/
+
+    std::cout << 2 << std::endl;
 
     for (int i = 3; i >= 0; i--) {
         for (auto it = begin(priorhelp[i]); it != end(priorhelp[i]); it++) {
@@ -262,6 +264,9 @@ std::string MyProgram::getResponse(std::string input) {
     }
     //improve?
     //TODO: DO IMPROVE
+
+    std::cout << 3 << std::endl;
+
     if (table.netAllCyborgs() > 0) {
         vector<Heuristic::Factory *> fs = table.getEveryFactory();
         for (auto it = begin(fs); it != end(fs); it++) {
@@ -273,6 +278,8 @@ std::string MyProgram::getResponse(std::string input) {
         }
     }
 
+    std::cout << 4 << std::endl;
+
     //then conquer new ones:
     //vector<int> k = table.getEstimatedCyborgs(7);
     /*cerr << "THE VECTOR: ";
@@ -283,18 +290,19 @@ std::string MyProgram::getResponse(std::string input) {
         if (table.isSecured((*it)->getId())) {
             map<double, vector<Heuristic::Factory *> > att = table.attackableTargetsFrom((*it)->getId());
             for (auto i = att.rbegin(); i != att.rend(); i++) {
+                std::cout << "i" << std::endl;
                 for (auto ita = begin(att[i->first]); ita != end(att[i->first]); ita++) {
                     //cerr << "attackable id: " << (*ita)->getId() << endl;
                     int j = 1;
                     const int safeId = 11234;
+                    std::cout << (*it)->getNumberOfCyborgs() << " is the number of cyborgs" << std::endl;
                     for (; j < (*it)->getNumberOfCyborgs(); j++) {
-                        //cerr << j << "cycle" << endl;
+                        std::cout << j << " cycle" << endl;
                         (*it)->decreaseNumberOfCyborgs(j);
                         table.makeTemporaryTroop(safeId, (*it)->getId(), (*ita)->getId(), j,
                                                  table.getDistance((*it)->getId(), (*ita)->getId()));
 
                         if (!table.isSecuredFromZero((*it)->getId(), (*it)->getNumberOfCyborgs() - j)) {
-                            //cerr << "broken bc not secured" << endl;
                             if (j == 1) j = 0;
                             break;
                         }
@@ -313,18 +321,20 @@ std::string MyProgram::getResponse(std::string input) {
                     }
                     (*it)->increaseNumberOfCyborgs(j);
                     table.deleteTemporaryTroops(safeId);
-                    //cerr << "j is " << j << " after the loop." << endl;
+                    std::cout << "j is " << j << " after the loop." << endl;
                     if (j >= 1) {
                         try {
                             table.sendTroop(&(*(*it)), (*ita)->getId(), j);
                         } catch (const string k) {
-                            //cerr << k << endl;
+                            //std::cout << k << endl;
                         }
                     }
                 }
             }
         }
     }
+
+    std::cout << 5 << std::endl;
 
     //sending bombs:
     if (table.doWeHaveBombs() && !table.ourBombIsEnRoute()) {
@@ -348,6 +358,8 @@ std::string MyProgram::getResponse(std::string input) {
             }
         }
     }
+
+    std::cout << 6 << std::endl;
 
     std::string returnString = table.writeCommands();
     table.clearContent();

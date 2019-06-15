@@ -7,6 +7,7 @@
 
 class Link;
 typedef std::shared_ptr<Link> LinkPtr;
+typedef std::shared_ptr<const Link> LinkConstPtr;
 
 class Link {
 private:

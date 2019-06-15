@@ -14,7 +14,7 @@ private:
 public:
     InitStringBuilder(unsigned int, unsigned int);
 
-    void addLink(const LinkPtr& link);
+    void addLink(const LinkConstPtr& link);
     std::string build() const;
 };
 

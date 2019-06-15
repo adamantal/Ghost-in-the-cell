@@ -37,12 +37,13 @@ std::string EntityWriter::write(const BombConstPtr& bomb, Owner owner) {
                             EntityTypes::BOMB,
                             convertOwner(bomb->getOwner(), owner));
     bool visible = bomb->getOwner() == owner;
-    esb.setArg2(bomb->getOrigin()->getId())
-            .setArg3(visible ? bomb->getTarget()->getId() : -1);
+    esb.setArg2(bomb->getOrigin()->getId());
     if (visible) {
-        esb.setArg4(bomb->getTurns());
+        esb.setArg3(bomb->getTarget()->getId())
+        .setArg4(bomb->getTurns());
     } else {
-        esb.setArg4((short)-1);
+        esb.setArg3((short) -1)
+        .setArg4((short)-1);
     }
     return esb.build();
 }

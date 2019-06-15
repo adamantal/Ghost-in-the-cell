@@ -4,8 +4,8 @@ InitStringBuilder::InitStringBuilder(unsigned int factorySize,
         unsigned int linkSize) : factorySize(factorySize), linkSize(linkSize) {
 }
 
-void InitStringBuilder::addLink(const LinkPtr& link) {
-    linkStream << link->getOne() << " " << link->getTwo() << " " << link->getDistance() << "\n";
+void InitStringBuilder::addLink(const LinkConstPtr& link) {
+    linkStream << link->getOne()->getId() << " " << link->getTwo()->getId() << " " << link->getDistance() / 800 << "\n";
 }
 
 std::string InitStringBuilder::build() const {

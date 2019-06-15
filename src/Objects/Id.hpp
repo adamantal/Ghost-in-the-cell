@@ -3,11 +3,8 @@
 
 typedef unsigned int Id;
 
-const Id DEFAULT_ID = 0;
-const Id MIN_ID = DEFAULT_ID + 1;
+const Id MIN_ID = 0;
 
 Id nextId();
-
-//TODO consider making a static next id method
 
 #endif // ID_HPP

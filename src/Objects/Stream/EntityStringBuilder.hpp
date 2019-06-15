@@ -28,6 +28,7 @@ public:
 
     EntityStringBuilder& setArg3(unsigned short);
     EntityStringBuilder& setArg3(Id);
+    EntityStringBuilder& setArg3(short a3);
 
     EntityStringBuilder& setArg4(unsigned short);
     EntityStringBuilder& setArg4(unsigned int);
