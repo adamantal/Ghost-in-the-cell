@@ -17,9 +17,9 @@ private:
 public:
     Engine(PlayerPtr, PlayerPtr);
 
-    void setTable(BoardPtr);
-    BoardPtr getBoard() const;
-    bool takeTurn();
+    void SetTable(BoardPtr);
+    BoardPtr GetBoard() const;
+    bool TakeTurn();
 };
 
 #endif // ENGINE_HPP

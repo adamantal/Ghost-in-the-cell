@@ -6,15 +6,15 @@ Link::Link(unsigned int distance, FactoryPtr f1, FactoryPtr f2):
     f2(f2){
 }
 
-bool Link::either(FactoryPtr f) const {
+bool Link::Either(FactoryPtr f) const {
     return f == f1 || f == f2;
 }
 
-unsigned int Link::getDistance() const {
+unsigned int Link::GetDistance() const {
     return distance;
 }
 
-FactoryPtr Link::other(FactoryPtr f) const {
+FactoryPtr Link::Other(FactoryPtr f) const {
     if (f == f1) {
         return f2;
     } else if (f == f2) {
@@ -24,10 +24,10 @@ FactoryPtr Link::other(FactoryPtr f) const {
     }
 }
 
-FactoryPtr Link::getOne() const {
+FactoryPtr Link::GetOne() const {
     return f1;
 }
 
-FactoryPtr Link::getTwo() const {
+FactoryPtr Link::GetTwo() const {
     return f2;
 }

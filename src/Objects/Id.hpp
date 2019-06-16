@@ -5,6 +5,6 @@ typedef unsigned int Id;
 
 const Id MIN_ID = 0;
 
-Id nextId();
+Id NextId();
 
 #endif // ID_HPP

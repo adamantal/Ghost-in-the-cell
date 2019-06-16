@@ -13,19 +13,19 @@ MovingEntity::MovingEntity(
     turns(turns) {
 }
 
-FactoryPtr MovingEntity::getTarget() const {
+FactoryPtr MovingEntity::GetTarget() const {
     return target;
 }
 
-FactoryPtr MovingEntity::getOrigin() const {
+FactoryPtr MovingEntity::GetOrigin() const {
     return origin;
 }
 
-Distance MovingEntity::getTurns() const {
+Distance MovingEntity::GetTurns() const {
     return turns;
 }
 
-void MovingEntity::move() {
+void MovingEntity::Move() {
     if (turns-- == 0) {
         throw MoveException("Can't move, already at target!");
     }

@@ -5,23 +5,23 @@
 #include <src/Objects/Owner.hpp>
 
 template<class T>
-std::string stringify(T t){
+std::string Stringify(T t){
     return t;
 }
 
 template<>
-std::string stringify(unsigned int t);
+std::string Stringify(unsigned int t);
 
 template<>
-std::string stringify(Owner t);
+std::string Stringify(Owner t);
 
 template<class T>
-void assertEquals(T expected, T actual) {
+void AssertEquals(T expected, T actual) {
     if (expected != actual) {
-        throw (stringify(expected) + std::string(" is expected, but got ") + stringify(actual));
+        throw (Stringify(expected) + std::string(" is expected, but got ") + Stringify(actual));
     }
 }
 
-void assertTrue(bool expression);
+void AssertTrue(bool expression);
 
 #endif // TESTUTILS_HPP

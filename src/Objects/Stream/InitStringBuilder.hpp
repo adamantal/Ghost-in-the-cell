@@ -14,8 +14,8 @@ private:
 public:
     InitStringBuilder(unsigned int, unsigned int);
 
-    void addLink(const LinkConstPtr& link);
-    std::string build() const;
+    void AddLink(const LinkConstPtr &link);
+    std::string Build() const;
 };
 
 #endif // BOARDSERIALIZER_HPP

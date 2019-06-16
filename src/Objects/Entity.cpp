@@ -5,14 +5,14 @@ Entity::Entity(Id id, Owner owner) :
         owner(owner) {
 }
 
-Owner Entity::getOwner() const {
+Owner Entity::GetOwner() const {
     return owner;
 }
 
-Id Entity::getId() const {
+Id Entity::GetId() const {
     return id;
 }
 
-void Entity::setOwner(Owner newOwner) {
+void Entity::SetOwner(Owner newOwner) {
     owner = newOwner;
 }

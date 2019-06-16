@@ -3,9 +3,9 @@
 
 class TestEntityWriter {
 public:
-    static void testFactoryWriter();
-    static void testTroopWriter();
-    static void testBombWriter();
+    static void TestFactoryWriter();
+    static void TestTroopWriter();
+    static void TestBombWriter();
 };
 
 #endif // TESTENTITYWRITER_HPP

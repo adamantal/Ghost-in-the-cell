@@ -34,19 +34,19 @@ protected:
     std::list<BombPtr> bombs;
 
 public:
-    static BoardPtr createDefault();
-    static BoardPtr createRandom();
-    static BoardPtr createRandom(int seed);
+    static BoardPtr CreateDefault();
+    static BoardPtr CreateRandom();
+    static BoardPtr CreateRandom(int seed);
 
-    std::string getInitializationInput() const;
-    std::string getInputForOwner(Owner owner) const;
-    void digestOwnerOutput(std::string, Owner);
+    std::string GetInitializationInput() const;
+    std::string GetInputForOwner(Owner owner) const;
+    void DigestOwnerOutput(std::string, Owner);
 
-    void moveEntities();
-    void produceNewCyborgs();
-    void solveBattles();
-    void explodeBombs();
-    bool checkWinningCondition() const;
+    void MoveEntities();
+    void ProduceNewCyborgs();
+    void SolveBattles();
+    void ExplodeBombs();
+    bool CheckWinningCondition() const;
 };
 
 #endif // BOARD_HPP_INCLUDED

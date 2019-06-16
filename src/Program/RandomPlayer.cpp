@@ -4,11 +4,11 @@
 #include <set>
 #include <sstream>
 
-bool RandomPlayer::setup(std::string setupString) {
+bool RandomPlayer::Setup(std::string setupString) {
     return true;
 }
 
-std::string RandomPlayer::getResponse(std::string inputString) {
+std::string RandomPlayer::GetResponse(std::string inputString) {
     std::stringstream ss(inputString);
     int entityCount; // the number of entities (e.g. factories and troops)
     ss >> entityCount;

@@ -139,7 +139,7 @@ Heuristic::Factory* Heuristic::Table::evacuateFrom(Heuristic::Factory *f) {
     return closestid;
 }
 
-bool MyProgram::setup(std::string input) {
+bool MyProgram::Setup(std::string input) {
     std::stringstream ss(input);
 
     int factoryCount; // the number of factories
@@ -158,7 +158,7 @@ bool MyProgram::setup(std::string input) {
     return true;
 }
 
-std::string MyProgram::getResponse(std::string input) {
+std::string MyProgram::GetResponse(std::string input) {
     std::stringstream ss(input);
 
     int entityCount; // the number of entities (e.g. factories and troops)

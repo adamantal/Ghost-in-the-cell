@@ -7,16 +7,17 @@
 
 int main() {
     try {
-        TestPosition::testDistance();
+        TestPosition::TestDistance();
 
-        TestBoard::testBoardInitialization();
-        TestBoard::testResolveBattlesCorrectness();
+        TestBoard::TestBoardInitialization();
+        TestBoard::TestResolveBattlesCorrectness();
+        TestBoard::TestResolveTroopsArrived();
 
-        TestEntityStringBuilder::testFactoryString();
+        TestEntityStringBuilder::TestFactoryString();
 
-        TestEntityWriter::testFactoryWriter();
-        TestEntityWriter::testTroopWriter();
-        TestEntityWriter::testBombWriter();
+        TestEntityWriter::TestFactoryWriter();
+        TestEntityWriter::TestTroopWriter();
+        TestEntityWriter::TestBombWriter();
     } catch (std::string& exc) {
         std::cout << "Exception happened: " << exc << std::endl;
     } catch (std::exception& e) {

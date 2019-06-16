@@ -10,49 +10,49 @@
 #include "src/Objects/Stream/EntityWriter.hpp"
 #include "src/Objects/Stream/InitStringBuilder.hpp"
 
-std::string Board::getInitializationInput() const {
+std::string Board::GetInitializationInput() const {
     InitStringBuilder builder(factories.size(), links.size());
     for (const LinkConstPtr &link : links) {
-        builder.addLink(link);
+        builder.AddLink(link);
     }
-    return builder.build();
+    return builder.Build();
 }
 
-void Board::moveEntities() {
+void Board::MoveEntities() {
     for (TroopPtr &troop : troops) {
-        troop->move();
+        troop->Move();
     }
     for (BombPtr &bomb : bombs) {
-        bomb->move();
+        bomb->Move();
     }
 }
 
-std::string Board::getInputForOwner(Owner owner) const {
+std::string Board::GetInputForOwner(Owner owner) const {
     std::stringstream output;
     output << (factories.size() + troops.size() + bombs.size()) << "\n";
     for (const FactoryPtr &factory : factories) {
-        output << EntityWriter::write(factory, owner) << "\n";
+        output << EntityWriter::Write(factory, owner) << "\n";
     }
     for (const TroopPtr &troop : troops) {
-        output << EntityWriter::write(troop, owner) << "\n";
+        output << EntityWriter::Write(troop, owner) << "\n";
     }
     for (const BombPtr &bomb : bombs) {
-        output << EntityWriter::write(bomb, owner) << "\n";
+        output << EntityWriter::Write(bomb, owner) << "\n";
     }
     return output.str();
 }
 
-void Board::produceNewCyborgs() {
+void Board::ProduceNewCyborgs() {
     for (const FactoryPtr &factory : factories) {
-        factory->produceNewCyborgs();
+        factory->ProduceNewCyborgs();
     }
 }
 
-void Board::solveBattles() {
+void Board::SolveBattles() {
     // filter arriving troops
     std::list<TroopPtr> arrivedTroops;
     std::copy_if(troops.begin(), troops.end(), std::back_inserter(arrivedTroops),
-                 [](const TroopPtr &troop) { return troop->getTurns() == 0; });
+                 [](const TroopPtr &troop) { return troop->GetTurns() == 0; });
     if (arrivedTroops.empty()) {
         return;
     }
@@ -60,21 +60,21 @@ void Board::solveBattles() {
     // collect troops by target factory
     std::map<FactoryPtr, std::list<TroopPtr>> arrives;
     for (const TroopPtr &arrivedTroop : arrivedTroops) {
-        arrives[arrivedTroop->getTarget()].push_back(arrivedTroop);
+        arrives[arrivedTroop->GetTarget()].push_back(arrivedTroop);
     }
 
     // resolve battles:
     for (auto const&[factory, troops] : arrives) {
         unsigned int player1Troops = std::accumulate(troops.begin(), troops.end(), 0,
                                                      [](unsigned int sum, const TroopPtr &troop) {
-                                                         return (troop->getOwner() == Player1) ? sum +
-                                                                                                 troop->getCyborgs()
+                                                         return (troop->GetOwner() == Player1) ? sum +
+                                                                 troop->GetCyborgs()
                                                                                                : sum;
                                                      });
         unsigned int player2Troops = std::accumulate(troops.begin(), troops.end(), 0,
                                                      [](unsigned int sum, const TroopPtr &troop) {
-                                                         return (troop->getOwner() == Player2) ? sum +
-                                                                                                 troop->getCyborgs()
+                                                         return (troop->GetOwner() == Player2) ? sum +
+                                                                 troop->GetCyborgs()
                                                                                                : sum;
                                                      });
         if (player1Troops == player2Troops)
@@ -88,53 +88,53 @@ void Board::solveBattles() {
 
         Owner winnerOwner = (player1Troops != 0) ? Player1 : Player2;
         unsigned int winnerTroops = (player1Troops != 0) ? player1Troops : player2Troops;
-        if (factory->getOwner() == winnerOwner) {
-            factory->troopsArrived(winnerTroops);
+        if (factory->GetOwner() == winnerOwner) {
+            factory->TroopsArrived(winnerTroops);
         } else {
-            unsigned int cyborgs = factory->getCyborgs();
+            unsigned int cyborgs = factory->GetCyborgs();
             if (cyborgs >= winnerTroops) {
-                factory->decreaseCyborgs(winnerTroops);
+                factory->DecreaseCyborgs(winnerTroops);
             } else {
-                factory->decreaseCyborgs(cyborgs);
+                factory->DecreaseCyborgs(cyborgs);
                 winnerTroops -= cyborgs;
 
-                factory->takeOver(winnerTroops, winnerOwner);
+                factory->TakeOver(winnerTroops, winnerOwner);
             }
         }
     }
 }
 
-void Board::explodeBombs() {
+void Board::ExplodeBombs() {
     if (!bombs.empty()) {
         // filter arrived bombs
         std::list<BombPtr> arrivedBombs;
         std::copy_if(bombs.begin(), bombs.end(), std::back_inserter(arrivedBombs),
-                     [](const BombPtr &bomb) { return bomb->getTurns() == 0; });
+                     [](const BombPtr &bomb) { return bomb->GetTurns() == 0; });
         if (arrivedBombs.empty()) {
             return;
         }
 
         std::for_each(arrivedBombs.begin(), arrivedBombs.end(),
-                      [](const BombPtr &bomb) { bomb->getTarget()->bombExploded(); });
+                      [](const BombPtr &bomb) { bomb->GetTarget()->BombExploded(); });
     }
 }
 
-bool Board::checkWinningCondition() const {
+bool Board::CheckWinningCondition() const {
     unsigned int player1score = 0;
     unsigned int player2score = 0;
 
     for (const FactoryPtr &factory : factories) {
-        if (factory->getOwner() == Player1) {
-            player1score += factory->getCyborgs();
+        if (factory->GetOwner() == Player1) {
+            player1score += factory->GetCyborgs();
         } else {
-            player2score += factory->getCyborgs();
+            player2score += factory->GetCyborgs();
         }
     }
     for (const TroopPtr &troop : troops) {
-        if (troop->getOwner() == Player1) {
-            player1score += troop->getCyborgs();
+        if (troop->GetOwner() == Player1) {
+            player1score += troop->GetCyborgs();
         } else {
-            player2score += troop->getCyborgs();
+            player2score += troop->GetCyborgs();
         }
     }
 
@@ -142,23 +142,23 @@ bool Board::checkWinningCondition() const {
         Owner endangeredPlayer = (player1score == 0) ? Player1 : Player2;
         unsigned int production = std::accumulate(factories.begin(), factories.end(), 0,
                                                   [](unsigned int sum, const FactoryPtr &factory) {
-                                                      return sum + factory->getProduction();
+                                                      return sum + factory->GetProduction();
                                                   });
         if (production == 0) {
             // Game over
             std::cout << "The game is over for " << (endangeredPlayer ? "Player1" : "Player2") << ". The table for him: " << std::endl;
-            std::cout << getInputForOwner(endangeredPlayer);
+            std::cout << GetInputForOwner(endangeredPlayer);
             return true;
         }
     }
     return false;
 }
 
-BoardPtr Board::createDefault() {
-    return createRandom(0);
+BoardPtr Board::CreateDefault() {
+    return CreateRandom(0);
 }
 
-void Board::digestOwnerOutput(std::string output, Owner owner) {
+void Board::DigestOwnerOutput(std::string output, Owner owner) {
     std::stringstream ss(output);
     while (!ss.eof()) {
         std::string command;
@@ -170,46 +170,47 @@ void Board::digestOwnerOutput(std::string output, Owner owner) {
             unsigned int number;
             ss >> originId >> targetId >> number;
             for (const FactoryPtr &factory : factories) {
-                if (factory->getId() == originId) {
-                    if (factory->getOwner() == owner) {
+                if (factory->GetId() == originId) {
+                    if (factory->GetOwner() == owner) {
                         FactoryPtr targetFactory = nullptr;
                         for (const FactoryPtr &possibleTarget : factories) {
-                            if (possibleTarget->getId() == targetId) {
+                            if (possibleTarget->GetId() == targetId) {
                                 targetFactory = possibleTarget;
                                 break;
                             }
                         }
                         if (targetFactory != nullptr) {
                             TroopPtr newTroop =
-                                    std::make_shared<Troop>(nextId(),
+                                    std::make_shared<Troop>(NextId(),
                                                             owner,
                                                             factory,
                                                             targetFactory,
-                                                            factory->getPosition().distance(
-                                                                    targetFactory->getPosition()) / 800,
+                                                            factory->GetPosition().Distance(
+                                                                    targetFactory->GetPosition()) / 800,
                                                             number);
                             troops.push_back(newTroop);
+                            factory->DecreaseCyborgs(number);
                         }
                     }
                     break;
                 }
             }
         } else if (command == "BOMB") {
-            //TODO implement these
+            // TODO implement these
         } else if (command == "INC") {
-
+            // TODO implement these
         } else if (command == "MSG") {
-
+            // TODO implement these
         }
     }
 }
 
-BoardPtr Board::createRandom() {
+BoardPtr Board::CreateRandom() {
     std::random_device dev;
-    return createRandom(dev());
+    return CreateRandom(dev());
 }
 
-BoardPtr Board::createRandom(int seed) {
+BoardPtr Board::CreateRandom(int seed) {
     std::cout << "Populating Board object" << std::endl;
 
     std::mt19937 rng(seed);
@@ -228,7 +229,7 @@ BoardPtr Board::createRandom(int seed) {
 
     Position middle(WIDTH / 2, HEIGHT / 2);
     board->factories.push_back(
-            std::make_shared<Factory>(nextId(), Owner::Neutral, middle, 0, 0));
+            std::make_shared<Factory>(NextId(), Owner::Neutral, middle, 0, 0));
 
     std::uniform_int_distribution<std::mt19937::result_type> widthDist(FACTORY_RADIUS + EXTRA_SPACE_BETWEEN_FACTORIES,
                                                                        WIDTH / 2 - FACTORY_RADIUS +
@@ -242,39 +243,39 @@ BoardPtr Board::createRandom(int seed) {
 
     std::cout << "Factory count determined" << std::endl;
 
-    for (Id i = nextId(); i < factoryCount - 1; i = nextId()) {
+    for (Id i = NextId(); i < factoryCount - 1; i = NextId()) {
         bool valid;
         Position pos(WIDTH + 1, HEIGHT + 1);
         do {
             valid = true;
             pos = Position(widthDist(rng), heightDist(rng));
             for (const FactoryPtr &factory : board->factories) {
-                if (factory->getPosition().distance(pos) < minSpaceBetweenFactories) {
+                if (factory->GetPosition().Distance(pos) < minSpaceBetweenFactories) {
                     valid = false;
                     break;
                 }
             }
         } while (!valid);
 
-        if (pos.getX() == WIDTH + 1) {
+        if (pos.GetX() == WIDTH + 1) {
             throw "Position couldn't be determined";
         }
 
         unsigned int productionRate = productionDist(rng);
-        Position counterPos(WIDTH - pos.getX(), HEIGHT - pos.getY());
+        Position counterPos(WIDTH - pos.GetX(), HEIGHT - pos.GetY());
         if (i == 1) {
             unsigned int firstUnitCount = firstUnitDist(rng);
             board->factories.push_back(
                     std::make_shared<Factory>(i, Owner::Player1, pos, firstUnitCount, productionRate));
             board->factories.push_back(
-                    std::make_shared<Factory>(nextId(), Owner::Player2, counterPos, firstUnitCount, productionRate));
+                    std::make_shared<Factory>(NextId(), Owner::Player2, counterPos, firstUnitCount, productionRate));
         } else {
             std::uniform_int_distribution<std::mt19937::result_type> unitDist(0, 5 * productionRate);
             unsigned int unitCount = unitDist(rng);
             board->factories.push_back(
                     std::make_shared<Factory>(i, Owner::Neutral, pos, unitCount, productionRate));
             board->factories.push_back(
-                    std::make_shared<Factory>(nextId(), Owner::Neutral, counterPos, unitCount, productionRate));
+                    std::make_shared<Factory>(NextId(), Owner::Neutral, counterPos, unitCount, productionRate));
 
         }
     }
@@ -282,7 +283,7 @@ BoardPtr Board::createRandom(int seed) {
 
     unsigned int totalProductionRate = std::accumulate(board->factories.begin(), board->factories.end(), 0,
                                                        [](unsigned int sum, FactoryPtr factory) {
-                                                           return sum + factory->getProduction();
+                                                           return sum + factory->GetProduction();
                                                        });
 
     // Make sure that the initial accumulated production rate for all the factories is at least MIN_TOTAL_PRODUCTION_RATE
@@ -290,8 +291,8 @@ BoardPtr Board::createRandom(int seed) {
         if (totalProductionRate >= MIN_TOTAL_PRODUCTION_RATE) {
             break;
         }
-        if (factory->getProduction() < MAX_PRODUCTION_RATE) {
-            factory->increaseProductionDuringSetup();
+        if (factory->GetProduction() < MAX_PRODUCTION_RATE) {
+            factory->IncreaseProductionDuringSetup();
             totalProductionRate++;
         }
     }
@@ -303,7 +304,7 @@ BoardPtr Board::createRandom(int seed) {
             const FactoryPtr &factory2 = board->factories[j];
             board->links.push_back(
                     std::make_shared<const Link>(
-                            factory1->getPosition().distance(factory2->getPosition()),
+                            factory1->GetPosition().Distance(factory2->GetPosition()),
                             factory1,
                             factory2));
         }

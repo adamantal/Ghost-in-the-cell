@@ -7,4 +7,6 @@ enum Owner {
     Neutral
 };
 
+Owner OtherPlayer(Owner);
+
 #endif // OWNER_HPP

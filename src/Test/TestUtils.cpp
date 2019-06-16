@@ -1,12 +1,12 @@
 #include "TestUtils.hpp"
 
 template<>
-std::string stringify(unsigned int t) {
+std::string Stringify(unsigned int t) {
     return std::to_string(t);
 }
 
 template<>
-std::string stringify(Owner t) {
+std::string Stringify(Owner t) {
     switch (t) {
         case Owner::Player1:
             return "Player1";
@@ -15,11 +15,11 @@ std::string stringify(Owner t) {
         case Owner::Neutral:
             return "Neutral";
         default:
-            throw "This Owner is not implemented for stringify.";
+            throw "This Owner is not implemented for Stringify.";
     }
 }
 
-void assertTrue(bool expression) {
+void AssertTrue(bool expression) {
     if (!expression) {
         throw "Expression is not true!";
     }

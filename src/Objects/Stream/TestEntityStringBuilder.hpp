@@ -3,7 +3,7 @@
 
 class TestEntityStringBuilder {
 public:
-    static void testFactoryString();
+    static void TestFactoryString();
 };
 
 #endif // TESTENTITYSTRINGBUILDER_HPP

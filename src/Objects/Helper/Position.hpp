@@ -9,9 +9,9 @@ private:
 public:
     Position(unsigned int, unsigned int);
 
-    unsigned int getX() const;
-    unsigned int getY() const;
-    unsigned int distance(Position) const;
+    unsigned int GetX() const;
+    unsigned int GetY() const;
+    unsigned int Distance(Position) const;
 };
 
 #endif // POSITION_HPP

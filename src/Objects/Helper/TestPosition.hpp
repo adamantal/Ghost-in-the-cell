@@ -3,7 +3,7 @@
 
 class TestPosition {
 public:
-    static void testDistance();
+    static void TestDistance();
 };
 
 #endif // TESTPOSITION_HPP

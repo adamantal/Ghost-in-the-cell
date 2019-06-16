@@ -17,48 +17,48 @@ bool EntityStringBuilder::validate() const {
            (!arg4.empty());
 }
 
-EntityStringBuilder& EntityStringBuilder::setArg2(unsigned int a2) {
+EntityStringBuilder& EntityStringBuilder::SetArg2(unsigned int a2) {
     arg2 = std::to_string(a2);
     return *this;
 }
 
 
-EntityStringBuilder& EntityStringBuilder::setArg3(unsigned short a3) {
+EntityStringBuilder& EntityStringBuilder::SetArg3(unsigned short a3) {
     arg3 = std::to_string(a3);
     return *this;
 }
 
-EntityStringBuilder& EntityStringBuilder::setArg3(Id a3) {
+EntityStringBuilder& EntityStringBuilder::SetArg3(Id a3) {
     arg3 = std::to_string(a3);
     return *this;
 }
 
-EntityStringBuilder& EntityStringBuilder::setArg3(short a3) {
+EntityStringBuilder& EntityStringBuilder::SetArg3(short a3) {
     arg3 = std::to_string(a3);
     return *this;
 }
 
-EntityStringBuilder& EntityStringBuilder::setArg4(unsigned short a4) {
+EntityStringBuilder& EntityStringBuilder::SetArg4(unsigned short a4) {
     arg4 = std::to_string(a4);
     return *this;
 }
 
-EntityStringBuilder &EntityStringBuilder::setArg4(unsigned int a4) {
+EntityStringBuilder &EntityStringBuilder::SetArg4(unsigned int a4) {
     arg4 = std::to_string(a4);
     return *this;
 }
 
-EntityStringBuilder& EntityStringBuilder::setArg4(short a4) {
+EntityStringBuilder& EntityStringBuilder::SetArg4(short a4) {
     arg4 = std::to_string(a4);
     return *this;
 }
 
-EntityStringBuilder& EntityStringBuilder::setArg5(Distance a5) {
+EntityStringBuilder& EntityStringBuilder::SetArg5(Distance a5) {
     arg5 = std::to_string(a5);
     return *this;
 }
 
-std::string EntityStringBuilder::build() const {
+std::string EntityStringBuilder::Build() const {
     if (!validate()) {
         throw EntityStringBuilderException("Missing fields detected during build.");
     }

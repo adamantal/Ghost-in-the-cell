@@ -21,11 +21,11 @@ private:
 public:
     Game(PlayerPtr, PlayerPtr);
 
-    PlayerPtr getPlayer1() const;
-    PlayerPtr getPlayer2() const;
+    PlayerPtr GetPlayer1() const;
+    PlayerPtr GetPlayer2() const;
 
-    std::string getResults() const;
-    void run();
+    std::string GetResults() const;
+    void Run();
 };
 
 #endif // GAME_HPP_INCLUDED

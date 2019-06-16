@@ -11,6 +11,6 @@ Troop::Troop(
     cyborgs(cyborgs){
 }
 
-unsigned int Troop::getCyborgs() const {
+unsigned int Troop::GetCyborgs() const {
     return cyborgs;
 }

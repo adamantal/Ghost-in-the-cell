@@ -12,33 +12,33 @@ Factory::Factory(
     production(production) {
 }
 
-unsigned int Factory::getCyborgs() const {
+unsigned int Factory::GetCyborgs() const {
     return cyborgs;
 }
 
-unsigned short Factory::getProduction() const {
+unsigned short Factory::GetProduction() const {
     return production;
 }
 
-unsigned short Factory::getBadTurns() const {
+unsigned short Factory::GetBadTurns() const {
     return badTurns;
 }
 
-Position Factory::getPosition() const {
+Position Factory::GetPosition() const {
     return position;
 }
 
-void Factory::produceNewCyborgs() {
-    if (getOwner() != Neutral) {
+void Factory::ProduceNewCyborgs() {
+    if (GetOwner() != Neutral) {
         cyborgs += production;
     }
 }
 
-void Factory::troopsArrived(unsigned int troops) {
+void Factory::TroopsArrived(unsigned int troops) {
     cyborgs += troops;
 }
 
-void Factory::decreaseCyborgs(unsigned int troops) {
+void Factory::DecreaseCyborgs(unsigned int troops) {
     if (cyborgs >= troops) {
         cyborgs -= troops;
     } else {
@@ -46,18 +46,18 @@ void Factory::decreaseCyborgs(unsigned int troops) {
     }
 }
 
-void Factory::takeOver(unsigned int troops, Owner newOwner) {
+void Factory::TakeOver(unsigned int troops, Owner newOwner) {
     if (cyborgs != 0) {
         throw "Can't take over factory, if there are still enemy troops present.";
     }
-    setOwner(newOwner);
+    SetOwner(newOwner);
     cyborgs = troops;
 }
 
-void Factory::bombExploded() {
-    decreaseCyborgs((cyborgs < 10) ? cyborgs : std::max((cyborgs + 1) / 2, (unsigned int) 10));
+void Factory::BombExploded() {
+    DecreaseCyborgs((cyborgs < 10) ? cyborgs : std::max((cyborgs + 1) / 2, (unsigned int) 10));
 }
 
-void Factory::increaseProductionDuringSetup() {
+void Factory::IncreaseProductionDuringSetup() {
     production++;
 }

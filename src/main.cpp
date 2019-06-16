@@ -12,7 +12,7 @@ int main() {
 
     try {
         Game g(p1, p2);
-        g.run();
+        g.Run();
     } catch (const char* msg) {
         std::cout << "Exception occured: " << msg << std::endl;
     } catch (std::string& msg) {

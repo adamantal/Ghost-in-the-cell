@@ -17,7 +17,7 @@ private:
 public:
 	Troop(Id, Owner, FactoryPtr, FactoryPtr, Distance, unsigned int);
 
-    unsigned int getCyborgs() const;
+    unsigned int GetCyborgs() const;
 };
 
 #endif // TROOP_HPP_INCLUDED

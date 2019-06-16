@@ -24,19 +24,19 @@ private:
 public:
     EntityStringBuilder(Id, std::string, short);
 
-    EntityStringBuilder& setArg2(unsigned int);
+    EntityStringBuilder& SetArg2(unsigned int);
 
-    EntityStringBuilder& setArg3(unsigned short);
-    EntityStringBuilder& setArg3(Id);
-    EntityStringBuilder& setArg3(short a3);
+    EntityStringBuilder& SetArg3(unsigned short);
+    EntityStringBuilder& SetArg3(Id);
+    EntityStringBuilder& SetArg3(short a3);
 
-    EntityStringBuilder& setArg4(unsigned short);
-    EntityStringBuilder& setArg4(unsigned int);
-    EntityStringBuilder& setArg4(short);
+    EntityStringBuilder& SetArg4(unsigned short);
+    EntityStringBuilder& SetArg4(unsigned int);
+    EntityStringBuilder& SetArg4(short);
 
-    EntityStringBuilder& setArg5(Distance);
+    EntityStringBuilder& SetArg5(Distance);
 
-    std::string build() const;
+    std::string Build() const;
 };
 
 

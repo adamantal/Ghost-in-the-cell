@@ -10,10 +10,10 @@ typedef std::shared_ptr<InjectableBoard> InjectableBoardPtr;
 
 class InjectableBoard : public Board {
 public:
-    void injectFactory(FactoryPtr factory);
-    void injectLink(LinkConstPtr link);
-    void injectTroop(TroopPtr troop);
-    void injectBomb(BombPtr bomb);
+    void InjectFactory(FactoryPtr factory);
+    void InjectLink(LinkConstPtr link);
+    void InjectTroop(TroopPtr troop);
+    void InjectBomb(BombPtr bomb);
 };
 
 

@@ -21,20 +21,20 @@ private:
 public:
     Factory(Id, Owner, Position, unsigned int, unsigned short);
 
-    unsigned int getCyborgs() const;
-    unsigned short getProduction() const;
-    unsigned short getBadTurns() const;
-    Position getPosition() const;
+    unsigned int GetCyborgs() const;
+    unsigned short GetProduction() const;
+    unsigned short GetBadTurns() const;
+    Position GetPosition() const;
 
-    void increaseProductionDuringSetup();
+    void IncreaseProductionDuringSetup();
 
-    void produceNewCyborgs();
+    void ProduceNewCyborgs();
 
-    void troopsArrived(unsigned int);
-    void decreaseCyborgs(unsigned int);
-    void takeOver(unsigned int, Owner);
+    void TroopsArrived(unsigned int);
+    void DecreaseCyborgs(unsigned int);
+    void TakeOver(unsigned int, Owner);
 
-    void bombExploded();
+    void BombExploded();
 };
 
 #endif // FACTORY_HPP_INCLUDED

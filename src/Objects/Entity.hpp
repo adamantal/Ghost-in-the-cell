@@ -18,9 +18,9 @@ private:
 public:
     Entity(Id, Owner);
 
-    Owner getOwner() const;
-    void setOwner(Owner);
-    Id getId() const;
+    Owner GetOwner() const;
+    void SetOwner(Owner);
+    Id GetId() const;
 };
 
 #endif // ENTITY_HPP_INCLUDED

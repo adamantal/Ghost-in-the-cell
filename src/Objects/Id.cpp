@@ -1,6 +1,6 @@
 #include "Id.hpp"
 
-Id nextId() {
+Id NextId() {
     static Id id = MIN_ID;
     return id++;
 }

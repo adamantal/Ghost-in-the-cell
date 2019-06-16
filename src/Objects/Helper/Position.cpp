@@ -6,15 +6,15 @@
 Position::Position(unsigned int x, unsigned int y):x(x), y(y) {
 }
 
-unsigned int Position::getX() const {
+unsigned int Position::GetX() const {
     return x;
 }
 
-unsigned int Position::getY() const {
+unsigned int Position::GetY() const {
     return y;
 }
 
-unsigned int Position::distance(Position other) const {
+unsigned int Position::Distance(Position other) const {
     unsigned int deltaX = std::max(other.x, x) - std::min(other.x, x);
     unsigned int deltaY = std::max(other.y, y) - std::min(other.y, y);
     if (deltaX == 0 && deltaY == 0) {

@@ -18,12 +18,12 @@ private:
 public:
     Link(unsigned int, FactoryPtr, FactoryPtr);
 
-    bool either(FactoryPtr f) const;
-    unsigned int getDistance() const;
-    FactoryPtr other(FactoryPtr) const;
+    bool Either(FactoryPtr f) const;
+    unsigned int GetDistance() const;
+    FactoryPtr Other(FactoryPtr) const;
 
-    FactoryPtr getOne() const;
-    FactoryPtr getTwo() const;
+    FactoryPtr GetOne() const;
+    FactoryPtr GetTwo() const;
 };
 
 #endif // LINK_HPP_INCLUDED

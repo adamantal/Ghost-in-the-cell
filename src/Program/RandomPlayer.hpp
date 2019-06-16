@@ -5,8 +5,8 @@
 
 class RandomPlayer : public Player {
 public:
-    virtual bool setup(std::string) override final;
-    virtual std::string getResponse(std::string) override final;
+    virtual bool Setup(std::string) override final;
+    virtual std::string GetResponse(std::string) override final;
 };
 
 #endif // RANDOMPLAYER_HPP

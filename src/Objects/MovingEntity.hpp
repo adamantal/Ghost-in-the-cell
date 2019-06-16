@@ -14,11 +14,11 @@ private:
 public:
     MovingEntity(Id, Owner, FactoryPtr, FactoryPtr, Distance);
 
-    FactoryPtr getTarget() const;
-    FactoryPtr getOrigin() const;
-    Distance getTurns() const;
+    FactoryPtr GetTarget() const;
+    FactoryPtr GetOrigin() const;
+    Distance GetTurns() const;
 
-    void move();
+    void Move();
 
 };
 

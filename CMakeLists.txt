@@ -62,4 +62,4 @@ add_executable(Test
         src/Objects/Stream/TestEntityWriter.hpp
         src/Test/TestUtils.cpp
         src/Test/TestUtils.hpp
-        src/test.cpp src/Objects/Helper/InjectableBoard.cpp src/Objects/Helper/InjectableBoard.hpp)
+        src/test.cpp src/Objects/Helper/InjectableBoard.cpp src/Objects/Helper/InjectableBoard.hpp src/Objects/Owner.cpp)

@@ -9,15 +9,15 @@ Engine::Engine(PlayerPtr player1, PlayerPtr player2) :
         player2(player2) {
 }
 
-BoardPtr Engine::getBoard() const {
+BoardPtr Engine::GetBoard() const {
     return board;
 }
 
-void Engine::setTable(BoardPtr b) {
+void Engine::SetTable(BoardPtr b) {
     board = b;
 }
 
-bool Engine::takeTurn() {
+bool Engine::TakeTurn() {
     if (board == nullptr) {
         throw "Board is not initialized.";
     }
@@ -26,32 +26,32 @@ bool Engine::takeTurn() {
         return true;
 
     // collect the player's moves
-    std::string player1Input = board->getInputForOwner(Player1);
+    std::string player1Input = board->GetInputForOwner(Player1);
     std::cout << player1Input << std::endl;
-    std::string player1Output = player1->getResponse(player1Input);
+    std::string player1Output = player1->GetResponse(player1Input);
     std::cout << player1Output << std::endl;
 
-    std::string player2Input = board->getInputForOwner(Player2);
+    std::string player2Input = board->GetInputForOwner(Player2);
     std::cout << player2Input << std::endl;
-    std::string player2Output = player2->getResponse(player2Input);
+    std::string player2Output = player2->GetResponse(player2Input);
     std::cout << player2Output << std::endl;
 
     // execute player's moves
-    board->digestOwnerOutput(player1Output, Player1);
-    board->digestOwnerOutput(player2Output, Player2);
+    board->DigestOwnerOutput(player1Output, Player1);
+    board->DigestOwnerOutput(player2Output, Player2);
 
     // move existing troops and bombs
-    board->moveEntities();
+    board->MoveEntities();
 
     // produce new cyborgs in all factories
-    board->produceNewCyborgs();
+    board->ProduceNewCyborgs();
 
     // solve battles
-    board->solveBattles();
+    board->SolveBattles();
 
     // make bombs explode
-    board->explodeBombs();
+    board->ExplodeBombs();
 
     // check end conditions
-    return board->checkWinningCondition();
+    return board->CheckWinningCondition();
 }
