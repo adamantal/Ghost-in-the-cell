@@ -46,13 +46,13 @@ std::string LazyPlayer::GetResponse(std::string inputString) {
         }
         if (val >= 3) {
             int k = SelectFromSet(otherFactories);
-            output << "MOVE " << key << " " << k << " " << val << "\n";
+            output << "MOVE " << key << " " << k << " " << val << "; ";
         }
     }
     std::string ret = output.str();
     if (ret.empty()) {
         return "WAIT\n";
     } else {
-        return output.str();
+        return ret + "MSG ok\n";
     }
 }

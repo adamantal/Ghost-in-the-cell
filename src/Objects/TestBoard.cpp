@@ -84,6 +84,7 @@ void TestBoard::TestResolveTroopsArrived() {
 }
 
 void TestBoard::TestWinningCondition() {
+    std::cout << "Starting TestWinningCondition" << std::endl;
     {
         InjectableBoardPtr board = std::make_shared<InjectableBoard>();
 
@@ -126,7 +127,7 @@ void TestBoard::TestWinningCondition() {
         Position pos(0, 0);
         FactoryPtr factory1 = std::make_shared<Factory>(100, Owner::Player2, pos, 7, 0);
         board->InjectFactory(factory1);
-        FactoryPtr factory2 = std::make_shared<Factory>(100, Owner::Player1, pos, 2, 0);
+        FactoryPtr factory2 = std::make_shared<Factory>(101, Owner::Player1, pos, 2, 0);
         board->InjectFactory(factory2);
 
         AssertFalse(board->CheckWinningCondition());
@@ -137,7 +138,7 @@ void TestBoard::TestWinningCondition() {
         Position pos(0, 0);
         FactoryPtr factory1 = std::make_shared<Factory>(100, Owner::Neutral, pos, 7, 0);
         board->InjectFactory(factory1);
-        FactoryPtr factory2 = std::make_shared<Factory>(100, Owner::Player1, pos, 2, 0);
+        FactoryPtr factory2 = std::make_shared<Factory>(101, Owner::Player1, pos, 2, 0);
         board->InjectFactory(factory2);
 
         AssertTrue(board->CheckWinningCondition());
@@ -148,9 +149,59 @@ void TestBoard::TestWinningCondition() {
         Position pos(0, 0);
         FactoryPtr factory1 = std::make_shared<Factory>(100, Owner::Neutral, pos, 7, 0);
         board->InjectFactory(factory1);
-        FactoryPtr factory2 = std::make_shared<Factory>(100, Owner::Player2, pos, 2, 0);
+        FactoryPtr factory2 = std::make_shared<Factory>(101, Owner::Player2, pos, 2, 0);
         board->InjectFactory(factory2);
 
         AssertTrue(board->CheckWinningCondition());
+    }
+}
+
+void TestBoard::TestPlayerOutputDigestedCorrectly() {
+    std::cout << "Starting TestPlayerOutputDigestedCorrectly" << std::endl;
+    { // empty message
+        InjectableBoardPtr board = std::make_shared<InjectableBoard>();
+
+        std::string emptyMessage = "WAIT; MSG something; MSG hello\n";
+        board->DigestOwnerOutput(emptyMessage, Owner::Player1);
+    }
+    { // digest two move commands
+        InjectableBoardPtr board = std::make_shared<InjectableBoard>();
+
+        Position position1(0, 0);
+        FactoryPtr factory1 = std::make_shared<Factory>(100, Owner::Neutral, position1, 7, 1);
+        board->InjectFactory(factory1);
+
+        Position position2(0, 8 * 300);
+        FactoryPtr factory2 = std::make_shared<Factory>(101, Owner::Player1, position2, 3, 1);
+        board->InjectFactory(factory2);
+
+        Position position3(8 * 400, 0);
+        FactoryPtr factory3 = std::make_shared<Factory>(102, Owner::Player2, position3, 2, 1);
+        board->InjectFactory(factory3);
+
+        std::string player1Message = "MOVE 101 100 2; MOVE 101 102 1; MSG fine\n";
+        board->DigestOwnerOutput(player1Message, Owner::Player1);
+
+        std::list<TroopPtr> troops = board->GetTroops();
+        for (const TroopPtr& troop : troops) {
+            AssertEquals(troop->GetOwner(), Owner::Player1);
+            AssertTrue(troop->GetOrigin() == factory2);
+            if (troop->GetTarget() == factory1) {
+                AssertTrue(troop->GetCyborgs() == 2);
+            } else if (troop->GetTarget() == factory3) {
+                AssertTrue(troop->GetCyborgs() == 1);
+            } else {
+                throw "The troop's target should be factory1 or factory3.";
+            }
+        }
+    }
+    { // digest a move and a bomb command
+
+    }
+    { // digest an increment command
+
+    }
+    { // 
+
     }
 }

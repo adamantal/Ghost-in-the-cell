@@ -1,5 +1,6 @@
-
+# Binaries and dependencies
 bin/
+include/
 
 # General cmake in ubuntu
 CMakeFiles/
@@ -8,6 +9,7 @@ CMakeCache.txt
 cmake_install.cmake
 Makefile
 Ghost_in_the_cell
+Test
 
 # CLion integration
 .idea/

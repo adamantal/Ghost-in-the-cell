@@ -179,15 +179,17 @@ BoardPtr Board::CreateDefault() {
 
 void Board::DigestOwnerOutput(std::string output, Owner owner) {
     std::stringstream ss(output);
-    while (!ss.eof()) {
+    std::string item;
+    while (std::getline(ss, item, ';')) {
         std::string command;
-        ss >> command;
+        std::stringstream line(item);
+        line >> command;
         if (command == "WAIT") {
             continue;
         } else if (command == "MOVE") {
             Id originId, targetId;
             unsigned int number;
-            ss >> originId >> targetId >> number;
+            line >> originId >> targetId >> number;
             for (const FactoryPtr &factory : factories) {
                 if (factory->GetId() == originId) {
                     if (factory->GetOwner() == owner) {

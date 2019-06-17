@@ -6,5 +6,12 @@ void InjectableBoard::InjectFactory(FactoryPtr factory) {
 
 void InjectableBoard::InjectTroop(TroopPtr troop) {
     troops.push_back(troop);
-    // TODO optionally check whether origin/target is valid
+}
+
+void InjectableBoard::InjectLink(LinkConstPtr link) {
+    links.push_back(link);
+}
+
+std::list<TroopPtr> InjectableBoard::GetTroops() const {
+    return troops;
 }

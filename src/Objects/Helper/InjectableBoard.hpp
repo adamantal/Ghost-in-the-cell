@@ -14,6 +14,8 @@ public:
     void InjectLink(LinkConstPtr link);
     void InjectTroop(TroopPtr troop);
     void InjectBomb(BombPtr bomb);
+
+    std::list<TroopPtr> GetTroops() const;
 };
 
 

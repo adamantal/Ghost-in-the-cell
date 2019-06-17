@@ -12,6 +12,7 @@ int main() {
         TestBoard::TestBoardInitialization();
         TestBoard::TestResolveBattlesCorrectness();
         TestBoard::TestResolveTroopsArrived();
+        TestBoard::TestPlayerOutputDigestedCorrectly();
 
         TestEntityStringBuilder::TestFactoryString();
 
@@ -22,5 +23,7 @@ int main() {
         std::cout << "Exception happened: " << exc << std::endl;
     } catch (std::exception& e) {
         std::cout << e.what() << std::endl;
+    } catch (const char* e) {
+        std::cout << e << std::endl;
     }
 }
