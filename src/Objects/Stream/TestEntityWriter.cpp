@@ -4,12 +4,14 @@
 
 #include <src/Objects/Factory.hpp>
 #include <src/Test/TestUtils.hpp>
+#include <iostream>
 #include "EntityWriter.hpp"
 
+//TODO bad turns is not tested
 void TestEntityWriter::TestFactoryWriter() {
-    Position pos(0, 0);
+    std::cout << "Starting TestFactoryWriter" << std::endl;
 
-    //TODO bad turns is not tested
+    Position pos(0, 0);
 
     FactoryPtr factory1 = std::make_shared<Factory>(53, Owner::Player1, pos, 5, 2);
     AssertEquals<std::string>("53 FACTORY 1 5 2 0 0", EntityWriter::Write(factory1, Owner::Player1));
@@ -22,6 +24,8 @@ void TestEntityWriter::TestFactoryWriter() {
 }
 
 void TestEntityWriter::TestTroopWriter() {
+    std::cout << "Starting TestTroopWriter" << std::endl;
+
     Position dummyPos(0, 0);
     FactoryPtr dummyFactory1 = std::make_shared<Factory>(94, Owner::Player1, dummyPos, 5, 2);
     FactoryPtr dummyFactory2 = std::make_shared<Factory>(95, Owner::Player2, dummyPos, 7, 1);
@@ -35,6 +39,8 @@ void TestEntityWriter::TestTroopWriter() {
 }
 
 void TestEntityWriter::TestBombWriter() {
+    std::cout << "Starting TestBombWriter" << std::endl;
+
     Position dummyPos(0, 0);
     FactoryPtr dummyFactory1 = std::make_shared<Factory>(12, Owner::Player1, dummyPos, 4, 2);
     FactoryPtr dummyFactory2 = std::make_shared<Factory>(13, Owner::Player1, dummyPos, 2, 0);

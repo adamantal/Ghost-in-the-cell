@@ -28,9 +28,6 @@ std::string Game::GetResults() const {
 
 void Game::Run() {
     std::cout << "Game started" << std::endl;
-    unsigned int i = 0;
-    while (!engine.TakeTurn()) {
-        std::cout << i << std::endl;
-    }
+    while (!engine.TakeTurn());
     std::cout << "Game successfully ended" << std::endl;
 }

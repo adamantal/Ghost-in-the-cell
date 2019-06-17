@@ -47,13 +47,18 @@ add_executable(Ghost_in_the_cell
         src/Program/Game.cpp
         src/Program/Game.hpp
         src/Program/Player.hpp
+        src/Program/LazyPlayer.cpp
+        src/Program/LazyPlayer.hpp
         src/Program/RandomPlayer.cpp
         src/Program/RandomPlayer.hpp)
 
 add_executable(Test
         ${OBJECT_SOURCES}
+        src/Objects/Helper/InjectableBoard.cpp
+        src/Objects/Helper/InjectableBoard.hpp
         src/Objects/Helper/TestPosition.cpp
         src/Objects/Helper/TestPosition.hpp
+        src/Objects/Owner.cpp
         src/Objects/TestBoard.cpp
         src/Objects/TestBoard.hpp
         src/Objects/Stream/TestEntityStringBuilder.cpp
@@ -62,4 +67,4 @@ add_executable(Test
         src/Objects/Stream/TestEntityWriter.hpp
         src/Test/TestUtils.cpp
         src/Test/TestUtils.hpp
-        src/test.cpp src/Objects/Helper/InjectableBoard.cpp src/Objects/Helper/InjectableBoard.hpp src/Objects/Owner.cpp)
+        src/test.cpp)

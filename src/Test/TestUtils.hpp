@@ -23,5 +23,6 @@ void AssertEquals(T expected, T actual) {
 }
 
 void AssertTrue(bool expression);
+void AssertFalse(bool expression);
 
 #endif // TESTUTILS_HPP

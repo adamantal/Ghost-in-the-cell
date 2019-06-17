@@ -13,6 +13,7 @@ public:
     static void TestBoardInitialization();
     static void TestResolveBattlesCorrectness();
     static void TestResolveTroopsArrived();
+    static void TestWinningCondition();
 };
 
 #endif // TESTBOARD_HPP

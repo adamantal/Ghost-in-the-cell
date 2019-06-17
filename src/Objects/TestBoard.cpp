@@ -1,6 +1,7 @@
 #include "TestBoard.hpp"
 
 #include <string>
+#include <iostream>
 
 #include "Board.hpp"
 #include "Owner.hpp"
@@ -19,6 +20,7 @@ void TestBoard::TestBoardInitialization() {
 }
 
 void TestBoard::TestTakeOverFrom(Owner owner) {
+    std::cout << "Starting TestTakeOverFrom with " << Stringify(owner) << std::endl;
     InjectableBoardPtr board = std::make_shared<InjectableBoard>();
     Owner otherOwner = OtherPlayer(owner);
 
@@ -37,6 +39,7 @@ void TestBoard::TestTakeOverFrom(Owner owner) {
 }
 
 void TestBoard::TestBattle(Owner owner) {
+    std::cout << "Starting TestBattle with " << Stringify(owner) << std::endl;
     InjectableBoardPtr board = std::make_shared<InjectableBoard>();
     Owner otherOwner = OtherPlayer(owner);
 
@@ -60,6 +63,7 @@ void TestBoard::TestResolveBattlesCorrectness() {
 }
 
 void TestBoard::TestTroopsArrived(Owner owner) {
+    std::cout << "Starting TestTroopsArrived with " << Stringify(owner) << std::endl;
     InjectableBoardPtr board = std::make_shared<InjectableBoard>();
 
     Position pos(0, 0);
@@ -77,4 +81,76 @@ void TestBoard::TestTroopsArrived(Owner owner) {
 void TestBoard::TestResolveTroopsArrived() {
     TestTroopsArrived(Owner::Player1);
     TestTroopsArrived(Owner::Player2);
+}
+
+void TestBoard::TestWinningCondition() {
+    {
+        InjectableBoardPtr board = std::make_shared<InjectableBoard>();
+
+        Position pos(0, 0);
+        FactoryPtr factory = std::make_shared<Factory>(100, Owner::Player1, pos, 7, 2);
+        board->InjectFactory(factory);
+
+        TroopPtr troop = std::make_shared<Troop>(101, Owner::Player2, nullptr, factory, 1, 3);
+        board->InjectTroop(troop);
+
+        AssertFalse(board->CheckWinningCondition());
+    }
+    {
+        InjectableBoardPtr board = std::make_shared<InjectableBoard>();
+
+        Position pos(0, 0);
+        FactoryPtr factory = std::make_shared<Factory>(100, Owner::Player2, pos, 7, 0);
+        board->InjectFactory(factory);
+
+        TroopPtr troop = std::make_shared<Troop>(101, Owner::Player1, nullptr, factory, 1, 3);
+        board->InjectTroop(troop);
+
+        AssertFalse(board->CheckWinningCondition());
+    }
+    {
+        InjectableBoardPtr board = std::make_shared<InjectableBoard>();
+
+        Position pos(0, 0);
+        FactoryPtr factory = std::make_shared<Factory>(100, Owner::Player2, pos, 0, 0);
+        board->InjectFactory(factory);
+
+        TroopPtr troop = std::make_shared<Troop>(101, Owner::Player1, nullptr, factory, 1, 3);
+        board->InjectTroop(troop);
+
+        AssertTrue(board->CheckWinningCondition());
+    }
+    {
+        InjectableBoardPtr board = std::make_shared<InjectableBoard>();
+
+        Position pos(0, 0);
+        FactoryPtr factory1 = std::make_shared<Factory>(100, Owner::Player2, pos, 7, 0);
+        board->InjectFactory(factory1);
+        FactoryPtr factory2 = std::make_shared<Factory>(100, Owner::Player1, pos, 2, 0);
+        board->InjectFactory(factory2);
+
+        AssertFalse(board->CheckWinningCondition());
+    }
+    {
+        InjectableBoardPtr board = std::make_shared<InjectableBoard>();
+
+        Position pos(0, 0);
+        FactoryPtr factory1 = std::make_shared<Factory>(100, Owner::Neutral, pos, 7, 0);
+        board->InjectFactory(factory1);
+        FactoryPtr factory2 = std::make_shared<Factory>(100, Owner::Player1, pos, 2, 0);
+        board->InjectFactory(factory2);
+
+        AssertTrue(board->CheckWinningCondition());
+    }
+    {
+        InjectableBoardPtr board = std::make_shared<InjectableBoard>();
+
+        Position pos(0, 0);
+        FactoryPtr factory1 = std::make_shared<Factory>(100, Owner::Neutral, pos, 7, 0);
+        board->InjectFactory(factory1);
+        FactoryPtr factory2 = std::make_shared<Factory>(100, Owner::Player2, pos, 2, 0);
+        board->InjectFactory(factory2);
+
+        AssertTrue(board->CheckWinningCondition());
+    }
 }

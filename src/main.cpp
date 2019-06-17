@@ -3,12 +3,12 @@
 #include "Program/Game.hpp"
 #include "Program/Player.hpp"
 #include "Program/DummyPlayer.hpp"
-#include "Program/RandomPlayer.hpp"
+#include "src/Program/LazyPlayer.hpp"
 #include "src/MyProgram/MyProgram.hpp"
 
 int main() {
     PlayerPtr p1 = std::make_shared<DummyPlayer>();
-    PlayerPtr p2 = std::make_shared<RandomPlayer>();
+    PlayerPtr p2 = std::make_shared<LazyPlayer>();
 
     try {
         Game g(p1, p2);

@@ -6,6 +6,7 @@
 #include <random>
 #include <sstream>
 #include <iostream>
+#include <src/Test/TestUtils.hpp>
 
 #include "src/Objects/Stream/EntityWriter.hpp"
 #include "src/Objects/Stream/InitStringBuilder.hpp"
@@ -49,10 +50,25 @@ void Board::ProduceNewCyborgs() {
 }
 
 void Board::SolveBattles() {
+    if (troops.empty()) {
+        return;
+    }
+
     // filter arriving troops
     std::list<TroopPtr> arrivedTroops;
-    std::copy_if(troops.begin(), troops.end(), std::back_inserter(arrivedTroops),
-                 [](const TroopPtr &troop) { return troop->GetTurns() == 0; });
+    {
+        std::list<TroopPtr>::iterator troopIt = troops.begin();
+        while (troopIt != troops.end()) {
+            TroopPtr troop = *troopIt;
+            if (troop->GetTurns() == 0) {
+                arrivedTroops.push_back(*troopIt);
+                troopIt = troops.erase(troopIt);
+            } else {
+                troopIt++;
+            }
+        }
+    }
+
     if (arrivedTroops.empty()) {
         return;
     }
@@ -68,13 +84,13 @@ void Board::SolveBattles() {
         unsigned int player1Troops = std::accumulate(troops.begin(), troops.end(), 0,
                                                      [](unsigned int sum, const TroopPtr &troop) {
                                                          return (troop->GetOwner() == Player1) ? sum +
-                                                                 troop->GetCyborgs()
+                                                                                                 troop->GetCyborgs()
                                                                                                : sum;
                                                      });
         unsigned int player2Troops = std::accumulate(troops.begin(), troops.end(), 0,
                                                      [](unsigned int sum, const TroopPtr &troop) {
                                                          return (troop->GetOwner() == Player2) ? sum +
-                                                                 troop->GetCyborgs()
+                                                                                                 troop->GetCyborgs()
                                                                                                : sum;
                                                      });
         if (player1Troops == player2Troops)
@@ -126,7 +142,7 @@ bool Board::CheckWinningCondition() const {
     for (const FactoryPtr &factory : factories) {
         if (factory->GetOwner() == Player1) {
             player1score += factory->GetCyborgs();
-        } else {
+        } else if (factory->GetOwner() == Player2) {
             player2score += factory->GetCyborgs();
         }
     }
@@ -141,12 +157,15 @@ bool Board::CheckWinningCondition() const {
     if (player1score == 0 || player2score == 0) {
         Owner endangeredPlayer = (player1score == 0) ? Player1 : Player2;
         unsigned int production = std::accumulate(factories.begin(), factories.end(), 0,
-                                                  [](unsigned int sum, const FactoryPtr &factory) {
-                                                      return sum + factory->GetProduction();
+                                                  [endangeredPlayer] (unsigned int sum, const FactoryPtr &factory) {
+                                                      return (factory->GetOwner() == endangeredPlayer) ? sum +
+                                                                                                         factory->GetProduction()
+                                                                                                       : sum;
                                                   });
         if (production == 0) {
             // Game over
-            std::cout << "The game is over for " << (endangeredPlayer ? "Player1" : "Player2") << ". The table for him: " << std::endl;
+            std::cout << "The game is over for " << (endangeredPlayer ? "Player1" : "Player2")
+                      << ". The table for him: " << std::endl;
             std::cout << GetInputForOwner(endangeredPlayer);
             return true;
         }
