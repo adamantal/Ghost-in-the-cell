@@ -2,9 +2,9 @@
 #define ENTITYSTRINGBUILDER_HPP
 
 #include <string>
-#include <src/Objects/Distance.hpp>
+#include "Objects/Distance.hpp"
 
-#include "Id.hpp"
+#include "Objects/Id.hpp"
 
 class EntityStringBuilder {
 private:

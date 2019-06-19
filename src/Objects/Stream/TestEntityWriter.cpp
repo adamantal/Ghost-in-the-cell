@@ -1,11 +1,11 @@
 #include "TestEntityWriter.hpp"
 
+#include <iostream>
 #include <string>
 
-#include <src/Objects/Factory.hpp>
-#include <src/Test/TestUtils.hpp>
-#include <iostream>
 #include "EntityWriter.hpp"
+#include "Objects/Factory.hpp"
+#include "Test/TestUtils.hpp"
 
 //TODO bad turns is not tested
 void TestEntityWriter::TestFactoryWriter() {

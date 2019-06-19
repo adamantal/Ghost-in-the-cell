@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "Entity.hpp"
-#include "src/Objects/Helper/Position.hpp"
+#include "Helper/Position.hpp"
 
 class Factory;
 typedef std::shared_ptr<Factory> FactoryPtr;

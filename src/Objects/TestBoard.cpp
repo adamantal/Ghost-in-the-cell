@@ -5,8 +5,8 @@
 
 #include "Board.hpp"
 #include "Owner.hpp"
-#include "src/Test/TestUtils.hpp"
-#include "src/Objects/Helper/InjectableBoard.hpp"
+#include "Test/TestUtils.hpp"
+#include "Test/InjectableBoard.hpp"
 
 void TestBoard::TestBoardInitialization() {
     std::string expected = std::string("11\n55\n0 1 2\n0 2 2\n0 3 5\n0 4 5\n0 5 5\n0 6 5\n0 7 2\n0 8 2\n0 9 8\n0 10 8\n") +
@@ -201,7 +201,7 @@ void TestBoard::TestPlayerOutputDigestedCorrectly() {
     { // digest an increment command
 
     }
-    { // 
+    { //
 
     }
 }

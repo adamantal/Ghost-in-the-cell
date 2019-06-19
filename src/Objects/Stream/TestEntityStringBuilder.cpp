@@ -1,9 +1,9 @@
 #include "TestEntityStringBuilder.hpp"
 
-#include "EntityStringBuilder.hpp"
-
-#include <src/Test/TestUtils.hpp>
 #include <iostream>
+
+#include "EntityStringBuilder.hpp"
+#include "Test/TestUtils.hpp"
 
 void TestEntityStringBuilder::TestFactoryString() {
     std::cout << "Starting TestFactoryString" << std::endl;

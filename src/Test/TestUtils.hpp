@@ -2,7 +2,7 @@
 #define TESTUTILS_HPP
 
 #include <string>
-#include <src/Objects/Owner.hpp>
+#include "Objects/Owner.hpp"
 
 template<class T>
 std::string Stringify(T t){

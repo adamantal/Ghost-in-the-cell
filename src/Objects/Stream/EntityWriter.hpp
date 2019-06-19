@@ -2,9 +2,10 @@
 #define ENTITYWRITER_HPP
 
 #include <string>
-#include <src/Objects/Factory.hpp>
-#include <src/Objects/Troop.hpp>
-#include <src/Objects/Bomb.hpp>
+
+#include "Objects/Factory.hpp"
+#include "Objects/Troop.hpp"
+#include "Objects/Bomb.hpp"
 
 namespace EntityTypes {
     const std::string BOMB = "BOMB";

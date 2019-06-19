@@ -1,9 +1,9 @@
 #include <iostream>
 
-#include "src/Objects/Helper/TestPosition.hpp"
-#include <src/Objects/TestBoard.hpp>
-#include <src/Objects/Stream/TestEntityStringBuilder.hpp>
-#include <src/Objects/Stream/TestEntityWriter.hpp>
+#include "Objects/Helper/TestPosition.hpp"
+#include "Objects/TestBoard.hpp"
+#include "Objects/Stream/TestEntityStringBuilder.hpp"
+#include "Objects/Stream/TestEntityWriter.hpp"
 
 int main() {
     try {

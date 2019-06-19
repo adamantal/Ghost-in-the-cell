@@ -3,11 +3,12 @@ project(Ghost_in_the_cell)
 
 set(CMAKE_CXX_STANDARD 17)
 
-include_directories(.)
-include_directories(src/MyProgram)
-include_directories(src/Objects)
-include_directories(src/Program)
-include_directories(src/Test)
+include_directories(src)
+include_directories(include)
+
+set(SPDLOG
+        include/spdlog/common.h
+        include/spdlog/spdlog.h)
 
 set(OBJECT_SOURCES
         src/Objects/Board.cpp
@@ -36,7 +37,8 @@ set(OBJECT_SOURCES
         src/Objects/Stream/InitStringBuilder.cpp
         src/Objects/Stream/InitStringBuilder.hpp)
 
-add_executable(Ghost_in_the_cell
+add_executable(main
+        ${SPDLOG}
         src/main.cpp
         src/MyProgram/MyProgram.cpp
         src/MyProgram/MyProgram.hpp
@@ -52,10 +54,10 @@ add_executable(Ghost_in_the_cell
         src/Program/RandomPlayer.cpp
         src/Program/RandomPlayer.hpp)
 
-add_executable(Test
+add_executable(tests
         ${OBJECT_SOURCES}
-        src/Objects/Helper/InjectableBoard.cpp
-        src/Objects/Helper/InjectableBoard.hpp
+        src/Test/InjectableBoard.cpp
+        src/Test/InjectableBoard.hpp
         src/Objects/Helper/TestPosition.cpp
         src/Objects/Helper/TestPosition.hpp
         src/Objects/Owner.cpp

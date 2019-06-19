@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "Board.hpp"
+#include "Objects/Board.hpp"
 
 class InjectableBoard;
 typedef std::shared_ptr<InjectableBoard> InjectableBoardPtr;

@@ -1,8 +1,8 @@
 #ifndef ENGINE_HPP
 #define ENGINE_HPP
 
-#include "Board.hpp"
-#include "Player.hpp"
+#include "Objects/Board.hpp"
+#include "Program/Player.hpp"
 
 class Engine {
 private:

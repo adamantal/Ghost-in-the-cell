@@ -6,10 +6,10 @@
 #include <random>
 #include <sstream>
 #include <iostream>
-#include <src/Test/TestUtils.hpp>
+#include "Test/TestUtils.hpp"
 
-#include "src/Objects/Stream/EntityWriter.hpp"
-#include "src/Objects/Stream/InitStringBuilder.hpp"
+#include "Objects/Stream/EntityWriter.hpp"
+#include "Objects/Stream/InitStringBuilder.hpp"
 
 std::string Board::GetInitializationInput() const {
     InitStringBuilder builder(factories.size(), links.size());

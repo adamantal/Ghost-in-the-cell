@@ -1,12 +1,15 @@
 #include <iostream>
 
+#include "spdlog/spdlog.h"
+
 #include "Program/Game.hpp"
 #include "Program/Player.hpp"
 #include "Program/DummyPlayer.hpp"
-#include "src/Program/LazyPlayer.hpp"
-#include "src/MyProgram/MyProgram.hpp"
+#include "Program/LazyPlayer.hpp"
+#include "MyProgram/MyProgram.hpp"
 
 int main() {
+    spdlog::info("Welcome to spdlog!");
     PlayerPtr p1 = std::make_shared<DummyPlayer>();
     PlayerPtr p2 = std::make_shared<LazyPlayer>();
 

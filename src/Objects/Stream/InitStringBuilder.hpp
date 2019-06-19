@@ -3,7 +3,7 @@
 
 #include <sstream>
 
-#include "Link.hpp"
+#include "Objects/Link.hpp"
 
 class InitStringBuilder {
 private:

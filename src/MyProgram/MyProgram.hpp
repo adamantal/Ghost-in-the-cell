@@ -8,7 +8,7 @@
 //#include <algorithm>
 //#include <set>
 
-#include "Player.hpp"
+#include "Program/Player.hpp"
 
 namespace Heuristic {
     enum Player {
