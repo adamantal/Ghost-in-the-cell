@@ -1,7 +1,8 @@
 #include "TestBoard.hpp"
 
 #include <string>
-#include <iostream>
+
+#include "spdlog/spdlog.h"
 
 #include "Board.hpp"
 #include "Owner.hpp"
@@ -20,7 +21,7 @@ void TestBoard::TestBoardInitialization() {
 }
 
 void TestBoard::TestTakeOverFrom(Owner owner) {
-    std::cout << "Starting TestTakeOverFrom with " << Stringify(owner) << std::endl;
+    spdlog::info("starting TestTakeOverFrom with {}", Stringify(owner));
     InjectableBoardPtr board = std::make_shared<InjectableBoard>();
     Owner otherOwner = OtherPlayer(owner);
 
@@ -39,7 +40,7 @@ void TestBoard::TestTakeOverFrom(Owner owner) {
 }
 
 void TestBoard::TestBattle(Owner owner) {
-    std::cout << "Starting TestBattle with " << Stringify(owner) << std::endl;
+    spdlog::info("starting TestBattle with {}", Stringify(owner));
     InjectableBoardPtr board = std::make_shared<InjectableBoard>();
     Owner otherOwner = OtherPlayer(owner);
 
@@ -63,7 +64,7 @@ void TestBoard::TestResolveBattlesCorrectness() {
 }
 
 void TestBoard::TestTroopsArrived(Owner owner) {
-    std::cout << "Starting TestTroopsArrived with " << Stringify(owner) << std::endl;
+    spdlog::info("starting TestTroopsArrived with {}", Stringify(owner));
     InjectableBoardPtr board = std::make_shared<InjectableBoard>();
 
     Position pos(0, 0);
@@ -84,7 +85,7 @@ void TestBoard::TestResolveTroopsArrived() {
 }
 
 void TestBoard::TestWinningCondition() {
-    std::cout << "Starting TestWinningCondition" << std::endl;
+    spdlog::info("starting TestWinningCondition");
     {
         InjectableBoardPtr board = std::make_shared<InjectableBoard>();
 
@@ -157,7 +158,7 @@ void TestBoard::TestWinningCondition() {
 }
 
 void TestBoard::TestPlayerOutputDigestedCorrectly() {
-    std::cout << "Starting TestPlayerOutputDigestedCorrectly" << std::endl;
+    spdlog::info("starting TestPlayerOutputDigestedCorrectly");
     { // empty message
         InjectableBoardPtr board = std::make_shared<InjectableBoard>();
 

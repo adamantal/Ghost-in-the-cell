@@ -1,12 +1,12 @@
 #include "TestEntityStringBuilder.hpp"
 
-#include <iostream>
+#include "spdlog/spdlog.h"
 
 #include "EntityStringBuilder.hpp"
 #include "Test/TestUtils.hpp"
 
 void TestEntityStringBuilder::TestFactoryString() {
-    std::cout << "Starting TestFactoryString" << std::endl;
+    spdlog::info("starting TestFactoryString");
 
     EntityStringBuilder esb1(569, "SOME_TYPE", 1);
     esb1.SetArg2(5000)

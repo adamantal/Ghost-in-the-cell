@@ -2,11 +2,13 @@
 
 #include <list>
 #include <string>
-#include <iostream>
+
+#include "spdlog/spdlog.h"
 
 Engine::Engine(PlayerPtr player1, PlayerPtr player2) :
         player1(player1),
         player2(player2) {
+    LOG = spdlog::get("main")->clone("Engine");
 }
 
 BoardPtr Engine::GetBoard() const {
@@ -21,45 +23,45 @@ bool Engine::TakeTurn() {
     if (board == nullptr) {
         throw "Board is not initialized.";
     }
-    std::cout << "Turn counter: " << turns++ << std::endl;
+    LOG->info("{}. turn", turns++);
     if (turns >= MAX_TURNS)
         return true;
 
     // collect the player's moves
-    std::cout << "Collecting Player1's output" << std::endl;
+    LOG->debug("collecting Player1's output");
     std::string player1Input = board->GetInputForOwner(Player1);
-    std::cout << player1Input << std::endl;
+    //std::cout << player1Input << std::endl;
     std::string player1Output = player1->GetResponse(player1Input);
-    std::cout << player1Output << std::endl;
+    //std::cout << player1Output << std::endl;
 
-    std::cout << "Collecting Player2's output" << std::endl;
+    LOG->debug("Collecting Player2's output");
     std::string player2Input = board->GetInputForOwner(Player2);
-    std::cout << player2Input << std::endl;
+    //std::cout << player2Input << std::endl;
     std::string player2Output = player2->GetResponse(player2Input);
-    std::cout << player2Output << std::endl;
+    //std::cout << player2Output << std::endl;
 
     // execute player's moves
-    std::cout << "Execute player's orders" << std::endl;
+    LOG->debug("execute player's orders");
     board->DigestOwnerOutput(player1Output, Player1);
     board->DigestOwnerOutput(player2Output, Player2);
 
     // move existing troops and bombs
-    std::cout << "Moving troops and bombs" << std::endl;
+    LOG->debug("Moving troops and bombs");
     board->MoveEntities();
 
     // produce new cyborgs in all factories
-    std::cout << "Producing new cyborgs" << std::endl;
+    LOG->debug("Producing new cyborgs");
     board->ProduceNewCyborgs();
 
     // solve battles
-    std::cout << "Resolving all battles" << std::endl;
+    LOG->debug("Resolving all battles");
     board->SolveBattles();
 
     // make bombs explode
-    std::cout << "Exploding bombs" << std::endl;
+    LOG->debug("Exploding bombs");
     board->ExplodeBombs();
 
     // check end conditions
-    std::cout << "Checking winning condition" << std::endl;
+    LOG->debug("Checking winning condition");
     return board->CheckWinningCondition();
 }

@@ -1,17 +1,17 @@
 #include "Game.hpp"
 
-#include <iostream>
+#include "spdlog/spdlog.h"
 
 Game::Game(PlayerPtr player1, PlayerPtr player2) :
         player1(player1),
         player2(player2),
         engine(player1, player2) {
-    std::cout << "Initializing game..." << std::endl;
+    spdlog::info("initializing game");
     BoardPtr board = Board::CreateDefault();
     engine.SetTable(board);
     player1->Setup(board->GetInitializationInput());
     player2->Setup(board->GetInitializationInput());
-    std::cout << "Game initialization ended" << std::endl;
+    spdlog::info("game initialization ended");
 }
 
 PlayerPtr Game::GetPlayer1() const {
@@ -27,7 +27,7 @@ std::string Game::GetResults() const {
 }
 
 void Game::Run() {
-    std::cout << "Game started" << std::endl;
+    spdlog::info("game started");
     while (!engine.TakeTurn());
-    std::cout << "Game successfully ended" << std::endl;
+    spdlog::info("game successfully ended");
 }

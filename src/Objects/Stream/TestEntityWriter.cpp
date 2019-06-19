@@ -1,7 +1,8 @@
 #include "TestEntityWriter.hpp"
 
-#include <iostream>
 #include <string>
+
+#include "spdlog/spdlog.h"
 
 #include "EntityWriter.hpp"
 #include "Objects/Factory.hpp"
@@ -9,7 +10,7 @@
 
 //TODO bad turns is not tested
 void TestEntityWriter::TestFactoryWriter() {
-    std::cout << "Starting TestFactoryWriter" << std::endl;
+    spdlog::info("starting TestFactoryWriter");
 
     Position pos(0, 0);
 
@@ -24,7 +25,7 @@ void TestEntityWriter::TestFactoryWriter() {
 }
 
 void TestEntityWriter::TestTroopWriter() {
-    std::cout << "Starting TestTroopWriter" << std::endl;
+    spdlog::info("starting TestTroopWriter");
 
     Position dummyPos(0, 0);
     FactoryPtr dummyFactory1 = std::make_shared<Factory>(94, Owner::Player1, dummyPos, 5, 2);
@@ -39,7 +40,7 @@ void TestEntityWriter::TestTroopWriter() {
 }
 
 void TestEntityWriter::TestBombWriter() {
-    std::cout << "Starting TestBombWriter" << std::endl;
+    spdlog::info("starting TestBombWriter");
 
     Position dummyPos(0, 0);
     FactoryPtr dummyFactory1 = std::make_shared<Factory>(12, Owner::Player1, dummyPos, 4, 2);

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "spdlog/spdlog.h"
 
 #include "Objects/Helper/TestPosition.hpp"
 #include "Objects/TestBoard.hpp"
@@ -20,10 +20,10 @@ int main() {
         TestEntityWriter::TestTroopWriter();
         TestEntityWriter::TestBombWriter();
     } catch (std::string& exc) {
-        std::cout << "Exception happened: " << exc << std::endl;
+        spdlog::error("Exception happened: {}", exc);
     } catch (std::exception& e) {
-        std::cout << e.what() << std::endl;
+        spdlog::error("Exception happened: {}", e.what());
     } catch (const char* e) {
-        std::cout << e << std::endl;
+        spdlog::error("Exception happened: {}", e);
     }
 }
