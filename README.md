@@ -10,6 +10,7 @@ Tests are included, using the examples from the game description from the [websi
 
 Also the following [code](https://github.com/CodinGame/ghost-in-the-cell/blob/master/Referee.java) is used as the referee from Codingame's side.
 
-## Build
+## Dependencies
 
-This project uses [spdlog](https://github.com/gabime/spdlog). To compile, download and put the include/spdlog folder to the project's root/include directory.
+ - [spdlog](https://github.com/gabime/spdlog) v1.3.1
+   - it has to be installed (make install) on your machine

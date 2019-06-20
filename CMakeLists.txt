@@ -3,14 +3,13 @@ project(Ghost_in_the_cell)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_compile_options(-Wall -Werror -Wextra)
+if(NOT TARGET spdlog)
+    find_package(spdlog REQUIRED)
+endif()
+
+add_compile_options(-DSPDLOG_COMPILED_LIB -Wall -Werror -Wextra)
 
 include_directories(src)
-include_directories(include)
-
-set(SPDLOG
-        include/spdlog/common.h
-        include/spdlog/spdlog.h)
 
 set(OBJECT_SOURCES
         src/Objects/Board.cpp
@@ -29,7 +28,6 @@ set(OBJECT_SOURCES
         src/Objects/Link.hpp
         src/Objects/Metrics/BoardMetrics.cpp
         src/Objects/Metrics/BoardMetrics.hpp
-        src/Objects/Metrics/Scoring.hpp
         src/Objects/MoveException.hpp
         src/Objects/MovingEntity.cpp
         src/Objects/MovingEntity.hpp
@@ -43,7 +41,6 @@ set(OBJECT_SOURCES
         src/Objects/Stream/InitStringBuilder.hpp)
 
 add_executable(main
-        ${SPDLOG}
         src/main.cpp
         src/MyProgram/MyProgram.cpp
         src/MyProgram/MyProgram.hpp
@@ -58,6 +55,7 @@ add_executable(main
         src/Program/LazyPlayer.hpp
         src/Program/RandomPlayer.cpp
         src/Program/RandomPlayer.hpp)
+target_link_libraries(main PRIVATE spdlog::spdlog)
 
 add_executable(tests
         ${OBJECT_SOURCES}
@@ -75,3 +73,8 @@ add_executable(tests
         src/Test/TestUtils.cpp
         src/Test/TestUtils.hpp
         src/test.cpp)
+target_link_libraries(tests PRIVATE spdlog::spdlog)
+
+# Create directories for the logs
+file(MAKE_DIRECTORY logs)
+file(MAKE_DIRECTORY logs/runs)

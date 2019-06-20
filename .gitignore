@@ -1,6 +1,5 @@
 # Binaries and dependencies
 bin/
-include/
 logs/
 
 # General cmake in ubuntu
@@ -10,7 +9,7 @@ CMakeCache.txt
 cmake_install.cmake
 Makefile
 main
-test
+tests
 
 # CLion integration
 .idea/
