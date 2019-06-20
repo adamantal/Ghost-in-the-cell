@@ -11,6 +11,7 @@ private:
     const unsigned int MAX_TURNS = 200;
 
     std::shared_ptr<spdlog::logger> LOG;
+    std::shared_ptr<spdlog::logger> playerLOG;
 
     BoardPtr board;
     PlayerPtr player1;

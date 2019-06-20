@@ -1,14 +1,15 @@
 #include "Engine.hpp"
 
-#include <list>
 #include <string>
 
 #include "spdlog/spdlog.h"
+#include "spdlog/sinks/basic_file_sink.h"
 
 Engine::Engine(PlayerPtr player1, PlayerPtr player2) :
         player1(player1),
         player2(player2) {
     LOG = spdlog::get("main")->clone("Engine");
+    playerLOG = spdlog::basic_logger_mt("basic_logger", "logs/runs/run.txt");
 }
 
 BoardPtr Engine::GetBoard() const {
@@ -24,21 +25,28 @@ bool Engine::TakeTurn() {
         throw "Board is not initialized.";
     }
     LOG->info("{}. turn", turns++);
+    playerLOG->info("{}. turn", turns);
     if (turns >= MAX_TURNS)
         return true;
 
     // collect the player's moves
     LOG->debug("collecting Player1's output");
     std::string player1Input = board->GetInputForOwner(Player1);
-    //std::cout << player1Input << std::endl;
+    playerLOG->info("Player1's input");
+    playerLOG->info(player1Input);
+
     std::string player1Output = player1->GetResponse(player1Input);
-    //std::cout << player1Output << std::endl;
+    playerLOG->info("Player1's output");
+    playerLOG->info(player1Output);
 
     LOG->debug("Collecting Player2's output");
     std::string player2Input = board->GetInputForOwner(Player2);
-    //std::cout << player2Input << std::endl;
+    playerLOG->info("Player2's input");
+    playerLOG->info(player2Input);
+
     std::string player2Output = player2->GetResponse(player2Input);
-    //std::cout << player2Output << std::endl;
+    playerLOG->info("Player2's output");
+    playerLOG->info(player2Output);
 
     // execute player's moves
     LOG->debug("execute player's orders");
