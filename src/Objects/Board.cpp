@@ -166,7 +166,7 @@ bool Board::CheckWinningCondition() const {
                                                   });
         if (production == 0) {
             // Game over
-            spdlog::info("The game is over for {}. The table is the following:\n{}.",
+            SPDLOG_INFO("The game is over for {}. The table is the following:\n{}.",
                 endangeredPlayer ? "Player1" : "Player2",
                 GetInputForOwner(endangeredPlayer));
             return true;
@@ -234,7 +234,7 @@ BoardPtr Board::CreateRandom() {
 }
 
 BoardPtr Board::CreateRandom(int seed) {
-    spdlog::info("populating Board object");
+    SPDLOG_INFO("populating Board object");
 
     std::mt19937 rng(seed);
     BoardPtr board = std::make_shared<Board>();
@@ -264,7 +264,7 @@ BoardPtr Board::CreateRandom(int seed) {
     std::uniform_int_distribution<std::mt19937::result_type> firstUnitDist(PLAYER_INIT_UNITS_MIN,
                                                                            PLAYER_INIT_UNITS_MAX);
 
-    spdlog::debug("factory count determined");
+    SPDLOG_DEBUG("factory count determined");
 
     for (Id i = NextId(); i < factoryCount - 1; i = NextId()) {
         bool valid;
@@ -302,7 +302,7 @@ BoardPtr Board::CreateRandom(int seed) {
 
         }
     }
-    spdlog::debug("factories generated");
+    SPDLOG_DEBUG("factories generated");
 
     unsigned int totalProductionRate = std::accumulate(board->factories.begin(), board->factories.end(), 0,
                                                        [](unsigned int sum, FactoryPtr factory) {
@@ -319,7 +319,7 @@ BoardPtr Board::CreateRandom(int seed) {
             totalProductionRate++;
         }
     }
-    spdlog::debug("total production verified");
+    SPDLOG_DEBUG("total production verified");
 
     for (unsigned int i = 0; i < board->factories.size(); i++) {
         for (unsigned int j = i + 1; j < board->factories.size(); j++) {
@@ -332,8 +332,8 @@ BoardPtr Board::CreateRandom(int seed) {
                             factory2));
         }
     }
-    spdlog::debug("links added");
-    spdlog::info("Board has been successfully populated");
+    SPDLOG_DEBUG("links added");
+    SPDLOG_INFO("Board has been successfully populated");
 
     return board;
 }

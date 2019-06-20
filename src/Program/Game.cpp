@@ -6,12 +6,12 @@ Game::Game(PlayerPtr player1, PlayerPtr player2) :
         player1(player1),
         player2(player2),
         engine(player1, player2) {
-    spdlog::info("initializing game");
+    SPDLOG_INFO("initializing game");
     BoardPtr board = Board::CreateDefault();
     engine.SetTable(board);
     player1->Setup(board->GetInitializationInput());
     player2->Setup(board->GetInitializationInput());
-    spdlog::info("game initialization ended");
+    SPDLOG_INFO("game initialization ended");
 }
 
 PlayerPtr Game::GetPlayer1() const {
@@ -27,7 +27,7 @@ std::string Game::GetResults() const {
 }
 
 void Game::Run() {
-    spdlog::info("game started");
+    SPDLOG_INFO("game started");
     while (!engine.TakeTurn());
-    spdlog::info("game successfully ended");
+    SPDLOG_INFO("game successfully ended");
 }
