@@ -9,7 +9,7 @@ Engine::Engine(PlayerPtr player1, PlayerPtr player2) :
         player1(player1),
         player2(player2) {
     LOG = spdlog::get("main")->clone("Engine");
-    playerLOG = spdlog::basic_logger_mt("basic_logger", "logs/runs/run.txt");
+    playerLOG = spdlog::basic_logger_mt("Engine_file", "logs/runs/run.txt");
 }
 
 BoardPtr Engine::GetBoard() const {
@@ -26,6 +26,10 @@ bool Engine::TakeTurn() {
     }
     LOG->info("{}. turn", turns++);
     playerLOG->info("{}. turn", turns);
+
+    BoardMetrics metrics = board->GetBoardMetrics();
+    LOG->info("Metrics: " + metrics.toString());
+    playerLOG->info("Metrics: " + metrics.toString());
     if (turns >= MAX_TURNS)
         return true;
 

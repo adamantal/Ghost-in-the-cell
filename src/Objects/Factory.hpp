@@ -12,11 +12,11 @@ typedef std::shared_ptr<const Factory> FactoryConstPtr;
 
 class Factory : public Entity {
 private:
-    unsigned int cyborgs;
+    Position position;
+
+    unsigned int cyborgs = 0;
     unsigned short production;
     unsigned short badTurns = 0;
-
-    Position position;
 
 public:
     Factory(Id, Owner, Position, unsigned int, unsigned short);

@@ -3,6 +3,8 @@ project(Ghost_in_the_cell)
 
 set(CMAKE_CXX_STANDARD 17)
 
+add_compile_options(-Wall -Werror -Wextra)
+
 include_directories(src)
 include_directories(include)
 
@@ -25,6 +27,9 @@ set(OBJECT_SOURCES
         src/Objects/Id.hpp
         src/Objects/Link.cpp
         src/Objects/Link.hpp
+        src/Objects/Metrics/BoardMetrics.cpp
+        src/Objects/Metrics/BoardMetrics.hpp
+        src/Objects/Metrics/Scoring.hpp
         src/Objects/MoveException.hpp
         src/Objects/MovingEntity.cpp
         src/Objects/MovingEntity.hpp

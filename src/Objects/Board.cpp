@@ -248,7 +248,7 @@ BoardPtr Board::CreateRandom(int seed) {
     }
 
     unsigned int FACTORY_RADIUS = factoryCount > 10 ? 600 : 700;
-    int minSpaceBetweenFactories = 2 * (FACTORY_RADIUS + EXTRA_SPACE_BETWEEN_FACTORIES);
+    unsigned int minSpaceBetweenFactories = 2 * (FACTORY_RADIUS + EXTRA_SPACE_BETWEEN_FACTORIES);
 
     Position middle(WIDTH / 2, HEIGHT / 2);
     board->factories.push_back(
@@ -336,4 +336,25 @@ BoardPtr Board::CreateRandom(int seed) {
     spdlog::info("Board has been successfully populated");
 
     return board;
+}
+
+BoardMetrics Board::GetBoardMetrics() const {
+    unsigned int score1 = 0, score2 = 0, production1 = 0, production2 = 0;
+    for (FactoryConstPtr factory : factories) {
+        if (factory->GetOwner() == Owner::Player1) {
+            score1 += factory->GetCyborgs();
+            production1 += factory->GetProduction();
+        } else if (factory->GetOwner() == Owner::Player2) {
+            score2 += factory->GetCyborgs();
+            production2 += factory->GetProduction();
+        }
+    }
+    for (TroopConstPtr troop : troops) {
+        if (troop->GetOwner() == Owner::Player1) {
+            score1 += troop->GetCyborgs();
+        } else if (troop->GetOwner() == Owner::Player2) {
+            score2 += troop->GetCyborgs();
+        }
+    }
+    return BoardMetrics(score1, score2, production1, production2);
 }

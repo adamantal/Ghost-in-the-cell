@@ -10,6 +10,7 @@
 #include "Troop.hpp"
 #include "Link.hpp"
 #include "Bomb.hpp"
+#include "Metrics/BoardMetrics.hpp"
 
 const unsigned short MIN_FACTORY_COUNT = 7;
 const unsigned short MAX_FACTORY_COUNT = 15;
@@ -47,6 +48,8 @@ public:
     void SolveBattles();
     void ExplodeBombs();
     bool CheckWinningCondition() const;
+
+    BoardMetrics GetBoardMetrics() const;
 };
 
 #endif // BOARD_HPP_INCLUDED

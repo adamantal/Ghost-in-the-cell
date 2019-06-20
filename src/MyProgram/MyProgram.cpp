@@ -36,7 +36,6 @@ std::vector<int> Heuristic::Table::getEstimatedCyborgsFromZeroTime(int id, int z
     }
 
     Heuristic::Player currentowner = factories[id].getOwner();
-    int currentamount = timeline[0];
     for (int i = 1; i < 20; i++) {
         timeline[i] = timeline[i - 1] + int(currentowner) * factories[id].getNetProductionAtRound(i);
 
@@ -93,7 +92,6 @@ std::vector<int> Heuristic::Table::getEstimatedCyborgs(int id) { // positive is 
     }
 
     Heuristic::Player currentowner = factories[id].getOwner();
-    int currentamount = timeline[0];
     for (int i = 1; i < 20; i++) {
         timeline[i] = timeline[i - 1] + int(currentowner) * factories[id].getNetProductionAtRound(i);
 

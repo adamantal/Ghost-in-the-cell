@@ -4,7 +4,7 @@
 #include <set>
 #include <sstream>
 
-bool LazyPlayer::Setup(std::string setupString) {
+bool LazyPlayer::Setup(std::string) {
     return true;
 }
 

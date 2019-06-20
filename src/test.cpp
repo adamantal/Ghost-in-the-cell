@@ -1,4 +1,4 @@
-#include "spdlog/spdlog.h"
+#include "logging.hpp"
 
 #include "Objects/Helper/TestPosition.hpp"
 #include "Objects/TestBoard.hpp"
@@ -6,6 +6,7 @@
 #include "Objects/Stream/TestEntityWriter.hpp"
 
 int main() {
+    setupLogger();
     try {
         TestPosition::TestDistance();
 

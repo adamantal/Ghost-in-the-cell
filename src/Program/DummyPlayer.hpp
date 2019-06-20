@@ -4,10 +4,10 @@
 #include "Player.hpp"
 
 class DummyPlayer : public Player {
-    virtual bool Setup(std::string setup) {
+    virtual bool Setup(std::string) {
         return true;
     }
-    virtual std::string GetResponse(std::string input) {
+    virtual std::string GetResponse(std::string) {
         return "WAIT\n";
     }
 };
