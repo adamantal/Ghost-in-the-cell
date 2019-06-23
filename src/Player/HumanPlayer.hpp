@@ -5,10 +5,8 @@
 #include <sstream>
 #include <string>
 #include <vector>
-//#include <algorithm>
-//#include <set>
 
-#include "Program/Player.hpp"
+#include "Player.hpp"
 
 namespace Heuristic {
     enum Player {
@@ -470,7 +468,7 @@ namespace Heuristic {
     };
 }
 
-class MyProgram : public Player {
+class HumanPlayer : public Player {
 private:
     bool bombPredictionExist = false;
     int bombPredictionId = true;

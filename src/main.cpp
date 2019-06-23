@@ -1,10 +1,10 @@
 #include "logging.hpp"
 
 #include "Program/Game.hpp"
-#include "Program/Player.hpp"
-#include "Program/DummyPlayer.hpp"
-#include "Program/LazyPlayer.hpp"
-#include "MyProgram/MyProgram.hpp"
+#include "Player/Player.hpp"
+#include "Player/DummyPlayer.hpp"
+#include "Player/LazyPlayer.hpp"
+#include "Player/HumanPlayer.hpp"
 
 int main() {
     setupLogger();

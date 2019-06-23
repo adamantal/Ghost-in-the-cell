@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 
-#include "Player.hpp"
+#include "Player/Player.hpp"
 #include "Engine.hpp"
 
 class Game;

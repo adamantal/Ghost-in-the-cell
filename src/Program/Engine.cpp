@@ -28,8 +28,8 @@ bool Engine::TakeTurn() {
     SPDLOG_LOGGER_INFO(playerLOG, "{}. turn", turns);
 
     BoardMetrics metrics = board->GetBoardMetrics();
-    SPDLOG_LOGGER_INFO(LOG, "Metrics: " + metrics.toString());
-    SPDLOG_LOGGER_INFO(playerLOG, "Metrics: " + metrics.toString());
+    SPDLOG_LOGGER_INFO(LOG, "metrics: " + metrics.toString());
+    SPDLOG_LOGGER_INFO(playerLOG, "metrics: " + metrics.toString());
     if (turns >= MAX_TURNS)
         return true;
 

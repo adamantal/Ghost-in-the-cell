@@ -1,4 +1,4 @@
-#include "MyProgram.hpp"
+#include "HumanPlayer.hpp"
 
 #include <iostream>
 
@@ -137,7 +137,7 @@ Heuristic::Factory* Heuristic::Table::evacuateFrom(Heuristic::Factory *f) {
     return closestid;
 }
 
-bool MyProgram::Setup(std::string input) {
+bool HumanPlayer::Setup(std::string input) {
     std::stringstream ss(input);
 
     int factoryCount; // the number of factories
@@ -156,7 +156,7 @@ bool MyProgram::Setup(std::string input) {
     return true;
 }
 
-std::string MyProgram::GetResponse(std::string input) {
+std::string HumanPlayer::GetResponse(std::string input) {
     std::stringstream ss(input);
 
     int entityCount; // the number of entities (e.g. factories and troops)

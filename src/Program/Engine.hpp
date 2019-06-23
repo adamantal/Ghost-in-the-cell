@@ -3,8 +3,8 @@
 
 #include "spdlog/spdlog.h"
 
-#include "Objects/Board.hpp"
-#include "Program/Player.hpp"
+#include "Board.hpp"
+#include "Player.hpp"
 
 class Engine {
 private:
