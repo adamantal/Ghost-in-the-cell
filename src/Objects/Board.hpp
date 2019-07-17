@@ -22,6 +22,7 @@ const unsigned int MAX_PRODUCTION_RATE = 3;
 const unsigned int MIN_TOTAL_PRODUCTION_RATE = 4;
 const unsigned int PLAYER_INIT_UNITS_MIN = 15;
 const unsigned int PLAYER_INIT_UNITS_MAX = 30;
+const unsigned short DEFAULT_BOMBS = 2;
 
 class Board;
 typedef std::shared_ptr<Board> BoardPtr;
@@ -33,6 +34,13 @@ protected:
 
     std::list<TroopPtr> troops;
     std::list<BombPtr> bombs;
+private:
+    short bombForPlayer1 = DEFAULT_BOMBS;
+    short bombForPlayer2 = DEFAULT_BOMBS;
+
+private:
+    FactoryPtr GetFactoryFromId(Id id) const;
+    bool BombAvailable(Owner owner);
 
 public:
     static BoardPtr CreateDefault();

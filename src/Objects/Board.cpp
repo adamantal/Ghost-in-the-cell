@@ -13,6 +13,15 @@
 #include "Objects/Stream/EntityWriter.hpp"
 #include "Objects/Stream/InitStringBuilder.hpp"
 
+FactoryPtr Board::GetFactoryFromId(Id id) const {
+    for (const FactoryPtr& factory : factories) {
+        if (factory->GetId() == id) {
+            return factory;
+        }
+    }
+    throw "No factory found with the given id: " + id;
+}
+
 std::string Board::GetInitializationInput() const {
     InitStringBuilder builder(factories.size(), links.size());
     for (const LinkConstPtr &link : links) {
@@ -179,9 +188,25 @@ BoardPtr Board::CreateDefault() {
     return CreateRandom(0);
 }
 
+bool Board::BombAvailable(Owner owner) {
+    if (owner == Player1) {
+        if (bombForPlayer1 > 0) {
+            bombForPlayer1--;
+            return true;
+        }
+    } else {
+        if (bombForPlayer2 > 0) {
+            bombForPlayer2--;
+            return true;
+        }
+    }
+    return false;
+}
+
 void Board::DigestOwnerOutput(std::string output, Owner owner) {
     std::stringstream ss(output);
     std::string item;
+    // TODO enforce that from the same source and target either troops or bomb can be sent
     while (std::getline(ss, item, ';')) {
         std::string command;
         std::stringstream line(item);
@@ -192,38 +217,48 @@ void Board::DigestOwnerOutput(std::string output, Owner owner) {
             Id originId, targetId;
             unsigned int number;
             line >> originId >> targetId >> number;
-            for (const FactoryPtr &factory : factories) {
-                if (factory->GetId() == originId) {
-                    if (factory->GetOwner() == owner) {
-                        FactoryPtr targetFactory = nullptr;
-                        for (const FactoryPtr &possibleTarget : factories) {
-                            if (possibleTarget->GetId() == targetId) {
-                                targetFactory = possibleTarget;
-                                break;
-                            }
-                        }
-                        if (targetFactory != nullptr) {
-                            TroopPtr newTroop =
-                                    std::make_shared<Troop>(NextId(),
-                                                            owner,
-                                                            factory,
-                                                            targetFactory,
-                                                            factory->GetPosition().Distance(
-                                                                    targetFactory->GetPosition()) / 800,
-                                                            number);
-                            troops.push_back(newTroop);
-                            factory->DecreaseCyborgs(number);
-                        }
-                    }
-                    break;
+            FactoryPtr factory = GetFactoryFromId(originId);
+            if (factory->GetOwner() == owner) {
+                FactoryPtr targetFactory = GetFactoryFromId(targetId);
+                if (targetFactory != nullptr) {
+                    TroopPtr newTroop =
+                            std::make_shared<Troop>(NextId(),
+                                                    owner,
+                                                    factory,
+                                                    targetFactory,
+                                                    factory->GetPosition().Distance(
+                                                            targetFactory->GetPosition()) / 800,
+                                                    number);
+                    troops.push_back(newTroop);
+                    factory->DecreaseCyborgs(number);
                 }
             }
         } else if (command == "BOMB") {
-            // TODO implement these
+            // TODO write test for sending bomb
+            Id originId, targetId;
+            line >> originId >> targetId;
+            FactoryPtr factory = GetFactoryFromId(originId);
+            if (factory->GetOwner() == owner) {
+                FactoryPtr targetFactory = GetFactoryFromId(targetId);
+                if (BombAvailable(owner)) {
+                    BombPtr bomb = std::make_shared<Bomb>(NextId(),
+                                                          owner,
+                                                          factory,
+                                                          targetFactory,
+                                                          factory->GetPosition().Distance(
+                                                                  targetFactory->GetPosition()) / 800);
+                    bombs.push_back(bomb);
+                }
+            }
         } else if (command == "INC") {
-            // TODO implement these
+            Id factoryId;
+            line >> factoryId;
+            FactoryPtr factory = GetFactoryFromId(factoryId);
+            if (factory->GetOwner() == owner) {
+                factory->AttemptProductionIncrease();
+            }
         } else if (command == "MSG") {
-            // TODO implement these
+            continue;
         }
     }
 }

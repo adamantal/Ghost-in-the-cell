@@ -35,6 +35,8 @@ public:
     void TakeOver(unsigned int, Owner);
 
     void BombExploded();
+
+    void AttemptProductionIncrease();
 };
 
 #endif // FACTORY_HPP_INCLUDED

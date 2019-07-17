@@ -61,3 +61,13 @@ void Factory::BombExploded() {
 void Factory::IncreaseProductionDuringSetup() {
     production++;
 }
+
+void Factory::AttemptProductionIncrease() {
+    // TODO test case where production is 3 and an increase is attempted
+    // TODO test case where there are less than 10 cyborgs
+    // TODO test case where both condition is satisfied
+    if (production < 3 && cyborgs >= 10) {
+        cyborgs -= 10;
+        production += 1;
+    }
+}
