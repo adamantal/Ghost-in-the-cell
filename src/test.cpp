@@ -14,6 +14,7 @@ int main() {
         TestBoard::TestResolveBattlesCorrectness();
         TestBoard::TestResolveTroopsArrived();
         TestBoard::TestPlayerOutputDigestedCorrectly();
+        TestBoard::TestSendingBombAndTroops();
 
         TestEntityStringBuilder::TestFactoryString();
 

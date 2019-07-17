@@ -8,8 +8,6 @@
 
 #include "spdlog/spdlog.h"
 
-#include "Test/TestUtils.hpp" // TODO remove this
-
 #include "Objects/Stream/EntityWriter.hpp"
 #include "Objects/Stream/InitStringBuilder.hpp"
 

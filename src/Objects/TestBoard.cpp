@@ -157,6 +157,34 @@ void TestBoard::TestWinningCondition() {
     }
 }
 
+// TODO enforce that from the same source and target either troops or bomb can be sent
+void TestBoard::TestSendingBombAndTroops() {
+    spdlog::info("starting TestSendingBombAndTroops");
+    {
+        InjectableBoardPtr board = std::make_shared<InjectableBoard>();
+
+        Position position1(0, 0);
+        FactoryPtr factory1 = std::make_shared<Factory>(1, Owner::Player1, position1, 10, 1);
+        board->InjectFactory(factory1);
+
+        Position position2(1, 1);
+        FactoryPtr factory2 = std::make_shared<Factory>(2, Owner::Player1, position2, 5, 2);
+        board->InjectFactory(factory2);
+
+        std::string message = "MOVE 1 2; BOMB 1 2\n";
+        board->DigestOwnerOutput(message, Owner::Player1);
+
+        std::list<BombPtr> bombs = board->GetBombs();
+        AssertEquals<unsigned int>(1, bombs.size());
+        BombPtr bomb = bombs.front();
+        AssertTrue(bomb->GetOrigin() == factory1);
+        AssertTrue(bomb->GetTarget() == factory2);
+
+        std::list<TroopPtr> troops = board->GetTroops();
+        AssertEquals<unsigned int>(0, troops.size());
+    }
+}
+
 void TestBoard::TestPlayerOutputDigestedCorrectly() {
     spdlog::info("starting TestPlayerOutputDigestedCorrectly");
     { // empty message

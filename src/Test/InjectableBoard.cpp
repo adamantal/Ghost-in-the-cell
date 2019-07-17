@@ -15,3 +15,7 @@ void InjectableBoard::InjectLink(LinkConstPtr link) {
 std::list<TroopPtr> InjectableBoard::GetTroops() const {
     return troops;
 }
+
+std::list<BombPtr> InjectableBoard::GetBombs() const {
+    return bombs;
+}

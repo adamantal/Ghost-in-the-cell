@@ -14,6 +14,7 @@ public:
     static void TestResolveBattlesCorrectness();
     static void TestResolveTroopsArrived();
     static void TestWinningCondition();
+    static void TestSendingBombAndTroops();
     static void TestPlayerOutputDigestedCorrectly();
 };
 

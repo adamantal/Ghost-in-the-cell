@@ -16,6 +16,7 @@ public:
     void InjectBomb(BombPtr bomb);
 
     std::list<TroopPtr> GetTroops() const;
+    std::list<BombPtr> GetBombs() const;
 };
 
 

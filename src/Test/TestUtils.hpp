@@ -5,7 +5,7 @@
 #include "Objects/Owner.hpp"
 
 template<class T>
-std::string Stringify(T t){
+std::string Stringify(T t) {
     return t;
 }
 
