@@ -157,7 +157,6 @@ void TestBoard::TestWinningCondition() {
     }
 }
 
-// TODO enforce that from the same source and target either troops or bomb can be sent
 void TestBoard::TestSendingBombAndTroops() {
     spdlog::info("starting TestSendingBombAndTroops");
     {
@@ -171,7 +170,7 @@ void TestBoard::TestSendingBombAndTroops() {
         FactoryPtr factory2 = std::make_shared<Factory>(2, Owner::Player1, position2, 5, 2);
         board->InjectFactory(factory2);
 
-        std::string message = "MOVE 1 2; BOMB 1 2\n";
+        std::string message = "MOVE 1 2 3; BOMB 1 2\n";
         board->DigestOwnerOutput(message, Owner::Player1);
 
         std::list<BombPtr> bombs = board->GetBombs();
