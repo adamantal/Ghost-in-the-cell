@@ -17,7 +17,7 @@ FactoryPtr Board::GetFactoryFromId(Id id) const {
             return factory;
         }
     }
-    throw "No factory found with the given id: " + id;
+    throw "No factory found with the given id: " + std::to_string(id);
 }
 
 std::string Board::GetInitializationInput() const {

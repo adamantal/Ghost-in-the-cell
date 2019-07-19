@@ -1,5 +1,7 @@
 #include "Factory.hpp"
 
+#include <algorithm>
+
 Factory::Factory(
         Id id,
         Owner owner,
