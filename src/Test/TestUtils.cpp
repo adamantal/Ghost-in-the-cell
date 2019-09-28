@@ -20,11 +20,13 @@ std::string Stringify(Owner t) {
 }
 
 void AssertTrue(bool expression) {
-    AssertFalse(!expression);
+    if (!expression) {
+        throw "Expression is not true!";
+    }
 }
 
 void AssertFalse(bool expression) {
     if (expression) {
-        throw "Expression is not true!";
+        throw "Expression is not false!";
     }
 }

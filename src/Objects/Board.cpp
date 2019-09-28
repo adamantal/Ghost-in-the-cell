@@ -162,7 +162,6 @@ bool Board::CheckWinningCondition() const {
             player2score += troop->GetCyborgs();
         }
     }
-
     if (player1score == 0 || player2score == 0) {
         Owner endangeredPlayer = (player1score == 0) ? Player1 : Player2;
         unsigned int production = std::accumulate(factories.begin(), factories.end(), 0,

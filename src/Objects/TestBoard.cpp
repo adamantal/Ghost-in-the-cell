@@ -114,10 +114,40 @@ void TestBoard::TestWinningCondition() {
         InjectableBoardPtr board = std::make_shared<InjectableBoard>();
 
         Position pos(0, 0);
-        FactoryPtr factory = std::make_shared<Factory>(100, Owner::Player2, pos, 0, 0);
-        board->InjectFactory(factory);
+        FactoryPtr factory1 = std::make_shared<Factory>(100, Owner::Player1, pos, 0, 1);
+        board->InjectFactory(factory1);
+        FactoryPtr factory2 = std::make_shared<Factory>(101, Owner::Player1, pos, 0, 1);
+        board->InjectFactory(factory2);
 
-        TroopPtr troop = std::make_shared<Troop>(101, Owner::Player1, nullptr, factory, 1, 3);
+        TroopPtr troop = std::make_shared<Troop>(102, Owner::Player1, factory1, factory2, 1, 3);
+        board->InjectTroop(troop);
+
+        AssertTrue(board->CheckWinningCondition());
+    }
+    {
+        InjectableBoardPtr board = std::make_shared<InjectableBoard>();
+
+        Position pos(0, 0);
+        FactoryPtr factory1 = std::make_shared<Factory>(100, Owner::Player1, pos, 0, 0);
+        board->InjectFactory(factory1);
+        FactoryPtr factory2 = std::make_shared<Factory>(101, Owner::Player1, pos, 0, 1);
+        board->InjectFactory(factory2);
+
+        TroopPtr troop = std::make_shared<Troop>(102, Owner::Player2, factory1, factory2, 1, 3);
+        board->InjectTroop(troop);
+
+        AssertFalse(board->CheckWinningCondition());
+    }
+    {
+        InjectableBoardPtr board = std::make_shared<InjectableBoard>();
+
+        Position pos(0, 0);
+        FactoryPtr factory1 = std::make_shared<Factory>(100, Owner::Player2, pos, 0, 0);
+        board->InjectFactory(factory1);
+        FactoryPtr factory2 = std::make_shared<Factory>(101, Owner::Player1, pos, 0, 0);
+        board->InjectFactory(factory2);
+
+        TroopPtr troop = std::make_shared<Troop>(102, Owner::Player1, factory1, factory2, 1, 3);
         board->InjectTroop(troop);
 
         AssertTrue(board->CheckWinningCondition());
@@ -180,7 +210,10 @@ void TestBoard::TestSendingBombAndTroops() {
         AssertTrue(bomb->GetTarget() == factory2);
 
         std::list<TroopPtr> troops = board->GetTroops();
-        AssertEquals<unsigned int>(0, troops.size());
+        AssertEquals<unsigned int>(1, troops.size());
+        TroopPtr troop = troops.front();
+        AssertTrue(troop->GetOrigin() == factory1);
+        AssertTrue(troop->GetTarget() == factory2);
     }
 }
 
