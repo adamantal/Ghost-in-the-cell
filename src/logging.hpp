@@ -18,8 +18,6 @@
 #define LOGGER_INFO SPDLOG_LOGGER_INFO
 #define LOGGER_DEBUG SPDLOG_LOGGER_DEBUG
 
-#define LOGGER spdlog::logger
-
 // basic utility for setting up the logger
 void setupLogger();
 
