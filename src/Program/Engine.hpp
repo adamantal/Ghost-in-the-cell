@@ -1,7 +1,7 @@
 #ifndef ENGINE_HPP
 #define ENGINE_HPP
 
-#include "spdlog/spdlog.h"
+#include "logging.hpp"
 
 #include "Board.hpp"
 #include "Player.hpp"
@@ -10,8 +10,8 @@ class Engine {
 private:
     const unsigned int MAX_TURNS = 200;
 
-    std::shared_ptr<spdlog::logger> LOG;
-    std::shared_ptr<spdlog::logger> playerLOG;
+    std::shared_ptr<LOGGER> LOG;
+    std::shared_ptr<LOGGER> playerLOG;
 
     BoardPtr board;
     PlayerPtr player1;

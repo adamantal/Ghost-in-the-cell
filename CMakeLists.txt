@@ -7,11 +7,14 @@ if(NOT TARGET spdlog)
     find_package(spdlog REQUIRED)
 endif()
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
 add_compile_options(-DSPDLOG_COMPILED_LIB -Wall -Werror -Wextra)
 
 # Create directories for the logs
-file(MAKE_DIRECTORY logs)
-file(MAKE_DIRECTORY logs/runs)
+file(MAKE_DIRECTORY bin)
+file(MAKE_DIRECTORY bin/logs)
+file(MAKE_DIRECTORY bin/logs/runs)
 
 include_directories(src)
 include_directories(src/Arena)
@@ -61,6 +64,8 @@ set(PLAYER_SOURCES
         src/Player/DummyPlayer.hpp)
 
 add_executable(main
+        src/logging.cpp
+        src/logging.hpp
         src/main.cpp
         ${OBJECT_SOURCES}
         ${PLAYER_SOURCES}
@@ -86,5 +91,8 @@ add_executable(tests
         src/Objects/Stream/TestEntityWriter.hpp
         src/Test/TestUtils.cpp
         src/Test/TestUtils.hpp
+        src/logging.cpp
+        src/logging.hpp
         src/test.cpp)
+
 target_link_libraries(tests PRIVATE spdlog::spdlog)

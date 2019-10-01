@@ -23,10 +23,10 @@ int main() {
         TestEntityWriter::TestTroopWriter();
         TestEntityWriter::TestBombWriter();
     } catch (std::string& exc) {
-        spdlog::error("Exception happened: {}", exc);
+        LOG_ERROR("Exception happened: {}", exc);
     } catch (std::exception& e) {
-        spdlog::error("Exception happened: {}", e.what());
+        LOG_ERROR("Exception happened: {}", e.what());
     } catch (const char* e) {
-        spdlog::error("Exception happened: {}", e);
+        LOG_ERROR("Exception happened: {}", e);
     }
 }

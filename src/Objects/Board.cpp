@@ -6,8 +6,6 @@
 #include <random>
 #include <sstream>
 
-#include "spdlog/spdlog.h"
-
 #include "Objects/Stream/EntityWriter.hpp"
 #include "Objects/Stream/InitStringBuilder.hpp"
 
@@ -172,8 +170,9 @@ bool Board::CheckWinningCondition() const {
                                                   });
         if (production == 0) {
             // Game over
-            SPDLOG_INFO("The game is over for {}. The table is the following:\n{}.",
-                endangeredPlayer ? "Player1" : "Player2",
+            LOG_INFO("The game is over for {}",
+                endangeredPlayer ? "Player1" : "Player2");
+            LOG_DEBUG("The table is the following:\n{}.",
                 GetInputForOwner(endangeredPlayer));
             return true;
         }
@@ -266,7 +265,7 @@ BoardPtr Board::CreateRandom() {
 }
 
 BoardPtr Board::CreateRandom(int seed) {
-    SPDLOG_INFO("populating Board object");
+    LOG_INFO("populating Board object");
 
     std::mt19937 rng(seed);
     BoardPtr board = std::make_shared<Board>();
@@ -296,7 +295,7 @@ BoardPtr Board::CreateRandom(int seed) {
     std::uniform_int_distribution<std::mt19937::result_type> firstUnitDist(PLAYER_INIT_UNITS_MIN,
                                                                            PLAYER_INIT_UNITS_MAX);
 
-    SPDLOG_DEBUG("factory count determined");
+    LOG_DEBUG("factory count determined");
 
     for (Id i = NextId(); i < factoryCount - 1; i = NextId()) {
         bool valid;
@@ -334,7 +333,7 @@ BoardPtr Board::CreateRandom(int seed) {
 
         }
     }
-    SPDLOG_DEBUG("factories generated");
+    LOG_DEBUG("factories generated");
 
     unsigned int totalProductionRate = std::accumulate(board->factories.begin(), board->factories.end(), 0,
                                                        [](unsigned int sum, FactoryPtr factory) {
@@ -351,7 +350,7 @@ BoardPtr Board::CreateRandom(int seed) {
             totalProductionRate++;
         }
     }
-    SPDLOG_DEBUG("total production verified");
+    LOG_DEBUG("total production verified");
 
     for (unsigned int i = 0; i < board->factories.size(); i++) {
         for (unsigned int j = i + 1; j < board->factories.size(); j++) {
@@ -364,8 +363,8 @@ BoardPtr Board::CreateRandom(int seed) {
                             factory2));
         }
     }
-    SPDLOG_DEBUG("links added");
-    SPDLOG_INFO("Board has been successfully populated");
+    LOG_DEBUG("links added");
+    LOG_INFO("Board has been successfully populated");
 
     return board;
 }

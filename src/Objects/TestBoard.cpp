@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "spdlog/spdlog.h"
+#include "logging.hpp"
 
 #include "Board.hpp"
 #include "Owner.hpp"
@@ -21,7 +21,7 @@ void TestBoard::TestBoardInitialization() {
 }
 
 void TestBoard::TestTakeOverFrom(Owner owner) {
-    spdlog::info("starting TestTakeOverFrom with {}", Stringify(owner));
+    LOG_INFO("starting TestTakeOverFrom with {}", Stringify(owner));
     InjectableBoardPtr board = std::make_shared<InjectableBoard>();
     Owner otherOwner = OtherPlayer(owner);
 
@@ -40,7 +40,7 @@ void TestBoard::TestTakeOverFrom(Owner owner) {
 }
 
 void TestBoard::TestBattle(Owner owner) {
-    spdlog::info("starting TestBattle with {}", Stringify(owner));
+    LOG_INFO("starting TestBattle with {}", Stringify(owner));
     InjectableBoardPtr board = std::make_shared<InjectableBoard>();
     Owner otherOwner = OtherPlayer(owner);
 
@@ -64,7 +64,7 @@ void TestBoard::TestResolveBattlesCorrectness() {
 }
 
 void TestBoard::TestTroopsArrived(Owner owner) {
-    spdlog::info("starting TestTroopsArrived with {}", Stringify(owner));
+    LOG_INFO("starting TestTroopsArrived with {}", Stringify(owner));
     InjectableBoardPtr board = std::make_shared<InjectableBoard>();
 
     Position pos(0, 0);
@@ -85,7 +85,7 @@ void TestBoard::TestResolveTroopsArrived() {
 }
 
 void TestBoard::TestWinningCondition() {
-    spdlog::info("starting TestWinningCondition");
+    LOG_INFO("starting TestWinningCondition");
     {
         InjectableBoardPtr board = std::make_shared<InjectableBoard>();
 
@@ -188,7 +188,7 @@ void TestBoard::TestWinningCondition() {
 }
 
 void TestBoard::TestSendingBombAndTroops() {
-    spdlog::info("starting TestSendingBombAndTroops");
+    LOG_INFO("starting TestSendingBombAndTroops");
     {
         InjectableBoardPtr board = std::make_shared<InjectableBoard>();
 
@@ -218,7 +218,7 @@ void TestBoard::TestSendingBombAndTroops() {
 }
 
 void TestBoard::TestPlayerOutputDigestedCorrectly() {
-    spdlog::info("starting TestPlayerOutputDigestedCorrectly");
+    LOG_INFO("starting TestPlayerOutputDigestedCorrectly");
     { // empty message
         InjectableBoardPtr board = std::make_shared<InjectableBoard>();
 

@@ -1,21 +1,26 @@
 #ifndef LOGGING_HPP
 #define LOGGING_HPP
 
+// set up default log level to debug
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_DEBUG
+
+// include spdlog library headers
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
-void setupLogger() {
-    spdlog::set_level(spdlog::level::debug);
-    auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-    console_sink->set_level(spdlog::level::info);
+// let's wrap the spdlog implementation
+#define LOG_ERROR SPDLOG_ERROR
+#define LOG_INFO SPDLOG_INFO
+#define LOG_DEBUG SPDLOG_DEBUG
+#define LOG_TRACE SPDLOG_TRACE
 
-    auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/main.txt", true);
-    file_sink->set_level(spdlog::level::debug);
+#define LOGGER_INFO SPDLOG_LOGGER_INFO
+#define LOGGER_DEBUG SPDLOG_LOGGER_DEBUG
 
-    auto logger = std::make_shared<spdlog::logger>("Main", (spdlog::sinks_init_list) {console_sink, file_sink});
-    logger->set_level(spdlog::level::debug);
-    spdlog::set_default_logger(logger);
-}
+#define LOGGER spdlog::logger
+
+// basic utility for setting up the logger
+void setupLogger();
 
 #endif // LOGGING_HPP
