@@ -16,15 +16,14 @@ file(MAKE_DIRECTORY bin)
 file(MAKE_DIRECTORY bin/logs)
 file(MAKE_DIRECTORY bin/logs/runs)
 
-include_directories(src)
-include_directories(src/Arena)
-include_directories(src/Player)
-include_directories(src/Objects)
-include_directories(src/Program)
+set(INCLUDE_DIRS
+        PUBLIC src
+        PUBLIC src/Arena
+        PUBLIC src/Objects
+        PUBLIC src/Player
+        PUBLIC src/Program)
 
 set(OBJECT_SOURCES
-        src/Arena/Arena.cpp
-        src/Arena/Arena.hpp
         src/Objects/Board.cpp
         src/Objects/Board.hpp
         src/Objects/Bomb.hpp
@@ -33,8 +32,8 @@ set(OBJECT_SOURCES
         src/Objects/Entity.hpp
         src/Objects/Factory.cpp
         src/Objects/Factory.hpp
-        src/Objects/Helper/Position.cpp
-        src/Objects/Helper/Position.hpp
+        src/Objects/Position.cpp
+        src/Objects/Position.hpp
         src/Objects/Id.cpp
         src/Objects/Id.hpp
         src/Objects/Link.cpp
@@ -44,6 +43,8 @@ set(OBJECT_SOURCES
         src/Objects/MoveException.hpp
         src/Objects/MovingEntity.cpp
         src/Objects/MovingEntity.hpp
+        src/Objects/Owner.cpp
+        src/Objects/Owner.hpp
         src/Objects/Troop.cpp
         src/Objects/Troop.hpp
         src/Objects/Stream/EntityWriter.cpp
@@ -63,10 +64,13 @@ set(PLAYER_SOURCES
         src/Player/RandomPlayer.hpp
         src/Player/DummyPlayer.hpp)
 
-add_executable(main
+set(LOGGING_SOURCES
         src/logging.cpp
-        src/logging.hpp
+        src/logging.hpp)
+
+add_executable(main
         src/main.cpp
+        ${LOGGING_SOURCES}
         ${OBJECT_SOURCES}
         ${PLAYER_SOURCES}
         src/Program/Engine.cpp
@@ -76,23 +80,28 @@ add_executable(main
 
 target_link_libraries(main PRIVATE spdlog::spdlog)
 
+target_include_directories(main ${INCLUDE_DIRS})
+
 add_executable(tests
         ${OBJECT_SOURCES}
-        src/Test/InjectableBoard.cpp
-        src/Test/InjectableBoard.hpp
-        src/Objects/Helper/TestPosition.cpp
-        src/Objects/Helper/TestPosition.hpp
-        src/Objects/Owner.cpp
-        src/Objects/TestBoard.cpp
-        src/Objects/TestBoard.hpp
-        src/Objects/Stream/TestEntityStringBuilder.cpp
-        src/Objects/Stream/TestEntityStringBuilder.hpp
-        src/Objects/Stream/TestEntityWriter.cpp
-        src/Objects/Stream/TestEntityWriter.hpp
-        src/Test/TestUtils.cpp
-        src/Test/TestUtils.hpp
+        ${LOGGING_SOURCES}
+        test/InjectableBoard.cpp
+        test/InjectableBoard.hpp
+        test/Objects/TestPosition.cpp
+        test/Objects/TestPosition.hpp
+        test/Objects/TestBoard.cpp
+        test/Objects/TestBoard.hpp
+        test/Objects/Stream/TestEntityStringBuilder.cpp
+        test/Objects/Stream/TestEntityStringBuilder.hpp
+        test/Objects/Stream/TestEntityWriter.cpp
+        test/Objects/Stream/TestEntityWriter.hpp
+        test/TestUtils.cpp
+        test/TestUtils.hpp
         src/logging.cpp
         src/logging.hpp
-        src/test.cpp)
+        test/test.cpp)
 
 target_link_libraries(tests PRIVATE spdlog::spdlog)
+
+target_include_directories(tests ${INCLUDE_DIRS})
+target_include_directories(tests PUBLIC test)

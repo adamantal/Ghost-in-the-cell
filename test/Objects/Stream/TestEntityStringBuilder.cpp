@@ -2,8 +2,8 @@
 
 #include "logging.hpp"
 
-#include "EntityStringBuilder.hpp"
-#include "Test/TestUtils.hpp"
+#include "Stream/EntityStringBuilder.hpp"
+#include "TestUtils.hpp"
 
 void TestEntityStringBuilder::TestFactoryString() {
     LOG_INFO("starting TestFactoryString");

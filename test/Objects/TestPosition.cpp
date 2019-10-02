@@ -1,7 +1,7 @@
 #include "TestPosition.hpp"
 
 #include "Position.hpp"
-#include "Test/TestUtils.hpp"
+#include "TestUtils.hpp"
 
 void TestPosition::TestDistance() {
     {

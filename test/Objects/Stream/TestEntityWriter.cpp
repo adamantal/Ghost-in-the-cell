@@ -4,9 +4,9 @@
 
 #include "logging.hpp"
 
-#include "EntityWriter.hpp"
-#include "Objects/Factory.hpp"
-#include "Test/TestUtils.hpp"
+#include "Stream/EntityWriter.hpp"
+#include "Factory.hpp"
+#include "TestUtils.hpp"
 
 //TODO bad turns is not tested
 void TestEntityWriter::TestFactoryWriter() {

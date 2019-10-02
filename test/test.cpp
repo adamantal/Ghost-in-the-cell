@@ -1,6 +1,6 @@
 #include "logging.hpp"
 
-#include "Objects/Helper/TestPosition.hpp"
+#include "Objects/TestPosition.hpp"
 #include "Objects/TestBoard.hpp"
 #include "Objects/Stream/TestEntityStringBuilder.hpp"
 #include "Objects/Stream/TestEntityWriter.hpp"
