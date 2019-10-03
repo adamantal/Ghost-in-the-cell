@@ -4,6 +4,9 @@
 #include "Player.hpp"
 
 class DummyPlayer : public Player {
+public:
+    virtual ~DummyPlayer() {
+    }
     virtual bool Setup(std::string) {
         return true;
     }
