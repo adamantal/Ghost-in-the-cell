@@ -1,26 +1,33 @@
 #include "logging.hpp"
+#include "sample.hpp"
 
-#include "Program/Game.hpp"
-#include "Player/Player.hpp"
-#include "Player/DummyPlayer.hpp"
-#include "Player/LazyPlayer.hpp"
-#include "Player/HumanPlayer.hpp"
+void printUsage() {
+    LOG_INFO("executable <option> <arguments>");
+    LOG_INFO("\t\t<option> is one of the following:");
+    LOG_INFO("\t\t\tsample - starts a game between Players");
+    LOG_INFO("\t\t\thelp - print this message");
+}
 
-int main() {
+int main(int argc, char* args[]) {
     setupLogger();
+    LOG_INFO("Logger initialized");
 
-    LOG_INFO("starting main");
-    PlayerPtr p1 = std::make_shared<DummyPlayer>();
-    PlayerPtr p2 = std::make_shared<LazyPlayer>();
-
-    try {
-        Game g(p1, p2);
-        g.Run();
-    } catch (const char* msg) {
-        LOG_ERROR("Exception occured: {}", msg);
-    } catch (std::string& msg) {
-        LOG_ERROR("Exception occured: {}", msg);
+    if (argc == 1) {
+        LOG_WARN("No option provided.");
+        printUsage();
+        return 0;
     }
 
-    return 0;
+    std::string command (args[1]);
+    if (command == "sample") {
+        runSample();
+        return 0;
+    } else if (command == "help") {
+        printUsage();
+        return 0;
+    } else {
+        LOG_ERROR("The provided option is not legal");
+        printUsage();
+        return 1;
+    }
 }

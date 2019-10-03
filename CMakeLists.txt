@@ -16,7 +16,7 @@ file(MAKE_DIRECTORY bin)
 file(MAKE_DIRECTORY bin/logs)
 file(MAKE_DIRECTORY bin/logs/runs)
 
-set(INCLUDE_DIRS
+set(SRC_DIRS
         PUBLIC src
         PUBLIC src/Arena
         PUBLIC src/Objects
@@ -69,6 +69,7 @@ set(LOGGING_SOURCES
         src/logging.hpp)
 
 add_executable(main
+        src/sample.hpp
         src/main.cpp
         ${LOGGING_SOURCES}
         ${OBJECT_SOURCES}
@@ -80,7 +81,7 @@ add_executable(main
 
 target_link_libraries(main PRIVATE spdlog::spdlog)
 
-target_include_directories(main ${INCLUDE_DIRS})
+target_include_directories(main ${SRC_DIRS})
 
 add_executable(tests
         ${OBJECT_SOURCES}
@@ -103,5 +104,5 @@ add_executable(tests
 
 target_link_libraries(tests PRIVATE spdlog::spdlog)
 
-target_include_directories(tests ${INCLUDE_DIRS})
+target_include_directories(tests ${SRC_DIRS})
 target_include_directories(tests PUBLIC test)
