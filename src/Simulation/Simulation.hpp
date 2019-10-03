@@ -11,7 +11,7 @@ typedef std::shared_ptr<Simulation> SimulationPtr;
 
 class Simulation {
 private:
-    std::list<PlayerPtr> currentPlayers;
+    std::list<SimulationEntityPtr> currentPlayers;
 
 public:
     Simulation();
