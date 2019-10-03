@@ -1,10 +1,10 @@
-#include "Arena.hpp"
+#include "Simulation.hpp"
 
-void Arena::AddPlayer(PlayerPtr player) {
+void Simulation::AddPlayer(PlayerPtr player) {
     currentPlayers.push_back(player);
 }
 
-void Arena::RunEpoch() {
+void Simulation::RunEpoch() {
     // run matches between each player-player pair
     // roll over to the new generation of players
 }
