@@ -1,33 +1,44 @@
+#include <cxxopts.hpp>
+
 #include "logging.hpp"
 #include "sample.hpp"
 
-void printUsage() {
-    LOG_INFO("executable <option> <arguments>");
-    LOG_INFO("\t\t<option> is one of the following:");
-    LOG_INFO("\t\t\tsample - starts a game between Players");
-    LOG_INFO("\t\t\thelp - print this message");
+cxxopts::Options createOptions() {
+    cxxopts::Options options("Ghost_in_the_cell", "Simulator and trainer for the Ghost in the cell game.");
+    options.positional_help("[command]")
+        .show_positional_help();
+    options.add_options()
+        ("command", "", cxxopts::value<std::string>())
+        ("c,conf", "Configuration file", cxxopts::value<std::string>())
+        ("d,debug", "Debug mode", cxxopts::value<bool>()->default_value("false"));
+    options.parse_positional({"command"});
+    return options;
 }
 
 int main(int argc, char* args[]) {
-    setupLogger();
+    cxxopts::Options options = createOptions();
+    auto result = options.parse(argc, args);
+
+    bool debugMode = result["debug"].as<bool>();
+    setupLogger(debugMode);
     LOG_INFO("Logger initialized");
 
-    if (argc == 1) {
-        LOG_WARN("No option provided.");
-        printUsage();
-        return 0;
+    if (!result.count("command")) {
+        LOG_ERROR("No command defined");
+        LOG_INFO(options.help());
+        return 1;
     }
 
-    std::string command (args[1]);
+    std::string command = result["command"].as<std::string>();
     if (command == "sample") {
         runSample();
         return 0;
     } else if (command == "help") {
-        printUsage();
+        LOG_INFO(options.help());
         return 0;
     } else {
         LOG_ERROR("The provided option is not legal");
-        printUsage();
+        LOG_INFO(options.help());
         return 1;
     }
 }

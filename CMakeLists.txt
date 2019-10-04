@@ -12,6 +12,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 add_compile_options(-DSPDLOG_COMPILED_LIB -Wall -Werror -Wextra)
 
 # Create directories for the logs
+# TODO create this by the program, not during compilation
 file(MAKE_DIRECTORY bin)
 file(MAKE_DIRECTORY bin/logs)
 file(MAKE_DIRECTORY bin/logs/runs)

@@ -6,7 +6,7 @@
 #include "Objects/Stream/TestEntityWriter.hpp"
 
 int main() {
-    setupLogger();
+    setupLogger(false);
     try {
         TestPosition::TestDistance();
 

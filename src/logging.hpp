@@ -20,6 +20,6 @@
 #define LOGGER_DEBUG SPDLOG_LOGGER_DEBUG
 
 // basic utility for setting up the logger
-void setupLogger();
+void setupLogger(bool);
 
 #endif // LOGGING_HPP
