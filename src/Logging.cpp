@@ -1,4 +1,4 @@
-#include "logging.hpp"
+#include "Logging.hpp"
 
 void setupLogger(bool debug) {
     spdlog::set_level(spdlog::level::debug);

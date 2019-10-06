@@ -1,6 +1,6 @@
 #include <cxxopts.hpp>
 
-#include "logging.hpp"
+#include "Logging.hpp"
 #include "sample.hpp"
 
 cxxopts::Options createOptions() {

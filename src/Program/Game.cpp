@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-#include "logging.hpp"
+#include "Logging.hpp"
 
 Game::Game(PlayerPtr player1, PlayerPtr player2) :
         player1(player1),

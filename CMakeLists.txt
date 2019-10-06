@@ -29,10 +29,10 @@ include_directories(
 # logging library
 
 set(LOGGING_HEADERS
-        src/logging.hpp)
+        src/Logging.hpp)
 
 add_library(logging STATIC
-        src/logging.cpp)
+        src/Logging.cpp)
 
 target_link_libraries(logging
         spdlog::spdlog)
@@ -122,8 +122,8 @@ add_executable(tests
         test/TestStringUtils.hpp
         test/TestUtils.cpp
         test/TestUtils.hpp
-        src/logging.cpp
-        src/logging.hpp
+        src/Logging.cpp
+        src/Logging.hpp
         src/Configuration.cpp
         src/Configuration.hpp
         src/StringUtils.hpp

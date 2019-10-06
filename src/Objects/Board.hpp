@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "logging.hpp"
+#include "Logging.hpp"
 
 #include "Factory.hpp"
 #include "Troop.hpp"

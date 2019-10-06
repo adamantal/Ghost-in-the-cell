@@ -1,7 +1,7 @@
 #ifndef ENGINE_HPP
 #define ENGINE_HPP
 
-#include "logging.hpp"
+#include "Logging.hpp"
 
 #include "Board.hpp"
 #include "Player.hpp"

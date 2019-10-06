@@ -1,6 +1,6 @@
 #include "TestEntityStringBuilder.hpp"
 
-#include "logging.hpp"
+#include "Logging.hpp"
 
 #include "Stream/EntityStringBuilder.hpp"
 #include "TestUtils.hpp"

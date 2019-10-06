@@ -1,4 +1,4 @@
-#include "logging.hpp"
+#include "Logging.hpp"
 
 #include "Objects/TestPosition.hpp"
 #include "Objects/TestBoard.hpp"

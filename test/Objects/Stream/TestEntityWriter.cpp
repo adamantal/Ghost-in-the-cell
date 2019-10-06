@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "logging.hpp"
+#include "Logging.hpp"
 
 #include "Stream/EntityWriter.hpp"
 #include "Factory.hpp"

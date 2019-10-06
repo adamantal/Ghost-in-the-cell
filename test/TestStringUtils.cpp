@@ -1,6 +1,6 @@
 #include "TestStringUtils.hpp"
 
-#include "logging.hpp"
+#include "Logging.hpp"
 
 #include "TestUtils.hpp"
 #include "StringUtils.hpp"

@@ -2,7 +2,7 @@
 
 #include <fstream>
 
-#include "logging.hpp"
+#include "Logging.hpp"
 #include "StringUtils.hpp"
 
 const std::string Configuration::DELIMITER = ":";

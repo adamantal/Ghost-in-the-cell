@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "logging.hpp"
+#include "Logging.hpp"
 
 #include "Board.hpp"
 #include "Owner.hpp"
