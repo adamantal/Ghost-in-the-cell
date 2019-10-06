@@ -72,6 +72,9 @@ set(LOGGING_SOURCES
 add_executable(main
         src/sample.hpp
         src/main.cpp
+        src/Configuration.cpp
+        src/Configuration.hpp
+        src/StringUtils.hpp
         ${LOGGING_SOURCES}
         ${OBJECT_SOURCES}
         ${PLAYER_SOURCES}
@@ -97,10 +100,15 @@ add_executable(tests
         test/Objects/Stream/TestEntityStringBuilder.hpp
         test/Objects/Stream/TestEntityWriter.cpp
         test/Objects/Stream/TestEntityWriter.hpp
+        test/TestStringUtils.cpp
+        test/TestStringUtils.hpp
         test/TestUtils.cpp
         test/TestUtils.hpp
         src/logging.cpp
         src/logging.hpp
+        src/Configuration.cpp
+        src/Configuration.hpp
+        src/StringUtils.hpp
         test/test.cpp)
 
 target_link_libraries(tests PRIVATE spdlog::spdlog)

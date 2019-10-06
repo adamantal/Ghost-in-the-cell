@@ -4,6 +4,7 @@
 #include "Objects/TestBoard.hpp"
 #include "Objects/Stream/TestEntityStringBuilder.hpp"
 #include "Objects/Stream/TestEntityWriter.hpp"
+#include "TestStringUtils.hpp"
 
 int main() {
     setupLogger(false);
@@ -22,6 +23,9 @@ int main() {
         TestEntityWriter::TestFactoryWriter();
         TestEntityWriter::TestTroopWriter();
         TestEntityWriter::TestBombWriter();
+
+        TestStringUtils::TestSplit();
+        TestStringUtils::TestTrim();
     } catch (std::string& exc) {
         LOG_ERROR("Exception happened: {}", exc);
     } catch (std::exception& e) {

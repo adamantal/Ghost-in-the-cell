@@ -13,6 +13,9 @@ template<>
 std::string Stringify(unsigned int t);
 
 template<>
+std::string Stringify(int t);
+
+template<>
 std::string Stringify(Owner t);
 
 template<class T>

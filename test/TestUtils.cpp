@@ -6,6 +6,11 @@ std::string Stringify(unsigned int t) {
 }
 
 template<>
+std::string Stringify(int t) {
+    return std::to_string(t);
+}
+
+template<>
 std::string Stringify(Owner t) {
     switch (t) {
         case Owner::Player1:
