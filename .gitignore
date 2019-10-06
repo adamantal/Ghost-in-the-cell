@@ -8,8 +8,7 @@ obj/
 CMakeCache.txt
 cmake_install.cmake
 Makefile
-main
-tests
+*.a
 
 # CLion integration
 .idea/

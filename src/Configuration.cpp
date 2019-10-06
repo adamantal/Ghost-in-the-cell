@@ -13,7 +13,7 @@ Configuration::Configuration() {
 }
 
 std::string Configuration::searchDefault() {
-    return "config";
+    return "../config";
 }
 
 void Configuration::loadFromFile(std::string file) {
