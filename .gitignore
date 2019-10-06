@@ -1,14 +1,15 @@
-# Binaries and dependencies
+# Binaries
 bin/
-logs/
 
-# General cmake in ubuntu
+# Libraries
+lib/
+
+# CMake related files
 CMakeFiles/
 obj/
 CMakeCache.txt
 cmake_install.cmake
 Makefile
-*.a
 
 # CLion integration
 .idea/

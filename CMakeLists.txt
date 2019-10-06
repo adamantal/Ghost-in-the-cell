@@ -6,7 +6,9 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(spdlog REQUIRED)
 find_package(cxxopts REQUIRED)
 
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 add_compile_options(-DSPDLOG_COMPILED_LIB -Wall -Werror -Wextra)
 
@@ -15,22 +17,21 @@ add_compile_options(-DSPDLOG_COMPILED_LIB -Wall -Werror -Wextra)
 file(MAKE_DIRECTORY bin)
 file(MAKE_DIRECTORY bin/logs)
 file(MAKE_DIRECTORY bin/logs/runs)
+file(MAKE_DIRECTORY lib)
 
-set(SRC_DIRS
+include_directories(
         src
         src/Arena
         src/Objects
         src/Player
         src/Program)
 
-include_directories(${SRC_DIRS})
-
 # logging library
 
 set(LOGGING_HEADERS
         src/logging.hpp)
 
-add_library(logging
+add_library(logging STATIC
         src/logging.cpp)
 
 target_link_libraries(logging
