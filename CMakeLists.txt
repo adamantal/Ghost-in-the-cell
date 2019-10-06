@@ -12,11 +12,8 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 add_compile_options(-DSPDLOG_COMPILED_LIB -Wall -Werror -Wextra)
 
-# Create directories for the logs
-# TODO create this by the program, not during compilation
+# Create directories
 file(MAKE_DIRECTORY bin)
-file(MAKE_DIRECTORY bin/logs)
-file(MAKE_DIRECTORY bin/logs/runs)
 file(MAKE_DIRECTORY lib)
 
 include_directories(
@@ -35,7 +32,8 @@ add_library(logging STATIC
         src/Logging.cpp)
 
 target_link_libraries(logging
-        spdlog::spdlog)
+        spdlog::spdlog
+        stdc++fs)
 
 # objects library
 
