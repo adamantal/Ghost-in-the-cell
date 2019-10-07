@@ -20,4 +20,6 @@ void setupLogger(bool debug) {
     auto logger = std::make_shared<spdlog::logger>("Main", (spdlog::sinks_init_list) {console_sink, file_sink});
     logger->set_level(spdlog::level::debug);
     spdlog::set_default_logger(logger);
+
+    LOG_INFO("Logger initialized");
 }

@@ -1,9 +1,12 @@
 #include "TestPosition.hpp"
 
+#include "Logging.hpp"
+
 #include "Position.hpp"
 #include "TestUtils.hpp"
 
 void TestPosition::TestDistance() {
+    LOG_INFO("TestPosition::TestDistance");
     {
         Position p1(0, 0);
         Position p2(3, 4);

@@ -1,3 +1,5 @@
+#include <cxxopts.hpp>
+
 #include "Logging.hpp"
 
 #include "Objects/TestPosition.hpp"
@@ -6,8 +8,18 @@
 #include "Objects/Stream/TestEntityWriter.hpp"
 #include "TestStringUtils.hpp"
 
-int main() {
-    setupLogger(false);
+cxxopts::Options createOptions() {
+    cxxopts::Options options("Test", "Runs all the tests");
+    options.add_options()
+        ("d,debug", "Debug mode", cxxopts::value<bool>()->default_value("false"));
+    return options;
+}
+
+int main(int argc, char* args[]) {
+    cxxopts::Options options = createOptions();
+    auto result = options.parse(argc, args);
+    setupLogger(result["debug"].as<bool>());
+
     try {
         TestPosition::TestDistance();
 

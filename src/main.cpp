@@ -21,7 +21,6 @@ int main(int argc, char* args[]) {
 
     bool debugMode = result["debug"].as<bool>();
     setupLogger(debugMode);
-    LOG_INFO("Logger initialized");
 
     if (!result.count("command")) {
         LOG_ERROR("No command defined");

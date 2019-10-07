@@ -9,7 +9,9 @@
 #include "TestUtils.hpp"
 #include "InjectableBoard.hpp"
 
+// TODO this test fail on clang as the implementation may be different
 void TestBoard::TestBoardInitialization() {
+    LOG_INFO("TestBoard::TestBoardInitialization");
     std::string expected = std::string("11\n55\n0 1 2\n0 2 2\n0 3 5\n0 4 5\n0 5 5\n0 6 5\n0 7 2\n0 8 2\n0 9 8\n0 10 8\n") +
                            "1 2 5\n1 3 2\n1 4 7\n1 5 2\n1 6 7\n1 7 4\n1 8 3\n1 9 5\n1 10 11\n2 3 7\n2 4 2\n" +
                            "2 5 7\n2 6 2\n2 7 3\n2 8 4\n2 9 11\n2 10 5\n3 4 10\n3 5 3\n3 6 9\n3 7 6\n3 8 4\n" +
