@@ -1,7 +1,8 @@
 #include "Simulation.hpp"
 
 void Simulation::AddPlayer(PlayerPtr player) {
-    currentPlayers.push_back(player);
+    SimulationEntityPtr entity = std::make_shared<SimulationEntity>(player);
+    currentPlayers.push_back(entity);
 }
 
 void Simulation::RunEpoch() {

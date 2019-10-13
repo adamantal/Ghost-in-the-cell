@@ -2,6 +2,7 @@
 
 #include "Logging.hpp"
 #include "sample.hpp"
+#include "simulation.hpp"
 
 cxxopts::Options createOptions() {
     cxxopts::Options options("Ghost_in_the_cell", "Simulator and trainer for the Ghost in the cell game.");
@@ -30,8 +31,9 @@ int main(int argc, char* args[]) {
 
     std::string command = result["command"].as<std::string>();
     if (command == "sample") {
-        runSample();
-        return 0;
+        return runSample();
+    } else if (command == "simulation") {
+        return runSimulation();
     } else if (command == "help") {
         LOG_INFO(options.help());
         return 0;

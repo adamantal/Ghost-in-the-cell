@@ -5,6 +5,7 @@
 #include <list>
 
 #include "Player.hpp"
+#include "SimulationEntity.hpp"
 
 class Simulation;
 typedef std::shared_ptr<Simulation> SimulationPtr;

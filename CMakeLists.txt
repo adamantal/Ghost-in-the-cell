@@ -21,19 +21,11 @@ include_directories(
         src/Arena
         src/Objects
         src/Player
-        src/Program)
-
-# logging library
-
-set(LOGGING_HEADERS
-        src/Logging.hpp)
-
-add_library(logging STATIC
-        src/Logging.cpp)
-
-target_link_libraries(logging
-        spdlog::spdlog
-        stdc++fs)
+        src/Program
+        src/Simulation
+        src/Logging)
+        
+add_subdirectory(src/Logging)
 
 # objects library
 
@@ -73,7 +65,8 @@ set(OBJECT_HEADERS
 add_library(objects
         ${OBJECT_SOURCES})
 
-target_link_libraries(objects logging)
+target_link_libraries(objects
+        logging)
 
 # player library
 
@@ -82,17 +75,32 @@ add_library(player
         src/Player/LazyPlayer.cpp
         src/Player/RandomPlayer.cpp)
 
+# simulation library
+
+set(SIMULATION_SOURCES
+        src/Simulation/Configuration.cpp
+        src/Simulation/Simulation.cpp
+        src/Simulation/SimulationEntity.cpp)
+
+set(SIMULATION_HEADERS
+        src/Simulation/Configuration.hpp
+        src/Simulation/SimulationEntity.hpp
+        src/Simulation/Simulation.hpp
+        src/Simulation/simulation.hpp)
+
+add_library(simulation
+        ${SIMULATION_SOURCES})
+
 # Main executable
 
 add_executable(main
         ${LOGGING_HEADERS}
         ${OBJECT_HEADERS}
+        # ${PLAYER_SOURCES}
+        ${SIMULATION_HEADERS}
         src/sample.hpp
         src/main.cpp
-        src/Configuration.cpp
-        src/Configuration.hpp
         src/StringUtils.hpp
-        ${PLAYER_SOURCES}
         src/Program/Engine.cpp
         src/Program/Engine.hpp
         src/Program/Game.cpp
@@ -101,7 +109,8 @@ add_executable(main
 target_link_libraries(main
         logging
         objects
-        player)
+        player
+        simulation)
 
 # Test executable
 
@@ -120,15 +129,14 @@ add_executable(tests
         test/TestStringUtils.hpp
         test/TestUtils.cpp
         test/TestUtils.hpp
-        src/Logging.cpp
-        src/Logging.hpp
-        src/Configuration.cpp
-        src/Configuration.hpp
+        # src/Logging.hpp
+        # src/Simulation/Configuration.cpp
+        # src/Simulation/Configuration.hpp
         src/StringUtils.hpp
         test/test.cpp)
 
 target_link_libraries(tests
-        spdlog::spdlog
+        logging
         objects)
 
 target_include_directories(tests PUBLIC test)
