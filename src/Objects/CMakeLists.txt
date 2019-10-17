@@ -1,0 +1,35 @@
+set(OBJECT_HEADERS
+        Board.hpp
+        Bomb.hpp
+        Distance.hpp
+        Entity.hpp
+        Factory.hpp
+        Position.hpp
+        Id.hpp
+        Link.hpp
+        Metrics/BoardMetrics.hpp
+        MoveException.hpp
+        MovingEntity.hpp
+        Owner.hpp
+        Troop.hpp
+        Stream/EntityWriter.hpp
+        Stream/EntityStringBuilder.hpp
+        Stream/InitStringBuilder.hpp)
+
+add_library(objects
+        Board.cpp
+        Entity.cpp
+        Factory.cpp
+        Position.cpp
+        Id.cpp
+        Link.cpp
+        Metrics/BoardMetrics.cpp
+        MovingEntity.cpp
+        Owner.cpp
+        Troop.cpp
+        Stream/EntityWriter.cpp
+        Stream/EntityStringBuilder.cpp
+        Stream/InitStringBuilder.cpp)
+
+target_link_libraries(objects
+        logging)

@@ -24,72 +24,12 @@ include_directories(
         src/Program
         src/Simulation
         src/Logging)
-        
+
 add_subdirectory(src/Logging)
-
-# objects library
-
-set(OBJECT_SOURCES
-        src/Objects/Board.cpp
-        src/Objects/Entity.cpp
-        src/Objects/Factory.cpp
-        src/Objects/Position.cpp
-        src/Objects/Id.cpp
-        src/Objects/Link.cpp
-        src/Objects/Metrics/BoardMetrics.cpp
-        src/Objects/MovingEntity.cpp
-        src/Objects/Owner.cpp
-        src/Objects/Troop.cpp
-        src/Objects/Stream/EntityWriter.cpp
-        src/Objects/Stream/EntityStringBuilder.cpp
-        src/Objects/Stream/InitStringBuilder.cpp)
-
-set(OBJECT_HEADERS
-        src/Objects/Board.hpp
-        src/Objects/Bomb.hpp
-        src/Objects/Distance.hpp
-        src/Objects/Entity.hpp
-        src/Objects/Factory.hpp
-        src/Objects/Position.hpp
-        src/Objects/Id.hpp
-        src/Objects/Link.hpp
-        src/Objects/Metrics/BoardMetrics.hpp
-        src/Objects/MoveException.hpp
-        src/Objects/MovingEntity.hpp
-        src/Objects/Owner.hpp
-        src/Objects/Troop.hpp
-        src/Objects/Stream/EntityWriter.hpp
-        src/Objects/Stream/EntityStringBuilder.hpp
-        src/Objects/Stream/InitStringBuilder.hpp)
-
-add_library(objects
-        ${OBJECT_SOURCES})
-
-target_link_libraries(objects
-        logging)
-
-# player library
-
-add_library(player
-        src/Player/HumanPlayer.cpp
-        src/Player/LazyPlayer.cpp
-        src/Player/RandomPlayer.cpp)
-
-# simulation library
-
-set(SIMULATION_SOURCES
-        src/Simulation/Configuration.cpp
-        src/Simulation/Simulation.cpp
-        src/Simulation/SimulationEntity.cpp)
-
-set(SIMULATION_HEADERS
-        src/Simulation/Configuration.hpp
-        src/Simulation/SimulationEntity.hpp
-        src/Simulation/Simulation.hpp
-        src/Simulation/simulation.hpp)
-
-add_library(simulation
-        ${SIMULATION_SOURCES})
+add_subdirectory(src/Objects)
+add_subdirectory(src/Player)
+add_subdirectory(src/Program)
+add_subdirectory(src/Simulation)
 
 # Main executable
 
@@ -100,16 +40,13 @@ add_executable(main
         ${SIMULATION_HEADERS}
         src/sample.hpp
         src/main.cpp
-        src/StringUtils.hpp
-        src/Program/Engine.cpp
-        src/Program/Engine.hpp
-        src/Program/Game.cpp
-        src/Program/Game.hpp)
+        src/StringUtils.hpp)
 
 target_link_libraries(main
         logging
         objects
         player
+        program
         simulation)
 
 # Test executable
